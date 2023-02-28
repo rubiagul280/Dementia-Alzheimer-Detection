@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "952326145960",
+    "project_id": "ai-neurologists-alz-detection",
+    "storage_bucket": "ai-neurologists-alz-detection.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:952326145960:android:384ebc7f95e1e9fdebff9d",
+        "android_client_info": {
+          "package_name": "com.dementia"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "952326145960-auqvaq26au8neth8qr3l86p89fmprdku.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dementia",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "952326145960-o2li2etk41ivg4198oaskakmt34imjqp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDmfRSYGRYL_u9Z3h-m2JWKoc7Je62oOkY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "952326145960-o2li2etk41ivg4198oaskakmt34imjqp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
