@@ -37,12 +37,10 @@ const TabScreens = () => {
       screenOptions={{
         headerStyle: {
           backgroundColor: '#B9B0E5',
-          alignItems: 'center',
-          justifyContent: 'center',
         },
         headerTintColor: colors.background,
         headerTitleStyle: {
-          fontWeight: '200',
+          fontWeight: '100',
         },
         headerTitleAlign: 'center',
       }}>
@@ -50,7 +48,7 @@ const TabScreens = () => {
         name="Home"
         component={Home}
         options={{
-          tabBarIcon: ({color, size}) => <FontAwesome5 name="home" size={size} color={color} />,
+          tabBarIcon: ({color, size}) => <FontAwesome5 name="home" size={size} color="#B9B0E5" />,
         }}
       />
       <Tab.Screen

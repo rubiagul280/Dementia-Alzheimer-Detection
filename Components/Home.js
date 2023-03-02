@@ -21,7 +21,7 @@ export default function Home({navigation}) {
         <LinearGradient
           start={{x: 1, y: 0}}
           end={{x: 0, y: 1}}
-          colors={['#B9B0E5', '#E8F1F2', '#BBEEEA']}
+          colors={['#B8BDF5', '#E8F1F2', '#BBEEEA']}
           style={styles.container}>
           <>
             <View>
@@ -37,7 +37,7 @@ export default function Home({navigation}) {
                 <Card
                   style={styles.card}
                   onPress={() => navigation.navigate('About')}>
-                  <Card.Cover source={require('../assets/features.png')} />
+                  <Card.Cover source={require('../assets/feature.png')} />
                 </Card>
                 <Text
                   style={styles.title}
@@ -59,7 +59,7 @@ export default function Home({navigation}) {
                 <Text style={styles.heading}>Take care of your health</Text>
                 <Card style={styles.card}>
                   <Card.Cover
-                    source={require('../assets/track_med.png')}
+                    source={require('../assets/medication_icon.png')}
                   />
                 </Card>
                 <Text style={styles.title}>Track your medication</Text>
@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
   },
   text: {
     color: colors.background,
-    fontSize: 24,
+    fontSize: 20,
     marginLeft: 6,
   },
   heading: {
@@ -106,7 +106,6 @@ const styles = StyleSheet.create({
     marginLeft: 6,
   },
   txt: {
-    color: colors.primary,
     fontSize: 13,
     marginTop: 3,
     marginLeft: 6,

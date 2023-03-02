@@ -25,7 +25,19 @@ export default function About({navigation}) {
                 intelligence to evaluate your disease. Our powerful AI
                 technology will help you to check your health status instantly.
               </Text>
-              <Text style={styles.heading}>bbb</Text>
+              <Text style={styles.heading}>Detect your disease</Text>
+              <Text style={styles.text}>Dementia</Text>
+              <Text style={styles.heading}>Recommendation to overcome Alzheimer</Text>
+              <Text style={styles.text}>Dementia</Text>
+              <Text style={styles.heading}>Generate Report</Text>
+              <Text style={styles.text}>Dementia</Text>
+              <Text style={styles.heading}>Track your medication</Text>
+              <Text style={styles.text}>Dementia</Text>
+              <Text style={styles.heading}>Search nearby Hospitals</Text>
+              <Text style={styles.text}>Dementia</Text>
+              <Text style={styles.heading}>Game Therapy</Text>
+              <Text style={styles.text}>Dementia</Text>
+              <Text style={styles.heading}>Voicebot</Text>
               <Text style={styles.text}>Dementia</Text>
               <Text style={styles.text}>
                 It is just a detection. You must visit a doctor for checking
@@ -49,9 +61,7 @@ const styles = StyleSheet.create({
     padding: 5,
   },
   heading: {
-    color: colors.background,
-    fontSize: 26,
-    marginLeft: 6,
+    fontSize: 17,
   },
   title: {
     color: colors.background,
@@ -59,4 +69,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 18,
   },
+  text: {
+    marginBottom: 10,
+  }
 });

@@ -2,89 +2,226 @@
 
 import React, {useState} from 'react';
 import {
+  Image,
+  StatusBar,
   StyleSheet,
   Text,
+  Platform,
+  Dimensions,
+  useColorScheme,
   View,
-  StatusBar,
-  ScrollView,
   TouchableOpacity,
-  Alert,
 } from 'react-native';
-import {Button, Image} from 'react-native-paper';
-import * as ImagePicker from 'react-native-image-picker';
+import axios from 'axios';
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
+import {Button, Card} from 'react-native-paper';
+import PermissionsService, {isIOS} from './Permissions';
 import colors from './Colors';
+import Icon from 'react-native-vector-icons/Entypo';
 
-export default function Detection({navigation}) {
-  const [image, setImage] = useState(null);
+axios.interceptors.request.use(
+  async config => {
+    let request = config;
+    request.headers = {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    };
+    request.url = configureUrl(config.url);
+    return request;
+  },
+  error => error,
+);
 
-  const selectImage = () => {
-    ImagePicker.launchImageLibrary({}, response => {
+export const {height, width} = Dimensions.get('window');
+
+export const configureUrl = url => {
+  let authUrl = url;
+  if (url && url[url.length - 1] === '/') {
+    authUrl = url.substring(0, url.length - 1);
+  }
+  return authUrl;
+};
+
+export const fonts = {
+  Bold: {fontFamily: 'Roboto-Bold'},
+};
+
+const options = {
+  mediaType: 'photo',
+  quality: 1,
+  width: 256,
+  height: 256,
+  includeBase64: true,
+};
+export default function Detection ({navigation}){
+  const getPredication = async params => {
+    try {
+      var bodyFormData = new FormData();
+      bodyFormData.append('file', params);
+      const response = await fetch('http://localhost:8000', {
+        method: 'POST',
+        body: bodyFormData,
+      });
+      const data = await response.json();
+      setLabel(data.class);
+      setResult(data.confidence);
+      console.log(data);
+    } catch (error) {
+      console.error('Error in getPrediction:', error);
+    }
+  };
+
+  const manageCamera = async type => {
+    openLibrary();
+  };
+
+  const clearOutput = () => {
+    setResult('');
+    setImage('');
+  };
+
+  const getResult = async (path, response) => {
+    setImage(path);
+    setLabel('Predicting...');
+    setResult('');
+    const params = {
+      uri: path,
+      name: response.assets[0].fileName,
+      type: response.assets[0].type,
+    };
+    const res = await getPredication(params);
+    const data = await response.json();
+    if (res?.data?.class) {
+      setLabel(res.data.class);
+      setResult(res.data.confidence);
+    } else {
+      setLabel(data.class);
+      setResult(data.confidence);
+    }
+  };
+
+  const openLibrary = async () => {
+    launchImageLibrary(options, async response => {
       if (response.didCancel) {
         console.log('User cancelled image picker');
       } else if (response.error) {
         console.log('ImagePicker Error: ', response.error);
+      } else if (response.customButton) {
+        console.log('User tapped custom button: ', response.customButton);
       } else {
-        setImage(response.uri);
+        const uri = response.assets[0].uri;
+        const path = Platform.OS !== 'ios' ? uri : 'file://' + uri;
+        getResult(path, response);
       }
     });
   };
 
-  const OpenGallery = async type => {
-    openLibrary();
-  };
+  const [result, setResult] = useState('');
+  const [label, setLabel] = useState('');
+  const [image, setImage] = useState('');
 
   return (
-    <>
-      <StatusBar animated={true} backgroundColor="#B8BDF5" />
-      <ScrollView>
-        <View style={styles.container}>
-          <View>
-            <Text style={styles.title}>Detect your disease</Text>
-            <Text>You can upload your MRI image to detect your disease.</Text>
-            <View style={styles.frame}>
-              <TouchableOpacity
-                activeOpacity={1}
-                onPress={() => OpenGallery('Photo')}
-                style={styles.btnStyle}>
-                <Button mode="contained" style={styles.button}>
-                  Upload
-                </Button>
-              </TouchableOpacity>
-            </View>
-            <TouchableOpacity onPress={selectImage}>
-              <Button mode="contained" style={styles.button}>
-                Choose Image
-              </Button>
+    <View style={[styles.outer]}>
+      <StatusBar animated={true} backgroundColor="#B9B0E5" />
+      <View style={styles.container}>
+        <View style={styles.content}>
+          <Text style={styles.title}>Detect your disease</Text>
+          <Text style={styles.text}>
+            You can detect your disease by uploading MRI image of your brain.
+          </Text>
+          <View style={styles.frame}>
+            <Text style={styles.text}>Upload your MRI Image</Text>
+            <TouchableOpacity
+              activeOpacity={1}
+              onPress={() => manageCamera('Photo')}>
+              <Image
+                source={require('../assets/arrow.png')}
+                style={styles.uploadImage}
+              />
             </TouchableOpacity>
-            {image && <Image source={{uri: image}} style={styles.image} />}
+            {(image?.length && (
+              <Image source={{uri: image}} style={styles.imageStyle} />
+            )) ||
+              null}
           </View>
+          {result && label && (
+              <View style={styles.mainOuter}>
+                <Text style={[styles.space, styles.labelText]}>
+                  {'Label: \n\n'}
+                  <Text style={styles.resultText}>{label}</Text>
+                </Text>
+                <Text style={[styles.space, styles.labelText]}>
+                  {'Confidence: \n\n'}
+                  <Text style={styles.resultText}>
+                    {parseFloat(result).toFixed(2) + '%'}
+                  </Text>
+                </Text>
+              </View>
+            )}
+          {/* <TouchableOpacity>
+            <Button mode="contained" style={styles.button}>
+              Detect
+            </Button>
+            {result && label && (
+              <View style={styles.mainOuter}>
+                <Text style={[styles.space, styles.labelText]}>
+                  {'Label: \n\n'}
+                  <Text style={styles.resultText}>{label}</Text>
+                </Text>
+                <Text style={[styles.space, styles.labelText]}>
+                  {'Confidence: \n\n'}
+                  <Text style={styles.resultText}>
+                    {parseFloat(result).toFixed(2) + '%'}
+                  </Text>
+                </Text>
+              </View>
+            )}
+          </TouchableOpacity> */}
+          <TouchableOpacity onPress={clearOutput}>
+            <Button mode="contained" style={styles.button}>
+              Clean
+            </Button>
+          </TouchableOpacity>
         </View>
-      </ScrollView>
-    </>
+      </View>
+    </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
+    color: '#fff',
+  },
+  content: {
+    padding: 5,
+  },
+  heading: {
+    color: colors.background,
+    fontSize: 26,
   },
   title: {
-    fontSize: 22,
-    marginTop: 20,
-    marginBottom: 18,
     color: colors.background,
+    fontSize: 22,
+    marginTop: 10,
+    marginBottom: 18,
   },
   frame: {
-    width: '80%',
-    height: 90,
-    borderRadius: 2,
-    borderColor: colors.background,
-    color: colors.heading,
+    borderWidth: 2,
+    borderColor: colors.secondary,
+    borderRadius: 5,
+    height: 300,
+    width: 250,
+    marginTop: 40,
+    marginLeft: 30,
   },
-  image: {
-    width: 200,
-    height: 200,
+  imageStyle: {
+    width: 246,
+    height: 296,
+    position: 'absolute',
+    borderRadius: 3,
   },
   button: {
     marginTop: 28,
@@ -96,4 +233,39 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingTop: 4,
   },
+  uploadImage: {
+    height: 50,
+    width: 50,
+    marginLeft: 100,
+    marginTop: 10,
+  },
+  outer: {
+    flex: 1,
+  },
+  space: {
+    marginVertical: 10,
+    marginHorizontal: 10,
+  },
+  labelText: {
+    color: 'black',
+    fontSize: 20,
+    ...fonts.Bold,
+    marginBottom: 20,
+  },
+  resultText: {
+    fontSize: 20,
+    ...fonts.Bold,
+    color: 'red',
+    marginTop: 100,
+  },
+  // emptyText: {
+  //   position: 'absolute',
+  //   top: height / 1.9,
+  //   alignSelf: 'center',
+  //   color: 'red',
+  //   fontSize: 20,
+  //   maxWidth: '70%',
+  //   ...fonts.Bold,
+  // },
 });
+

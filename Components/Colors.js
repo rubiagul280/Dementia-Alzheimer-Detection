@@ -5,7 +5,7 @@
 
 const colors = {
     primary: '#004B9E',
-    secondary: '#6B6B6B',
+    secondary: '#359A8E',
     background: '#290438',
     greytxt: '#83878A',
     heading: '#FEA500',
