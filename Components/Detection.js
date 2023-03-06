@@ -59,7 +59,7 @@ export default function Detection ({navigation}){
     try {
       var bodyFormData = new FormData();
       bodyFormData.append('file', params);
-      const response = await fetch('http://localhost:8000', {
+      const response = await fetch('http://localhost:8000/predict', {
         method: 'POST',
         body: bodyFormData,
       });

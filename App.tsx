@@ -19,6 +19,9 @@ import Setting from './Components/Setting';
 import Game from './Components/Game';
 import About from './Components/About';
 import Detection from './Components/Detection';
+import Medication from './Components/Medication';
+import AddMedication from './Components/AddMedication';
+import Tracker from './Components/Tracker';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
@@ -26,6 +29,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Foundation from 'react-native-vector-icons/Foundation';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import colors from './Components/Colors';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 
 
@@ -36,7 +40,7 @@ const TabScreens = () => {
       initialRouteName="Home"
       screenOptions={{
         headerStyle: {
-          backgroundColor: '#B9B0E5',
+          backgroundColor: '#B8BDF5',
         },
         headerTintColor: colors.background,
         headerTitleStyle: {
@@ -48,7 +52,10 @@ const TabScreens = () => {
         name="Home"
         component={Home}
         options={{
-          tabBarIcon: ({color, size}) => <FontAwesome5 name="home" size={size} color="#B9B0E5" />,
+          tabBarIcon: ({ color, size }) => {
+            return <FontAwesome5 name="home" size={size} color={color} />;
+          },
+          headerShown: false,
         }}
       />
       <Tab.Screen
@@ -58,6 +65,7 @@ const TabScreens = () => {
           tabBarIcon: ({color, size}) => (
             <Foundation name="social-game-center" color={color} size={size} />
           ),
+          headerShown: false,
         }}
       />
       <Tab.Screen
@@ -67,6 +75,7 @@ const TabScreens = () => {
           tabBarIcon: ({color, size}) => (
             <Ionicons name="ios-settings-outline" color={color} size={size} />
           ),
+          headerShown: false,
         }}
       />
     </Tab.Navigator>
@@ -87,6 +96,9 @@ function App() {
         <Stack.Screen name="Settings" component={Setting} />
         <Stack.Screen name="About" component={About} />
         <Stack.Screen name="Detection" component={Detection} />
+        <Stack.Screen name="Medication" component={Medication} />
+        <Stack.Screen name="AddMedication" component={AddMedication} />
+        <Stack.Screen name="Tracker" component={Tracker} />
         <Stack.Screen name="Tabs" component={TabScreens} />
       </Stack.Navigator>
     </NavigationContainer>
