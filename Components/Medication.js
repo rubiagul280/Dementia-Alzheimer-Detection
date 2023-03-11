@@ -1,11 +1,10 @@
-/* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
 
-import React, {useState} from 'react';
+import React from 'react';
 import {View, StyleSheet} from 'react-native';
 import CalendarStrip from 'react-native-calendar-strip';
 import moment from 'moment';
-import colors from './Colors';
+import colors from '../assets/colors/Colors';
 import {Provider} from 'react-native-paper';
 import Entypo from 'react-native-vector-icons/Entypo';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -13,8 +12,8 @@ import Fontisto from 'react-native-vector-icons/Fontisto';
 import {FloatingAction} from 'react-native-floating-action';
 
 export default function Medication({navigation}) {
-  const [open, setOpen] = useState(false);
-  const [visible, setVisible] = useState(true);
+  // const [open, setOpen] = useState(false);
+  // const [visible, setVisible] = useState(true);
   const datesWhitelist = [
     {
       start: moment(),
@@ -68,15 +67,15 @@ export default function Medication({navigation}) {
             calendarHeaderStyle={{color: colors.secondary}}
             calendarColor={'#fff'}
             //dateNumberStyle={{color: colors.greytxt}}
-            dateNameStyle={{color: colors.greytxt}}
-           // highlightDateNumberStyle={{color: colors.secondary}}
-            highlightDateNameStyle={{color: colors.secondary}}
-            disabledDateNameStyle={{color: 'grey'}}
-            disabledDateNumberStyle={{color: 'grey'}}
+            dateNameStyle={colors.greytxt}
+            highlightDateNumberStyle={colors.secondary}
+            highlightDateNameStyle={colors.secondary}
+            disabledDateNameStyle={colors.greytxt}
+            disabledDateNumberStyle={colors.greytxt}
             datesWhitelist={datesWhitelist}
             iconContainer={{flex: 0.1}}
             dateNumberStyle={dateStyles.dateNumberStyle}
-            highlightDateNumberStyle={dateStyles.highlightDateNumberStyle}
+            // highlightDateNumberStyle={dateStyles.highlightDateNumberStyle}
             startingDate={currentDate}
           />
         </View>

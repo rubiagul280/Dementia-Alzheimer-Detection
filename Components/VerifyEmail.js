@@ -1,10 +1,10 @@
 /* eslint-disable prettier/prettier */
 
-import React, {useState} from 'react';
+import React from 'react';
 import {View, StyleSheet, StatusBar, TouchableOpacity} from 'react-native';
 import {Button, TextInput, Text} from 'react-native-paper';
 import Icons from 'react-native-vector-icons/MaterialCommunityIcons';
-import colors from './Colors';
+import colors from '../assets/colors/Colors';
 
 export default function VerficationScreen({navigation}) {
 

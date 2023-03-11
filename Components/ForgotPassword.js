@@ -5,7 +5,7 @@ import {View, StyleSheet, StatusBar, TouchableOpacity} from 'react-native';
 import {Button, TextInput, Text} from 'react-native-paper';
 import Icons from 'react-native-vector-icons/MaterialCommunityIcons';
 import auth from '@react-native-firebase/auth';
-import colors from './Colors';
+import colors from '../assets/colors/Colors';
 
 export default function ForgotScreen({navigation}) {
   const [email, setEmail] = useState('');

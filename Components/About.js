@@ -2,8 +2,7 @@
 
 import React from 'react';
 import {StyleSheet, Text, View, StatusBar, ScrollView} from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
-import colors from './Colors';
+import colors from '../assets/colors/Colors';
 
 export default function About({navigation}) {
   return (

@@ -4,7 +4,7 @@ import React, {useEffect} from 'react';
 import {StyleSheet, View, StatusBar} from 'react-native';
 import {Image} from 'react-native-elements';
 import LinearGradient from 'react-native-linear-gradient';
-import colors from './Colors';
+import colors from '../assets/colors/Colors';
 
 const Splash = ({navigation}) => {
   useEffect(() => {
@@ -23,7 +23,7 @@ const Splash = ({navigation}) => {
         style={styles.container}>
         <View>
           <Image
-            source={require('../assets/logo.png')}
+            source={require('../assets/images/logo.png')}
             style={styles.logo}
           />
           {/* <Text style={styles.text}>Together, We can end Alzheimer's disease</Text> */}

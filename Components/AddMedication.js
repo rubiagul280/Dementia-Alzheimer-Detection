@@ -3,7 +3,7 @@
 import React, {useState} from 'react';
 import {View, StyleSheet, StatusBar, TouchableOpacity} from 'react-native';
 import {Text, Button, TextInput, List, ProgressBar} from 'react-native-paper';
-import colors from './Colors';
+import colors from '../assets/colors/Colors';
 
 const questions = [
   {

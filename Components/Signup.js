@@ -1,11 +1,10 @@
-/* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
 
 import * as React from 'react';
 import {StyleSheet, View, StatusBar, TouchableOpacity, Alert} from 'react-native';
 import {Button, TextInput, Text} from 'react-native-paper';
 import auth from '@react-native-firebase/auth';
-import colors from './Colors';
+import colors from '../assets/colors/Colors';
 
 export default function Signup({navigation}) {
   const [email, setEmail] = React.useState('');
@@ -16,12 +15,12 @@ export default function Signup({navigation}) {
       const doRegister = await auth().createUserWithEmailAndPassword(email, password);
       if (doRegister.user) {
         if (password.length === '8'){
-          alert('Account registered successfully');
+          Alert('Account registered successfully');
           navigation.navigate('Login');
         }
       }
     } catch (e) {
-         alert('Login failed');
+         Alert('Login failed');
          Alert.alert(e.message);
     }
   };
@@ -72,7 +71,7 @@ export default function Signup({navigation}) {
               Sign up with Google
             </Button>
           </TouchableOpacity>
-          <View style={{flexDirection: 'row'}}>
+          <View style={styles.accview}>
             <Text style={styles.accounttxt}>Already have an account?</Text>
             <Button style={styles.signup} onPress={() => navigation.navigate('Login')}>Login</Button>
           </View>
@@ -164,5 +163,8 @@ const styles = StyleSheet.create({
     color: colors.greytxt,
     fontWeight: 200,
     alignItems: 'center',
+  },
+  accview: {
+    flexDirection: 'row',
   },
 });

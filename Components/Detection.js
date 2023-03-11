@@ -8,7 +8,7 @@ import {
   Text,
   Platform,
   Dimensions,
-  useColorScheme,
+
   View,
   TouchableOpacity,
 } from 'react-native';
@@ -17,7 +17,7 @@ import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {Button, Card} from 'react-native-paper';
 import PermissionsService, {isIOS} from './Permissions';
-import colors from './Colors';
+import colors from '../assets/colors/Colors';
 import Entypo from 'react-native-vector-icons/Entypo';
 
 axios.interceptors.request.use(

@@ -12,7 +12,7 @@ import {
 import {Button, TextInput, Text} from 'react-native-paper';
 import auth from '@react-native-firebase/auth';
 // import { GoogleSignin } from '@react-native-google-signin/google-signin';
-import colors from './Colors';
+import colors from '../assets/colors/Colors';
 
 export default function Login({navigation}) {
   const [email, setEmail] = useState('');

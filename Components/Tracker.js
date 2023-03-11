@@ -102,4 +102,4 @@ export default function Tracker ({navigation}){
       </View>
     </View>
   );
-}
+};

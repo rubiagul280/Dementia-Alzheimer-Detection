@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {Button, Card} from 'react-native-paper';
-import colors from './Colors';
+import colors from '../assets/colors/Colors';
 
 export default function Home({navigation}) {
   return (
@@ -37,7 +37,7 @@ export default function Home({navigation}) {
                 <Card
                   style={styles.card}
                   onPress={() => navigation.navigate('About')}>
-                  <Card.Cover source={require('../assets/feature.png')} />
+                  <Card.Cover source={require('../assets/images/feature.png')} />
                 </Card>
                 <Text
                   style={styles.title}
@@ -61,7 +61,7 @@ export default function Home({navigation}) {
                   style={styles.card}
                   onPress={() => navigation.navigate('Medication')}>
                   <Card.Cover
-                    source={require('../assets/medication_icon.png')}
+                    source={require('../assets/images/medication_icon.png')}
                   />
                 </Card>
                 <Text
