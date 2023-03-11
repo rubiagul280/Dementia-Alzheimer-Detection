@@ -9,7 +9,7 @@ import colors from '../assets/colors/Colors';
 const Splash = ({navigation}) => {
   useEffect(() => {
     setTimeout(() => {
-      navigation.replace('AddMedication');
+      navigation.replace('Privacy');
     }, 2000);
   }, []);
 

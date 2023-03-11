@@ -16,48 +16,65 @@ import AddMedication from './Components/AddMedication';
 import Tracker from './Components/Tracker';
 import ForgotScreen from './Components/ForgotPassword';
 import VerficationScreen from './Components/VerifyEmail';
+import Profile from './Components/Profile';
+import Help from './Components/Help';
+import PrivacyPolicy from './Components/PrivacyPolicy';
+import Feedback from './Components/Feedback';
+
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Foundation from 'react-native-vector-icons/Foundation';
 import Ionicons from 'react-native-vector-icons/Ionicons';
- import colors from './Components/Colors';
+import colors from './assets/colors/Colors';
 import NewPassword from './Components/NewPassword';
 
 const Tab = createBottomTabNavigator();
 
 const TabScreens = () => {
   return (
-    <Tab.Navigator initialRouteName="Home" screenOptions={{
-      headerStyle: {
-        backgroundColor: '#B8BDF5',
-      },
-      headerTintColor: colors.background,
-      headerTitleStyle: {
-        fontWeight: '100',
-      },
-      headerTitleAlign: 'center',
-    }}>
-      <Tab.Screen name="Home" component={Home} options={{
-        tabBarIcon: ({color, size}) => (
-          <Ionicons name="ios-home" color={color} size={size} />
-        ),
-        headerShown: false,
-      }}/>
-      <Tab.Screen name="Games" component={Game}
-      options={{
-        tabBarIcon: ({color, size}) => (
-          <Foundation name="social-game-center" color={color} size={size} />
-        ),
-        headerShown: false,
-      }} />
-      <Tab.Screen name="Settings" component={Setting}
-      options={{
-        tabBarIcon: ({color, size}) => (
-          <Ionicons name="settings" color={color} size={size} />
-        ),
-        headerShown: false,
-      }} />
+    <Tab.Navigator
+      initialRouteName="Home"
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: '#B8BDF5',
+        },
+        headerTintColor: colors.background,
+        headerTitleStyle: {
+          fontWeight: '100',
+        },
+        headerTitleAlign: 'center',
+      }}>
+      <Tab.Screen
+        name="Home"
+        component={Home}
+        options={{
+          tabBarIcon: ({color, size}) => (
+            <Ionicons name="ios-home" color="#B8BDF5" size={size} />
+          ),
+          headerShown: false,
+        }}
+      />
+      <Tab.Screen
+        name="Games"
+        component={Game}
+        options={{
+          tabBarIcon: ({color, size}) => (
+            <Foundation name="social-game-center" color="#B8BDF5" size={size} />
+          ),
+          headerShown: false,
+        }}
+      />
+      <Tab.Screen
+        name="Settings"
+        component={Setting}
+        options={{
+          tabBarIcon: ({color, size}) => (
+            <Ionicons name="settings" color="#B8BDF5" size={size} />
+          ),
+          headerShown: false,
+        }}
+      />
     </Tab.Navigator>
   );
 };
@@ -78,11 +95,11 @@ const StackScreens = () => {
         },
         headerTitleAlign: 'center',
       }}>
-        <Stack.Screen name="About" component={About} />
-        <Stack.Screen name="Detection" component={Detection} />
-        <Stack.Screen name="Medication" component={Medication} />
-        <Stack.Screen name="AddMedication" component={AddMedication} />
-        <Stack.Screen name="Tracker" component={Tracker} />
+      <Stack.Screen name="About" component={About} />
+      <Stack.Screen name="Detection" component={Detection} />
+      <Stack.Screen name="Medication" component={Medication} />
+      <Stack.Screen name="AddMedication" component={AddMedication} />
+      <Stack.Screen name="Tracker" component={Tracker} />
     </Stack.Navigator>
   );
 };
@@ -93,7 +110,7 @@ function App() {
       <Stack.Navigator
         initialRouteName="Splash"
         screenOptions={{headerShown: false}}>
-        <Stack.Screen name="Splash" component={Splash} />
+        <Stack.Screen name="Splash" component={Splash}  />
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Signup" component={Signup} />
         <Stack.Screen name="Settings" component={Setting} />
@@ -107,6 +124,10 @@ function App() {
         <Stack.Screen name="Verify Email" component={VerficationScreen} />
         <Stack.Screen name="New Password" component={NewPassword} />
         <Stack.Screen name="Tracker" component={Tracker} />
+        <Stack.Screen name="Profile" component={Profile} />
+        <Stack.Screen name="Feedback" component={Feedback} />
+        <Stack.Screen name="Privacy" component={PrivacyPolicy} />
+        <Stack.Screen name="Help" component={Help} />
       </Stack.Navigator>
     </NavigationContainer>
   );
