@@ -2,7 +2,13 @@
 /* eslint-disable prettier/prettier */
 
 import React, {useState} from 'react';
-import {StyleSheet, View, StatusBar, TouchableOpacity, Alert} from 'react-native';
+import {
+  StyleSheet,
+  View,
+  StatusBar,
+  TouchableOpacity,
+  Alert,
+} from 'react-native';
 import {Button, TextInput, Text} from 'react-native-paper';
 import auth from '@react-native-firebase/auth';
 // import { GoogleSignin } from '@react-native-google-signin/google-signin';
@@ -22,7 +28,6 @@ export default function Login({navigation}) {
       Alert.alert(e.message);
     }
   };
-
 
   return (
     <>
@@ -57,7 +62,12 @@ export default function Login({navigation}) {
               roundness: 25,
             }}
           />
-          <Button style={styles.forgotbtn}>Forgot Password?</Button>
+          <Button
+            style={styles.forgotbtn}
+            onPress={() => navigation.navigate('Forgot Password')}>
+            Forgot Password?
+          </Button>
+
           <TouchableOpacity onPress={() => login(email, password)}>
             <Button mode="contained" style={styles.button}>
               Log in

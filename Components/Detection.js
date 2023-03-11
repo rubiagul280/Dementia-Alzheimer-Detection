@@ -18,7 +18,7 @@ import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {Button, Card} from 'react-native-paper';
 import PermissionsService, {isIOS} from './Permissions';
 import colors from './Colors';
-import Icon from 'react-native-vector-icons/Entypo';
+import Entypo from 'react-native-vector-icons/Entypo';
 
 axios.interceptors.request.use(
   async config => {
@@ -131,14 +131,11 @@ export default function Detection ({navigation}){
             You can detect your disease by uploading MRI image of your brain.
           </Text>
           <View style={styles.frame}>
-            <Text style={styles.text}>Upload your MRI Image</Text>
+            <Text style={styles.uptext}>Upload your MRI {'\n'} Image</Text>
             <TouchableOpacity
               activeOpacity={1}
               onPress={() => manageCamera('Photo')}>
-              <Image
-                source={require('../assets/arrow.png')}
-                style={styles.uploadImage}
-              />
+              <Entypo name="upload" size={45} style={styles.uploadImage}/>
             </TouchableOpacity>
             {(image?.length && (
               <Image source={{uri: image}} style={styles.imageStyle} />
@@ -148,11 +145,11 @@ export default function Detection ({navigation}){
           {result && label && (
               <View style={styles.mainOuter}>
                 <Text style={[styles.space, styles.labelText]}>
-                  {'Label: \n\n'}
+                  {'Label:  '}
                   <Text style={styles.resultText}>{label}</Text>
                 </Text>
                 <Text style={[styles.space, styles.labelText]}>
-                  {'Confidence: \n\n'}
+                  {'Confidence:  '}
                   <Text style={styles.resultText}>
                     {parseFloat(result).toFixed(2) + '%'}
                   </Text>
@@ -216,6 +213,7 @@ const styles = StyleSheet.create({
     width: 250,
     marginTop: 40,
     marginLeft: 30,
+    alignItems: 'center',
   },
   imageStyle: {
     width: 246,
@@ -236,8 +234,8 @@ const styles = StyleSheet.create({
   uploadImage: {
     height: 50,
     width: 50,
-    marginLeft: 100,
     marginTop: 10,
+    color: colors.greytxt,
   },
   outer: {
     flex: 1,
@@ -250,13 +248,23 @@ const styles = StyleSheet.create({
     color: 'black',
     fontSize: 20,
     ...fonts.Bold,
-    marginBottom: 20,
+    marginBottom: 5,
   },
   resultText: {
     fontSize: 20,
     ...fonts.Bold,
     color: 'red',
-    marginTop: 100,
+  },
+  uptext: {
+    color: colors.greytxt,
+    fontSize: 18,
+    marginTop: 85,
+    marginBottom: 10,
+    textAlign: 'center',
+  },
+  mainOuter: {
+    marginTop: 15,
+    alignItems: 'center',
   },
   // emptyText: {
   //   position: 'absolute',

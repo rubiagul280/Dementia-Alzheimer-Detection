@@ -16,7 +16,7 @@ import colors from './Colors';
 export default function Home({navigation}) {
   return (
     <>
-      <StatusBar animated={true} backgroundColor="#B9B0E5" />
+      <StatusBar animated={true} backgroundColor="#B8BDF5" />
       <ScrollView>
         <LinearGradient
           start={{x: 1, y: 0}}
@@ -32,7 +32,7 @@ export default function Home({navigation}) {
                   more about your health.
                 </Text>
               </View>
-              <View >
+              <View>
                 <Text style={styles.heading}>Featured</Text>
                 <Card
                   style={styles.card}
@@ -57,12 +57,18 @@ export default function Home({navigation}) {
 
               <View>
                 <Text style={styles.heading}>Take care of your health</Text>
-                <Card style={styles.card}>
+                <Card
+                  style={styles.card}
+                  onPress={() => navigation.navigate('Medication')}>
                   <Card.Cover
                     source={require('../assets/medication_icon.png')}
                   />
                 </Card>
-                <Text style={styles.title}>Track your medication</Text>
+                <Text
+                  style={styles.title}
+                  onPress={() => navigation.navigate('Medication')}>
+                  Track your medication
+                </Text>
                 <Text style={styles.txt}>
                   Read a quick overview of Ada's features.
                 </Text>

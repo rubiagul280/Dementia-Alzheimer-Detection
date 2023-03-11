@@ -10,7 +10,7 @@ import tensorflow as tf
 app = FastAPI()
 
 
-MODEL = tf.keras.models.load_model("Dementia.h5")
+MODEL = tf.keras.models.load_model("alz.h5")
 
 CLASS_NAMES = ["MildDemented", "ModerateDemented", "NonDemented", "VeryMildDemented"]
 

@@ -16,7 +16,8 @@ import {
         <StatusBar animated={true} backgroundColor="#B8BDF5" />
         <LinearGradient start={{x: 1, y: 0}}
           end={{x: 0, y: 1}}
-          colors={['#B9B0E5', '#E8F1F2', '#BBEEEA']}
+          colors={['#B8BDF5', '#E8F1F2', '#BBEEEA']}
+          //colors={['#B9B0E5', '#E8F1F2', '#BBEEEA']}
           style={styles.container}>
             <View />
           </LinearGradient>

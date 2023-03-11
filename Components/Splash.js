@@ -1,8 +1,7 @@
-/* eslint-disable react/jsx-no-undef */
 /* eslint-disable prettier/prettier */
 
 import React, {useEffect} from 'react';
-import {StyleSheet, View, StatusBar, Text} from 'react-native';
+import {StyleSheet, View, StatusBar} from 'react-native';
 import {Image} from 'react-native-elements';
 import LinearGradient from 'react-native-linear-gradient';
 import colors from './Colors';
@@ -10,7 +9,7 @@ import colors from './Colors';
 const Splash = ({navigation}) => {
   useEffect(() => {
     setTimeout(() => {
-      navigation.replace('Tabs');
+      navigation.replace('AddMedication');
     }, 2000);
   }, []);
 
@@ -50,7 +49,7 @@ const styles = StyleSheet.create({
     padding: 15,
     fontSize: 20,
     alignItems: 'center',
-  }
+  },
 });
 
 export default Splash;

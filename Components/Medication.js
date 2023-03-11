@@ -7,7 +7,9 @@ import CalendarStrip from 'react-native-calendar-strip';
 import moment from 'moment';
 import colors from './Colors';
 import {Provider} from 'react-native-paper';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import Entypo from 'react-native-vector-icons/Entypo';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import Fontisto from 'react-native-vector-icons/Fontisto';
 import {FloatingAction} from 'react-native-floating-action';
 
 export default function Medication({navigation}) {
@@ -20,22 +22,36 @@ export default function Medication({navigation}) {
     },
   ];
 
+  const currentDate = new Date();
+
+  const dateStyles = {
+    dateNumberStyle: {
+      color: '#555',
+      fontSize: 16,
+    },
+    highlightDateNumberStyle: {
+      color: colors.secondary,
+      fontSize: 16,
+    },
+  };
+
   const actions = [
     {
       text: 'Add Medication',
       name: 'AddMedication',
-      icon: require('../assets/add_medication.png'),
+      icon: <Fontisto name="pills" size={20} color="#B8BDF5" />,
       position: 1,
+      buttonColor: colors.heading,
     },
     {
       text: 'Add Tracking Entry',
-      icon: <Icon name="home" size={20} color="#B8BDF5" />,
+      icon: <MaterialIcons name="track-changes" size={20} color="#B8BDF5" />,
       position: 2,
       name: 'track',
     },
     {
       text: 'Add Dose',
-      icon: <Icon name="home" size={20} color="#B8BDF5" />,
+      icon: <Entypo name="home" size={20} color="#B8BDF5" />,
       position: 3,
       name: 'dose',
     },
@@ -51,21 +67,24 @@ export default function Medication({navigation}) {
             style={styles.calendar}
             calendarHeaderStyle={{color: colors.secondary}}
             calendarColor={'#fff'}
-            dateNumberStyle={{color: colors.greytxt}}
+            //dateNumberStyle={{color: colors.greytxt}}
             dateNameStyle={{color: colors.greytxt}}
-            highlightDateNumberStyle={{color: colors.secondary}}
+           // highlightDateNumberStyle={{color: colors.secondary}}
             highlightDateNameStyle={{color: colors.secondary}}
             disabledDateNameStyle={{color: 'grey'}}
             disabledDateNumberStyle={{color: 'grey'}}
             datesWhitelist={datesWhitelist}
             iconContainer={{flex: 0.1}}
+            dateNumberStyle={dateStyles.dateNumberStyle}
+            highlightDateNumberStyle={dateStyles.highlightDateNumberStyle}
+            startingDate={currentDate}
           />
         </View>
         <View style={styles.content}>
           <FloatingAction
             actions={actions}
-            color= {colors.heading}
-            floatingIcon={<Icon name="plus" size={20} color="#fff" />}
+            color={colors.heading}
+            floatingIcon={<Entypo name="plus" size={20} color="#fff" />}
             iconHeight={24}
             iconWidth={24}
             position="right"
@@ -102,10 +121,10 @@ const styles = StyleSheet.create({
     borderHighlightColor: 'white',
   },
   content: {
-    padding: 20,
+    padding: 40,
     alignContent: 'center',
     justifyContent: 'center',
-    marginTop: 300,
+    marginTop: 470,
   },
   button: {
     marginTop: 20,
