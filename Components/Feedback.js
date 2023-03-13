@@ -1,117 +1,86 @@
-/* eslint-disable react/no-unstable-nested-components */
 /* eslint-disable prettier/prettier */
-/* eslint-disable react-native/no-inline-styles */
+
 import {
   View,
-  TextInput,
-  Text,
-  SafeAreaView,
+  StatusBar,
   StyleSheet,
-  ScrollView,
   TouchableOpacity,
-  Image,
+  Linking,
 } from 'react-native';
-import React, {useState} from 'react';
-import LinearGradient from 'react-native-linear-gradient';
+import React from 'react';
+import {Text, Button} from 'react-native-paper';
+import colors from '../assets/colors/Colors';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
 export default function Feedback({navigation}) {
-  const [Feedback, setFeedBack] = useState('');
-  const [defaultRating, setDefaultRating] = useState(5);
-  // To set the max number of Stars
-  // eslint-disable-next-line no-unused-vars
-  const [maxRating, setMaxRating] = useState([1, 2, 3, 4, 5]);
+  const handlePress = () => {
+    const recipient = 'aineuro@example.com';
+    const subject = 'Feedback on my app';
+    const body = 'Please type your feedback here.';
 
-  // Filled Star. You can also give the path from local
-  const starImageFilled =
-    'https://raw.githubusercontent.com/AboutReact/sampleresource/master/star_filled.png';
-  // Empty Star. You can also give the path from local
-  const starImageCorner =
-    'https://raw.githubusercontent.com/AboutReact/sampleresource/master/star_corner.png';
-
-  const CustomRatingBar = () => {
-    return (
-      <View style={styles.customRatingBarStyle}>
-        {maxRating.map(item => {
-          return (
-            <TouchableOpacity
-              activeOpacity={0.7}
-              key={item}
-              onPress={() => setDefaultRating(item)}>
-              <Image
-                style={styles.starImageStyle}
-                source={
-                  item <= defaultRating
-                    ? {uri: starImageFilled}
-                    : {uri: starImageCorner}
-                }
-              />
-            </TouchableOpacity>
-          );
-        })}
-      </View>
-    );
-  };
-  const Submit = function () {
-    navigation.replace('Settings');
+    Linking.openURL(`mailto:${recipient}?subject=${subject}&body=${body}`);
   };
 
   return (
-    <LinearGradient
-      start={{x: 0, y: 0}}
-      end={{x: 1, y: 0}}
-      colors={['#ffffff', '#ffffff']}
-      style={styles.linearGradient1}>
-      <SafeAreaView style={styles.container}>
-        <ScrollView>
-          <View style={styles.aftersafe}>
-            <View style={styles.root}>
-              <Image
-                source={require('../assets/images/logo.png')}
-                style={styles.Logo}
-                resizeMode="contain"
-              />
-            </View>
-
-            <Text style={styles.textStyle}>How was your experience</Text>
-            <View style={styles.container1}>
-              <TextInput
-                value={Feedback}
-                onChangeText={setFeedBack}
-                placeholder="What are your comments about us..."
-                placeholderTextColor={'#02AABD'}
-                style={styles.input1}
-                multiline={true}
-              />
-            </View>
-            <View style={{width: '100%'}}>
-              <TouchableOpacity onPress={Submit}>
-                <View>
-                  <LinearGradient
-                    start={{x: 0, y: 0}}
-                    end={{x: 1, y: 0}}
-                    colors={['#02AABD', '#02AABD']}
-                    style={styles.linearGradient}>
-                    <Text style={styles.buttonTextStyleM}>Submit</Text>
-                  </LinearGradient>
-                </View>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </ScrollView>
-      </SafeAreaView>
-    </LinearGradient>
+    <>
+      <StatusBar animated={true} backgroundColor="#B9B0E5" />
+      <View style={styles.container}>
+        <View style={styles.header}>
+          <AntDesign
+            name="left"
+            size={20}
+            color={colors.background}
+            onPress={() => navigation.navigate('Settings')}
+          />
+          <Text style={styles.heading}>Give feedback on AI Neurologists</Text>
+        </View>
+        <View style={{marginTop: 400}}>
+        <Text style={styles.text}>
+          What do you like about AI Neurologists: Alzheimer detection?
+        </Text>
+        <Text style={styles.text}>How can be AI Neurologists be improved?</Text>
+        <TouchableOpacity onPress={handlePress}>
+          <Button mode="outlined" style={styles.button}>
+            Contact Support
+          </Button>
+        </TouchableOpacity>
+        </View>
+      </View>
+    </>
   );
 }
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
+    backgroundColor: '#fff',
+    padding: 30,
   },
-  textStyle: {
-    textAlign: 'center',
-    fontSize: 23,
-    color: '#02AABD',
+  header: {
+    flexDirection: 'row',
+    marginLeft: -10,
+    marginBottom: 30,
+  },
+  heading: {
+    color: colors.background,
+    fontSize: 14,
+    marginLeft: 30,
+  },
+  button: {
+    marginTop: 28,
+    width: 300,
+    height: 50,
+    borderRadius: 36,
+    alignItems: 'center',
+    paddingTop: 4,
+    marginBottom: 7,
+    color: colors.background,
+  },
+  text: {
+    fontSize: 17,
+    color: colors.background,
     marginTop: 10,
-    marginBottom: 20,
   },
   root: {
     alignItems: 'center',

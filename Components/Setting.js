@@ -1,22 +1,20 @@
-/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable react/no-unstable-nested-components */
 /* eslint-disable prettier/prettier */
 
 import React, {useState} from 'react';
-import {
-  StyleSheet,
-  View,
-  StatusBar,
-  TouchableOpacity,
-} from 'react-native';
-import {Text} from 'react-native-paper';
+import {StyleSheet, View, StatusBar, TouchableOpacity} from 'react-native';
+import {Divider, List, Text} from 'react-native-paper';
 import colors from '../assets/colors/Colors';
 import Icons from 'react-native-vector-icons/Ionicons';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {launchImageLibrary} from 'react-native-image-picker';
+import auth from '@react-native-firebase/auth';
+import { color } from 'react-native-reanimated';
 
 export default function Setting({navigation}) {
   const [image, setImage] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(null);
 
   // const back = function () {
   //   navigation.replace('Tabs');
@@ -61,10 +59,24 @@ export default function Setting({navigation}) {
     });
   };
 
+  const handleDeleteAccount = () => {
+    const user = auth().currentUser;
+
+    user
+      .delete()
+      .then(() => {
+        navigation.navigate('Login');
+      })
+      .catch(error => {
+        setErrorMessage(error.message);
+      });
+  };
+
   return (
     <>
-      <StatusBar animated={true} backgroundColor="#B9B0E5"  />
+      <StatusBar animated={true} backgroundColor="#B9B0E5" />
       <View style={styles.container}>
+        <Text style={styles.heading}>Settings</Text>
         {/* <View style={styles.header}>
           <Icons
             name="md-person-circle"
@@ -74,7 +86,6 @@ export default function Setting({navigation}) {
           />
           <Text style={styles.name}>Rubia Gulzar</Text>
         </View> */}
-        <View style={styles.frame}>
           {/* <TouchableOpacity
             activeOpacity={1}
             onPress={() => manageCamera('Photo')}>
@@ -91,45 +102,88 @@ export default function Setting({navigation}) {
             null} */}
 
           <View style={styles.content}>
-            <Text style={styles.text}>Account Settings</Text>
-            <View >
-              <TouchableOpacity style={styles.root} onPress={() => navigation.navigate('Profile')}>
-                <Icons name="person" size={25} color={colors.background} />
-                <Text style={styles.TextStyle}>Profile</Text>
+            <List.Section title={'Account Settings'}>
+              <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
+                <List.Item
+                  title="Profile"
+                  left={() => (
+                    <Icons name="person" size={22} color={colors.background} />
+                  )}
+                  right={() => (
+                    <List.Icon icon="arrow-right" color={colors.background} />
+                  )}
+                />
+                <Divider/>
               </TouchableOpacity>
-            </View>
 
-            <View>
-              <TouchableOpacity  style={styles.root} onPress={() => navigation.navigate('PrivacyPolicy')}>
-                <Icon name="logout" size={25} color={colors.background} />
-                <Text style={styles.TextStyle}> Privacy and notifications</Text>
+
+              <TouchableOpacity onPress={() => navigation.navigate('Privacy')}>
+                <List.Item
+                  title="Privacy and notifications"
+                  left={() => (
+                    <Icons name="person" size={22} color={colors.background} />
+                  )}
+                  right={() => (
+                    <List.Icon icon="arrow-right" color={colors.background} />
+                  )}
+                />
+                <Divider/>
               </TouchableOpacity>
-            </View>
+            </List.Section>
 
-            <Text style={styles.text}>Support</Text>
-
-            <View>
-              <TouchableOpacity  style={styles.root}>
-                <Icon name="feedback" size={25} color={colors.background} />
-                <Text style={styles.TextStyle}>Feedback</Text>
+            <List.Section title={'Support'} style={styles.root}>
+              <TouchableOpacity onPress={() => navigation.navigate('Feedback')}>
+                <List.Item
+                  title="Feedback"
+                  left={() => (
+                    <Icon name="feedback" size={25} color={colors.background} />
+                  )}
+                  right={() => (
+                    <List.Icon icon="arrow-right" color={colors.background} />
+                  )}
+                />
+                <Divider/>
               </TouchableOpacity>
-            </View>
 
-            <View>
-              <TouchableOpacity  style={styles.root}>
-                <MaterialCommunityIcon name="theme-light-dark" size={25} color={colors.background}/>
-                <Text style={styles.TextStyle}>Theme</Text>
+              <TouchableOpacity onPress={() => navigation.navigate('Theme')}>
+                <List.Item
+                  title="Theme"
+                  left={() => (
+                    <MaterialCommunityIcon
+                      name="theme-light-dark"
+                      size={25}
+                      color={colors.background}
+                    />
+                  )}
+                  right={() => (
+                    <List.Icon icon="arrow-right" color={colors.background} />
+                  )}
+                />
+                <Divider/>
               </TouchableOpacity>
-            </View>
 
-            <View style={styles.underline}>
-              <TouchableOpacity style={styles.root}>
-                <Icon name="logout" size={25} color={colors.background}/>
-                <Text style={styles.TextStyle}>Logout</Text>
+              <TouchableOpacity onPress={handleDeleteAccount}>
+                <List.Item
+                  title="Delete account"
+                  left={() => (
+                    <Icons name="person" size={22} color={colors.background} />
+                  )}
+                />
+                <Divider/>
               </TouchableOpacity>
-            </View>
+
+              <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+                <List.Item
+                  title="Logout"
+                  left={() => (
+                    <Icon name="logout" size={22} color={colors.background} />
+                  )}
+                />
+                <Divider/>
+              </TouchableOpacity>
+            </List.Section>
           </View>
-        </View>
+
       </View>
     </>
   );
@@ -149,36 +203,17 @@ Setting.navigationOptions = {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignContent: 'center',
+    justifyContent: 'flex-start',
     alignItems: 'center',
     backgroundColor: '#fff',
   },
-  // header: {
-  //   marginTop: 25,
-  //   marginBottom: 25,
-  //   flexDirection: 'row',
-  //   alignContent: 'center',
-  // },
-  // image: {
-  //   backgroundColor: colors.background,
-  // },
-  // name: {
-  //   color: colors.heading,
-  //   fontSize: 20,
-  //   padding: 25,
-  // },
-  frame: {
-    flex: 1,
-    // backgroundColor: '#fff',
-    // borderTopLeftRadius: 30,
-    // borderTopRightRadius: 30,
-    // paddingHorizontal: 25,
-    // paddingVertical: 50,
-    // paddingTop: 30,
-    marginTop: 30,
+  heading: {
+    color: colors.background,
+   fontSize: 18,
+   marginTop: 20,
+   marginBottom: 10,
   },
-  text:{
+  text: {
     fontSize: 18,
     marginBottom: 20,
     color: colors.background,
@@ -199,9 +234,7 @@ const styles = StyleSheet.create({
   root: {
     height: 50,
     width: 300,
-    flexDirection: 'row',
     marginBottom: 5,
-    marginTop: 5,
   },
   TextStyle: {
     fontWeight: 600,
@@ -209,5 +242,12 @@ const styles = StyleSheet.create({
     marginLeft: 15,
     fontSize: 16,
   },
-
+  divider: {
+    height: 0.7,
+    backgroundColor: colors.greytxt,
+  },
+  version: {
+    fontSize: 14,
+    marginTop: 380,
+  }
 });

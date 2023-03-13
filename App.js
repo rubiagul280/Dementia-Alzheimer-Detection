@@ -13,6 +13,7 @@ import About from './Components/About';
 import Detection from './Components/Detection';
 import Medication from './Components/Medication';
 import AddMedication from './Components/AddMedication';
+import HeaderShown from './Screens/HeaderShown';
 import Tracker from './Components/Tracker';
 import ForgotScreen from './Components/ForgotPassword';
 import VerficationScreen from './Components/VerifyEmail';
@@ -20,7 +21,7 @@ import Profile from './Components/Profile';
 import Help from './Components/Help';
 import PrivacyPolicy from './Components/PrivacyPolicy';
 import Feedback from './Components/Feedback';
-
+import Theme from './Components/Theme';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
@@ -81,40 +82,18 @@ const TabScreens = () => {
 
 const Stack = createNativeStackNavigator();
 
-const StackScreens = () => {
-  return (
-    <Stack.Navigator
-      screenOptions={{
-        headerStyle: {
-          backgroundColor: colors.statusbar,
-          alignItems: 'center',
-        },
-        headerTintColor: colors.background,
-        headerTitleStyle: {
-          fontWeight: 200,
-        },
-        headerTitleAlign: 'center',
-      }}>
-      <Stack.Screen name="About" component={About} />
-      <Stack.Screen name="Detection" component={Detection} />
-      <Stack.Screen name="Medication" component={Medication} />
-      <Stack.Screen name="AddMedication" component={AddMedication} />
-      <Stack.Screen name="Tracker" component={Tracker} />
-    </Stack.Navigator>
-  );
-};
-
 function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator
         initialRouteName="Splash"
         screenOptions={{headerShown: false}}>
-        <Stack.Screen name="Splash" component={Splash}  />
+        <Stack.Screen name="Splash" component={Splash} />
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Signup" component={Signup} />
         <Stack.Screen name="Settings" component={Setting} />
         <Stack.Screen name="Tabs" component={TabScreens} />
+        <Stack.Screen name="header" component={HeaderShown} />
         {/* <Stack.Screen name="Stack" component={StackScreens} /> */}
         <Stack.Screen name="About" component={About} />
         <Stack.Screen name="Detection" component={Detection} />
@@ -127,6 +106,7 @@ function App() {
         <Stack.Screen name="Profile" component={Profile} />
         <Stack.Screen name="Feedback" component={Feedback} />
         <Stack.Screen name="Privacy" component={PrivacyPolicy} />
+        <Stack.Screen name="Theme" component={Theme} />
         <Stack.Screen name="Help" component={Help} />
       </Stack.Navigator>
     </NavigationContainer>
