@@ -14,10 +14,8 @@ export default function Signup({navigation}) {
     try {
       const doRegister = await auth().createUserWithEmailAndPassword(email, password);
       if (doRegister.user) {
-        if (password.length === '8'){
           Alert('Account registered successfully');
           navigation.navigate('Login');
-        }
       }
     } catch (e) {
          Alert('Login failed');

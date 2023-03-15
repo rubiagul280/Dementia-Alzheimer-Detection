@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   Image,
   StatusBar,
@@ -8,17 +8,17 @@ import {
   Text,
   Platform,
   Dimensions,
-
   View,
   TouchableOpacity,
 } from 'react-native';
 import axios from 'axios';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
-import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {Button, Card} from 'react-native-paper';
-import PermissionsService, {isIOS} from './Permissions';
 import colors from '../assets/colors/Colors';
 import Entypo from 'react-native-vector-icons/Entypo';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import Fontisto from 'react-native-vector-icons/Fontisto';
+import ReportGenerator from './Report';
 
 axios.interceptors.request.use(
   async config => {
@@ -54,7 +54,31 @@ const options = {
   height: 256,
   includeBase64: true,
 };
-export default function Detection ({navigation}){
+export default function Detection({navigation}) {
+  const [result, setResult] = useState('');
+  const [label, setLabel] = useState('');
+  const [image, setImage] = useState('');
+  const [userInfo, setUserInfo] = useState(null);
+
+
+   // Retrieve the user's information from Firebase
+  //  useEffect(() => {
+  //   const currentUser = auth().currentUser;
+  //   if (currentUser) {
+  //     firestore()
+  //       .collection('users')
+  //       .doc(currentUser.uid)
+  //       .get()
+  //       .then((doc) => {
+  //         if (doc.exists) {
+  //           setUserInfo(doc.data());
+  //         }
+  //       })
+  //       .catch((error) => {
+  //         console.log('Error getting user information:', error);
+  //       });
+  //   }
+  // }, []);
   const getPredication = async params => {
     try {
       var bodyFormData = new FormData();
@@ -117,14 +141,26 @@ export default function Detection ({navigation}){
     });
   };
 
-  const [result, setResult] = useState('');
-  const [label, setLabel] = useState('');
-  const [image, setImage] = useState('');
-
   return (
     <View style={[styles.outer]}>
       <StatusBar animated={true} backgroundColor="#B9B0E5" />
       <View style={styles.container}>
+        <View style={styles.header}>
+          <AntDesign
+            name="left"
+            size={18}
+            color={colors.background}
+            onPress={() => navigation.navigate('Tabs')}
+          />
+          <Text style={styles.head}>Detection</Text>
+          <TouchableOpacity onPress={ReportGenerator}>
+            <View style={styles.report}>
+              <Fontisto name="upload" color={colors.background} />
+              <Text style={{color: colors.background}}>Report</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+
         <View style={styles.content}>
           <Text style={styles.title}>Detect your disease</Text>
           <Text style={styles.text}>
@@ -135,7 +171,7 @@ export default function Detection ({navigation}){
             <TouchableOpacity
               activeOpacity={1}
               onPress={() => manageCamera('Photo')}>
-              <Entypo name="upload" size={45} style={styles.uploadImage}/>
+              <Entypo name="upload" size={45} style={styles.uploadImage} />
             </TouchableOpacity>
             {(image?.length && (
               <Image source={{uri: image}} style={styles.imageStyle} />
@@ -143,19 +179,19 @@ export default function Detection ({navigation}){
               null}
           </View>
           {result && label && (
-              <View style={styles.mainOuter}>
-                <Text style={[styles.space, styles.labelText]}>
-                  {'Label:  '}
-                  <Text style={styles.resultText}>{label}</Text>
+            <View style={styles.mainOuter}>
+              <Text style={[styles.space, styles.labelText]}>
+                {'Label:  '}
+                <Text style={styles.resultText}>{label}</Text>
+              </Text>
+              <Text style={[styles.space, styles.labelText]}>
+                {'Confidence:  '}
+                <Text style={styles.resultText}>
+                  {parseFloat(result).toFixed(2) + '%'}
                 </Text>
-                <Text style={[styles.space, styles.labelText]}>
-                  {'Confidence:  '}
-                  <Text style={styles.resultText}>
-                    {parseFloat(result).toFixed(2) + '%'}
-                  </Text>
-                </Text>
-              </View>
-            )}
+              </Text>
+            </View>
+          )}
           {/* <TouchableOpacity>
             <Button mode="contained" style={styles.button}>
               Detect
@@ -184,13 +220,23 @@ export default function Detection ({navigation}){
       </View>
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
     color: '#fff',
+  },
+  header: {
+    flexDirection: 'row',
+    marginLeft: 0,
+    marginBottom: 30,
+  },
+  head: {
+    color: colors.background,
+    fontSize: 17,
+    marginLeft: 100,
   },
   content: {
     padding: 5,
@@ -202,17 +248,16 @@ const styles = StyleSheet.create({
   title: {
     color: colors.background,
     fontSize: 22,
-    marginTop: 10,
     marginBottom: 18,
   },
   frame: {
     borderWidth: 2,
     borderColor: colors.secondary,
     borderRadius: 5,
-    height: 300,
-    width: 250,
+    height: 250,
+    width: 220,
     marginTop: 40,
-    marginLeft: 30,
+    marginLeft: 50,
     alignItems: 'center',
   },
   imageStyle: {
@@ -230,6 +275,10 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     alignItems: 'center',
     paddingTop: 4,
+  },
+  report: {
+    marginLeft: 70,
+    alignItems: 'center',
   },
   uploadImage: {
     height: 50,
@@ -266,14 +315,4 @@ const styles = StyleSheet.create({
     marginTop: 15,
     alignItems: 'center',
   },
-  // emptyText: {
-  //   position: 'absolute',
-  //   top: height / 1.9,
-  //   alignSelf: 'center',
-  //   color: 'red',
-  //   fontSize: 20,
-  //   maxWidth: '70%',
-  //   ...fonts.Bold,
-  // },
 });
-

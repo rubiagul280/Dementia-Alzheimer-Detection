@@ -22,6 +22,7 @@ import Help from './Components/Help';
 import PrivacyPolicy from './Components/PrivacyPolicy';
 import Feedback from './Components/Feedback';
 import Theme from './Components/Theme';
+import VerificationScreen from './Components/VerifyEmail';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
@@ -29,6 +30,7 @@ import Foundation from 'react-native-vector-icons/Foundation';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import colors from './assets/colors/Colors';
 import NewPassword from './Components/NewPassword';
+import AddMedicine from './Components/AddMedicine';
 
 const Tab = createBottomTabNavigator();
 
@@ -107,6 +109,7 @@ function App() {
         <Stack.Screen name="Feedback" component={Feedback} />
         <Stack.Screen name="Privacy" component={PrivacyPolicy} />
         <Stack.Screen name="Theme" component={Theme} />
+        <Stack.Screen name="Add" component={AddMedicine} />
         <Stack.Screen name="Help" component={Help} />
       </Stack.Navigator>
     </NavigationContainer>

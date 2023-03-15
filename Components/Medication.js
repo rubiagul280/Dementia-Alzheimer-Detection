@@ -5,15 +5,15 @@ import {View, StyleSheet} from 'react-native';
 import CalendarStrip from 'react-native-calendar-strip';
 import moment from 'moment';
 import colors from '../assets/colors/Colors';
-import {Provider} from 'react-native-paper';
+import {Provider, Text} from 'react-native-paper';
 import Entypo from 'react-native-vector-icons/Entypo';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import {FloatingAction} from 'react-native-floating-action';
 
 export default function Medication({navigation}) {
-  // const [open, setOpen] = useState(false);
-  // const [visible, setVisible] = useState(true);
+
   const datesWhitelist = [
     {
       start: moment(),
@@ -37,7 +37,7 @@ export default function Medication({navigation}) {
   const actions = [
     {
       text: 'Add Medication',
-      name: 'AddMedication',
+      name: 'Add',
       icon: <Fontisto name="pills" size={20} color="#B8BDF5" />,
       position: 1,
       buttonColor: colors.heading,
@@ -59,13 +59,22 @@ export default function Medication({navigation}) {
   return (
     <Provider>
       <View style={styles.container}>
+        <View style={styles.header}>
+          <AntDesign
+            name="left"
+            size={20}
+            color={colors.background}
+            onPress={() => navigation.navigate('Tabs')}
+          />
+          <Text style={styles.heading}>Track your medication</Text>
+        </View>
         <View style={styles.calendarStrip}>
           <CalendarStrip
             calendarAnimation={{type: 'sequence', duration: 30}}
             daySelectionAnimation={styles.animation}
             style={styles.calendar}
             calendarHeaderStyle={{color: colors.secondary}}
-            calendarColor={'#fff'}
+            calendarColor={'#E6E6E6'}
             //dateNumberStyle={{color: colors.greytxt}}
             dateNameStyle={colors.greytxt}
             highlightDateNumberStyle={colors.secondary}
@@ -101,7 +110,21 @@ export default function Medication({navigation}) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#E6E6E6',
+    backgroundColor: '#fff',
+    justifyContent: 'flex-start',
+    padding: 20,
+  },
+  header: {
+    flexDirection: 'row',
+    marginLeft: 0,
+    marginBottom: 30,
+    marginTop: 5,
+  },
+  heading: {
+    color: colors.background,
+    fontSize: 17,
+    marginLeft: 50,
+    marginTop: -3,
   },
   calendarStrip: {
     width: '100%',
@@ -110,20 +133,22 @@ const styles = StyleSheet.create({
   calendar: {
     height: 120,
     width: '100%',
-    paddingTop: 10,
+    paddingTop: 16,
     paddingBottom: 10,
+    borderRadius: 5,
+    padding: 4,
   },
   animation: {
     type: 'border',
     duration: 200,
     borderWidth: 1,
-    borderHighlightColor: 'white',
+    borderHighlightColor: colors.secondary,
   },
   content: {
     padding: 40,
     alignContent: 'center',
     justifyContent: 'center',
-    marginTop: 470,
+    marginTop: 400,
   },
   button: {
     marginTop: 20,

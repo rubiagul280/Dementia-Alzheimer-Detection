@@ -3,17 +3,26 @@
 import React from 'react';
 import {StyleSheet, Text, View, StatusBar, ScrollView} from 'react-native';
 import colors from '../assets/colors/Colors';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
 export default function About({navigation}) {
   return (
     <>
       <StatusBar animated={true} backgroundColor="#B8BDF5" />
       <ScrollView>
-        <View
-          style={styles.container}>
+        <View style={styles.container}>
+          <View style={styles.header}>
+            <AntDesign
+              name="left"
+              size={18}
+              color={colors.background}
+              onPress={() => navigation.navigate('Tabs')}
+            />
+            <Text style={styles.head}>Getting more from Dementia</Text>
+          </View>
           <>
             <View style={styles.content}>
-              <Text style={styles.title}>Getting more from Dementia</Text>
+              {/* <Text style={styles.title}>Getting more from Dementia</Text> */}
               <Text style={styles.text}>
                 This app is driven by Artifical Neural Network technology that
                 detects Alzheimer with the existing medical data and checkup by
@@ -26,7 +35,9 @@ export default function About({navigation}) {
               </Text>
               <Text style={styles.heading}>Detect your disease</Text>
               <Text style={styles.text}>Dementia</Text>
-              <Text style={styles.heading}>Recommendation to overcome Alzheimer</Text>
+              <Text style={styles.heading}>
+                Recommendation to overcome Alzheimer
+              </Text>
               <Text style={styles.text}>Dementia</Text>
               <Text style={styles.heading}>Generate Report</Text>
               <Text style={styles.text}>Dementia</Text>
@@ -56,6 +67,17 @@ const styles = StyleSheet.create({
     padding: 20,
     color: '#fff',
   },
+  header: {
+    flexDirection: 'row',
+    marginTop: 10,
+    marginBottom: 20,
+  },
+  head: {
+    color: colors.background,
+    fontSize: 17,
+    marginLeft: 30,
+    marginTop: -3,
+  },
   content: {
     padding: 5,
   },
@@ -65,10 +87,9 @@ const styles = StyleSheet.create({
   title: {
     color: colors.background,
     fontSize: 22,
-    marginTop: 10,
     marginBottom: 18,
   },
   text: {
     marginBottom: 10,
-  }
+  },
 });

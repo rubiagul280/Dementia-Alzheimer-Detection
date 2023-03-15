@@ -4,6 +4,7 @@ import React, {useState} from 'react';
 import {View, StyleSheet, StatusBar, TouchableOpacity} from 'react-native';
 import {Text, Button, TextInput, List, ProgressBar} from 'react-native-paper';
 import colors from '../assets/colors/Colors';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
 const questions = [
   {
@@ -64,7 +65,7 @@ const questions = [
   },
 ];
 
-export default function AddMedication() {
+export default function AddMedication({navigation}) {
   const [answers, setAnswers] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
 
@@ -90,6 +91,15 @@ export default function AddMedication() {
       <>
         <StatusBar animated={true} backgroundColor="#290438" />
         <View style={styles.container}>
+          <View style={styles.header}>
+            <AntDesign
+              name="left"
+              size={20}
+              color="#fff"
+              onPress={() => navigation.navigate('Medication')}
+            />
+            <Text style={styles.heading}>Add Medication</Text>
+          </View>
           <Text style={styles.question}>
             {questions[currentQuestionIndex].question}
           </Text>
@@ -128,6 +138,15 @@ export default function AddMedication() {
       <>
         <StatusBar animated={true} backgroundColor="#290438" />
         <View style={styles.container}>
+          <View style={styles.header}>
+            <AntDesign
+              name="left"
+              size={20}
+              color="#fff"
+              onPress={() => navigation.navigate('Medication')}
+            />
+            <Text style={styles.heading}>Add Medication</Text>
+          </View>
           <Text style={styles.question}>
             {questions[currentQuestionIndex].question}
           </Text>
@@ -221,11 +240,21 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#290438',
   },
+  header: {
+    flexDirection: 'row',
+    marginLeft: -85,
+    marginTop: 20,
+  },
+  heading: {
+    color: '#fff',
+    fontSize: 17,
+    marginLeft: 80,
+  },
   question: {
     fontSize: 19,
     marginBottom: 30,
     color: '#fff',
-    marginTop: 80,
+    marginTop: 60,
     padding: 5,
   },
   form: {
@@ -234,7 +263,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
     paddingHorizontal: 30,
-    paddingVertical: 50,
+    paddingVertical: 40,
   },
   input: {
     marginBottom: 28,
@@ -268,5 +297,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     borderRadius: 5,
     overlayColor: colors.secondary,
+    backgroundColor: 'transparent',
   },
 });
