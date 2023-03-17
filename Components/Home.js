@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   StyleSheet,
   Text,
@@ -12,8 +12,31 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import {Button, Card} from 'react-native-paper';
 import colors from '../assets/colors/Colors';
+import firestore from '@react-native-firebase/firestore';
+import auth from '@react-native-firebase/auth';
 
 export default function Home({navigation}) {
+  const [username, setUsername] = useState('');
+
+  var usercollection = firestore().collection('users');
+
+  useEffect(() => {
+    const currentUser = auth().currentUser;
+    if (currentUser) {
+      // Get the user's email from Firebase
+      const email = currentUser.email;
+
+      // Query the Firebase database for the username associated with the email
+      usercollection.where('email', '==', email).get().then(querySnapshot => {
+        querySnapshot.forEach(doc => {
+          const user = doc.data();
+          setUsername(user.username);
+        });
+      });
+    }
+  }, []);
+
+
   return (
     <>
       <StatusBar animated={true} backgroundColor="#B8BDF5" />
@@ -26,7 +49,7 @@ export default function Home({navigation}) {
           <>
             <View>
               <View style={styles.top}>
-                <Text style={styles.text}>Hi Rubia!</Text>
+                <Text style={styles.text}>Hi {username}</Text>
                 <Text style={styles.text}>
                   I'm AI Neurologists: Alzheimer Detection. I can help you learn
                   more about your health.
@@ -37,7 +60,9 @@ export default function Home({navigation}) {
                 <Card
                   style={styles.card}
                   onPress={() => navigation.navigate('About')}>
-                  <Card.Cover source={require('../assets/images/feature.png')} />
+                  <Card.Cover
+                    source={require('../assets/images/feature.png')}
+                  />
                 </Card>
                 <Text
                   style={styles.title}

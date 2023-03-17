@@ -45,11 +45,15 @@ export default function Profile({navigation}) {
       <StatusBar animated={true} backgroundColor="#B9B0E5" />
       <View style={styles.container}>
         <View style={styles.header}>
-          <AntDesign name="left" size={20} color={colors.background}
-          onPress={() => navigation.navigate('Settings')}/>
+          <AntDesign
+            name="left"
+            size={20}
+            color={colors.background}
+            onPress={() => navigation.navigate('Settings')}
+          />
           <Text style={styles.heading}>User Profile</Text>
         </View>
-        <Divider/>
+        <Divider />
 
         <View style={styles.profile}>
           <TouchableOpacity>
@@ -138,9 +142,11 @@ export default function Profile({navigation}) {
               color="#02AABD"
               style={styles.image}
             />
-            <View style={styles.frame}>
-              <Text style={styles.text}>Change Password</Text>
-            </View>
+            <TouchableOpacity onPress={() => navigation.navigate('New Password')}>
+              <View style={styles.frame}>
+                <Text style={styles.text}>Change Password</Text>
+              </View>
+            </TouchableOpacity>
           </View>
 
           <TouchableOpacity>
@@ -218,7 +224,7 @@ const styles = StyleSheet.create({
   divider: {
     marginBottom: 20,
   },
-  text:{
+  text: {
     color: colors.background,
     marginLeft: 5,
   },

@@ -13,12 +13,25 @@ import colors from '../assets/colors/Colors';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
 export default function Feedback({navigation}) {
-  const handlePress = () => {
-    const recipient = 'aineuro@example.com';
-    const subject = 'Feedback on my app';
-    const body = 'Please type your feedback here.';
+  // const handlePress = () => {
+  //   const recipient = 'aineuro@example.com';
+  //   const subject = 'Feedback on my app';
+  //   const body = 'Please type your feedback here.';
 
-    Linking.openURL(`mailto:${recipient}?subject=${subject}&body=${body}`);
+  //   Linking.openURL(`mailto:${recipient}?subject=${subject}&body=${body}`);
+  const email = 'feedback@example.com';
+  const subject = 'App Feedback';
+  const body = 'Please enter your feedback here...';
+  
+  const handlePress = async () => {
+    const url = `mailto:${email}?subject=${subject}&body=${body}`;
+    const supported = await Linking.canOpenURL(url);
+    
+    if (supported) {
+      await Linking.openURL(url);
+    } else {
+      console.log(`Can't open email client`);
+    }
   };
 
   return (

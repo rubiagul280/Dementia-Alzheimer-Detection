@@ -22,6 +22,8 @@ export default function Login({navigation}) {
     try {
       const doLogin = await auth().signInWithEmailAndPassword(email, password);
       if (doLogin.user) {
+        setEmail('');
+        setPassword('');
         navigation.replace('Tabs');
       }
     } catch (e) {

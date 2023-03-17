@@ -1,18 +1,19 @@
 /* eslint-disable prettier/prettier */
 
 import React, {useState} from 'react';
-import {View, StyleSheet, StatusBar, TouchableOpacity} from 'react-native';
+import {View, StyleSheet, StatusBar, TouchableOpacity, Alert} from 'react-native';
 import {Button, TextInput, Text} from 'react-native-paper';
 import Icons from 'react-native-vector-icons/MaterialCommunityIcons';
 import auth from '@react-native-firebase/auth';
 import colors from '../assets/colors/Colors';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
 export default function ForgotScreen({navigation}) {
   const [email, setEmail] = useState('');
-  const [code, setCode] = useState('');
-  const [newPassword, setNewPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
+  const [emailError, setEmailError] = useState({ message: '', isError: false });
+
+  const EMAIL_REGEX = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
 
   // Function to send the verification code to the user's email
   const sendVerificationCode = () => {
@@ -20,50 +21,44 @@ export default function ForgotScreen({navigation}) {
       .sendPasswordResetEmail(email)
       .then(() => {
         setError('');
-        alert('Verification code sent to your email');
+        Alert.alert('Verification link sent to your email');
       })
       .catch(err => {
         setError(err.message);
       });
   };
 
-  const verifyCode = () => {
-    const credential = auth.EmailAuthProvider.credential(email, code);
-
-    auth()
-      .signInWithCredential(credential)
-      .then(() => {
-        setError('');
-        alert('Code verified successfully');
-      })
-      .catch(err => {
-        setError(err.message);
-      });
-  };
-
-  // Function to verify the verification code and change the password
-  const changePassword = () => {
-    if (newPassword !== confirmPassword) {
-      setError('New password and confirm password must match');
-      return;
+  const validateEmail = () => {
+    if (!email) {
+      setEmailError({ message: 'Please enter your email', isError: true });
+    } else if (!EMAIL_REGEX.test(email)) {
+      setEmailError({ message: 'Please enter a valid email address', isError: true });
+    } else {
+      setEmailError({ message: '', isError: false });
+      return true;
     }
+    return false;
+  };
 
-    const user = auth().currentUser;
-    user
-      .updatePassword(newPassword)
-      .then(() => {
-        setError('');
-        alert('Password updated successfully');
-      })
-      .catch(err => {
-        setError(err.message);
-      });
+  const onSend = function () {
+    if (validateEmail()) {
+      sendVerificationCode();
+    }
   };
 
   return (
     <>
       <StatusBar animated={true} backgroundColor="#fff" />
       <View style={styles.container}>
+        <View style={styles.header}>
+          <AntDesign
+            name="left"
+            size={20}
+            color={colors.background}
+            onPress={() => navigation.navigate('Login')}
+          />
+          <Text style={styles.heading}>Forgot Password</Text>
+        </View>
         <View style={styles.image}>
           <Icons
             name="security"
@@ -75,7 +70,7 @@ export default function ForgotScreen({navigation}) {
         <View style={styles.content}>
           <Text style={styles.title}>Forgot Password</Text>
           <Text style={styles.text}>
-            Please enter your email address to receive a verification code
+            Please enter your email address to receive a verification link
           </Text>
           <TextInput
             mode="outlined"
@@ -91,55 +86,15 @@ export default function ForgotScreen({navigation}) {
             autoCapitalize="none"
             autoCorrect={false}
           />
-          <TouchableOpacity onPress={sendVerificationCode}>
+          {emailError.isError ? (
+              <Text style={[styles.errorText, { color: 'red' }]}>{emailError.message}</Text>
+            ) : null}
+          <TouchableOpacity onPress={onSend}>
             <Button mode="contained" disable style={styles.button}>
               Send
             </Button>
           </TouchableOpacity>
-          <Text>Enter the verification code:</Text>
-          <TextInput value={code} onChangeText={text => setCode(text)} />
-          <Button title="Verify code" onPress={verifyCode} />
-          <Text>Enter your new password:</Text>
-          <TextInput
-            value={newPassword}
-            onChangeText={text => setNewPassword(text)}
-            secureTextEntry
-          />
-
-          <Text>Confirm your new password:</Text>
-          <TextInput
-            value={confirmPassword}
-            onChangeText={text => setConfirmPassword(text)}
-            secureTextEntry
-          />
-
-          <Button title="Change password" onPress={changePassword} />
-
-          {error ? <Text>{error}</Text> : null}
         </View>
-        {/* <View>
-            <Text style={styles.title}>Verify Email</Text>
-            <TextInput
-              placeholder="Verification Code"
-              value={verificationCode}
-              onChangeText={setVerificationCode}
-              keyboardType="numeric"
-              maxLength={4}
-            />
-            <TextInput
-              placeholder="New Password"
-              value={newPassword}
-              onChangeText={setNewPassword}
-              secureTextEntry={true}
-            />
-            <Button
-              title="Change Password"
-              onPress={verifyCodeAndChangePassword}
-              disabled={!newPassword || newPassword === email} // Prevent the user from changing the password to the same as the old one
-            />
-          </View>
-          ) : null}
-        </View> */}
       </View>
     </>
   );
@@ -153,6 +108,16 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     padding: 20,
   },
+  header: {
+    flexDirection: 'row',
+    marginBottom: 70,
+    marginLeft: -70,
+  },
+  heading: {
+    color: colors.background,
+    fontSize: 17,
+    marginLeft: 60,
+  },
   image: {
     width: 200,
     height: 200,
@@ -163,7 +128,7 @@ const styles = StyleSheet.create({
     marginBottom: 25,
   },
   icon: {
-    marginTop: 45,
+    marginTop: 55,
   },
   text: {
     marginBottom: 10,
