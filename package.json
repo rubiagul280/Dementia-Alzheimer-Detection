@@ -10,6 +10,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "@react-native-community/geolocation": "^3.0.5",
     "@react-native-community/masked-view": "^0.1.11",
     "@react-native-firebase/app": "^17.3.1",
     "@react-native-firebase/auth": "^17.3.1",
@@ -36,8 +37,10 @@
     "react-native-floating-action": "^1.22.0",
     "react-native-fontawesome": "^7.0.0",
     "react-native-gesture-handler": "^2.9.0",
+    "react-native-google-places-autocomplete": "^2.5.1",
     "react-native-image-picker": "^5.1.0",
     "react-native-linear-gradient": "^2.6.2",
+    "react-native-maps": "^1.4.0",
     "react-native-paper": "^5.2.0",
     "react-native-permissions": "^3.7.3",
     "react-native-reanimated": "^2.14.4",

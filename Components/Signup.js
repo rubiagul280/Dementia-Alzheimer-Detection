@@ -151,17 +151,14 @@ export default function Signup({navigation}) {
               }}
             />
             {!passwordRepeatValid && <Text style={styles.error}>Please retype the password correctly</Text>}
+
             <TouchableOpacity onPress={() => onSignup()}>
               <Button mode="contained" style={styles.button}>
                 Sign up
               </Button>
             </TouchableOpacity>
 
-            <TouchableOpacity>
-              <Button mode="contained" icon="google" style={styles.button}>
-                Sign up with Google
-              </Button>
-            </TouchableOpacity>
+
             <View style={styles.accview}>
               <Text style={styles.accounttxt}>Already have an account?</Text>
               <Button

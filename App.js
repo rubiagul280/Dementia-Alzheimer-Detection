@@ -22,7 +22,7 @@ import Help from './Components/Help';
 import PrivacyPolicy from './Components/PrivacyPolicy';
 import Feedback from './Components/Feedback';
 import Theme from './Components/Theme';
-import VerificationScreen from './Components/VerifyEmail';
+import Hospital from './Components/NearHospitals';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
@@ -31,6 +31,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import colors from './assets/colors/Colors';
 import NewPassword from './Components/NewPassword';
 import AddMedicine from './Components/AddMedicine';
+import { NativeEventEmitter } from 'react-native';
 
 const Tab = createBottomTabNavigator();
 
@@ -51,6 +52,16 @@ const TabScreens = () => {
       <Tab.Screen
         name="Home"
         component={Home}
+        options={{
+          tabBarIcon: ({color, size}) => (
+            <Ionicons name="ios-home" color="#B8BDF5" size={size} />
+          ),
+          headerShown: false,
+        }}
+      />
+      <Tab.Screen
+        name="Hospitals"
+        component={Hospital}
         options={{
           tabBarIcon: ({color, size}) => (
             <Ionicons name="ios-home" color="#B8BDF5" size={size} />
@@ -111,6 +122,7 @@ function App() {
         <Stack.Screen name="Theme" component={Theme} />
         <Stack.Screen name="Add" component={AddMedicine} />
         <Stack.Screen name="Help" component={Help} />
+        <Stack.Screen name="Hospital" component={Hospital} />
       </Stack.Navigator>
     </NavigationContainer>
   );

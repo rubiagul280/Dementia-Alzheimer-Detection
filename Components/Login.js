@@ -1,4 +1,3 @@
-/* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
 
 import React, {useState} from 'react';
@@ -11,7 +10,7 @@ import {
 } from 'react-native';
 import {Button, TextInput, Text} from 'react-native-paper';
 import auth from '@react-native-firebase/auth';
-// import { GoogleSignin } from '@react-native-google-signin/google-signin';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import colors from '../assets/colors/Colors';
 
 export default function Login({navigation}) {
@@ -30,6 +29,23 @@ export default function Login({navigation}) {
       Alert.alert(e.message);
     }
   };
+
+  GoogleSignin.configure({
+    webClientId: '952326145960-o2li2etk41ivg4198oaskakmt34imjqp.apps.googleusercontent.com',
+  });
+
+  async function onGoogleButtonPress() {
+    // Check if your device supports Google Play
+    await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
+    // Get the users ID token
+    const { idToken } = await GoogleSignin.signIn();
+
+    // Create a Google credential with the token
+    const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+
+    // Sign-in the user with the credential
+    return auth().signInWithCredential(googleCredential);
+  }
 
   return (
     <>
@@ -76,7 +92,7 @@ export default function Login({navigation}) {
             </Button>
           </TouchableOpacity>
 
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => onGoogleButtonPress().then(() => navigation.navigate('Tabs'))}>
             <Button mode="contained" icon="google" style={styles.button}>
               Log in with Google
             </Button>

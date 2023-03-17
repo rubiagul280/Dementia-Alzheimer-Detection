@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {
   Image,
   StatusBar,
@@ -12,8 +12,8 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import axios from 'axios';
-import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
-import {Button, Card} from 'react-native-paper';
+import {launchImageLibrary} from 'react-native-image-picker';
+import {Button} from 'react-native-paper';
 import colors from '../assets/colors/Colors';
 import Entypo from 'react-native-vector-icons/Entypo';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -58,27 +58,7 @@ export default function Detection({navigation}) {
   const [result, setResult] = useState('');
   const [label, setLabel] = useState('');
   const [image, setImage] = useState('');
-  const [userInfo, setUserInfo] = useState(null);
 
-
-   // Retrieve the user's information from Firebase
-  //  useEffect(() => {
-  //   const currentUser = auth().currentUser;
-  //   if (currentUser) {
-  //     firestore()
-  //       .collection('users')
-  //       .doc(currentUser.uid)
-  //       .get()
-  //       .then((doc) => {
-  //         if (doc.exists) {
-  //           setUserInfo(doc.data());
-  //         }
-  //       })
-  //       .catch((error) => {
-  //         console.log('Error getting user information:', error);
-  //       });
-  //   }
-  // }, []);
   const getPredication = async params => {
     try {
       var bodyFormData = new FormData();
@@ -187,30 +167,12 @@ export default function Detection({navigation}) {
               <Text style={[styles.space, styles.labelText]}>
                 {'Confidence:  '}
                 <Text style={styles.resultText}>
-                  {parseFloat(result).toFixed(2) + '%'}
+                  {parseFloat(result).toFixed(2) * 100 + '%'}
                 </Text>
               </Text>
             </View>
           )}
-          {/* <TouchableOpacity>
-            <Button mode="contained" style={styles.button}>
-              Detect
-            </Button>
-            {result && label && (
-              <View style={styles.mainOuter}>
-                <Text style={[styles.space, styles.labelText]}>
-                  {'Label: \n\n'}
-                  <Text style={styles.resultText}>{label}</Text>
-                </Text>
-                <Text style={[styles.space, styles.labelText]}>
-                  {'Confidence: \n\n'}
-                  <Text style={styles.resultText}>
-                    {parseFloat(result).toFixed(2) + '%'}
-                  </Text>
-                </Text>
-              </View>
-            )}
-          </TouchableOpacity> */}
+
           <TouchableOpacity onPress={clearOutput}>
             <Button mode="contained" style={styles.button}>
               Clean
