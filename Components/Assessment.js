@@ -107,7 +107,7 @@ export default function Assessment({navigation}) {
               color="#fff"
               onPress={() => navigation.navigate('Medication')}
             />
-            <Text style={styles.heading}>Add Medication</Text>
+            <Text style={styles.heading}>Your Health Assessment</Text>
           </View>
           <Text style={styles.question}>{question.question}</Text>
           <ProgressBar
