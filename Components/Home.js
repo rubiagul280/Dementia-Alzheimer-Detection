@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
 
 import React, {useState, useEffect} from 'react';
@@ -84,7 +85,7 @@ export default function Home({navigation}) {
 
               <View style={{flexDirection: 'row'}}>
                 <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-                <View style={{marginRight: 30,}}>
+                <View style={{marginRight: 30}}>
                   <Text style={styles.heading}>Take care of your health</Text>
                   <Card
                     style={styles.card}
