@@ -78,14 +78,26 @@ export default function Assessment({navigation}) {
 
   const handleSubmit = () => {
     Alert.alert('Thank you for completing the assessment!');
-    firestore().collection('answers').push({
-      timestamp: Date.now(),
-      answers: answers,
-    });
+    firestore()
+      .collection('Assessment')
+      .add({
+        questions: questions.map(q => q.question),
+        answers: answers,
+      })
+      .then(() => {
+        // eslint-disable-next-line no-alert
+        Alert.alert('Data added!');
+      });
 
-    // Reset state for next questionnaire
-    setCurrentQuestionIndex(0);
-    setAnswers([]);
+    // firestore().collection('answers').push({
+    //   timestamp: Date.now(),
+    //   answers: answers,
+    // });
+
+    // // Reset state for next questionnaire
+    // setCurrentQuestionIndex(0);
+    // setAnswers([]);
+    // navigation.navigate('Tracker');
   };
 
   const renderQuestion = () => {
