@@ -77,7 +77,6 @@ export default function Assessment({navigation}) {
   };
 
   const handleSubmit = () => {
-    Alert.alert('Thank you for completing the assessment!');
     firestore()
       .collection('Assessment')
       .add({
@@ -85,19 +84,9 @@ export default function Assessment({navigation}) {
         answers: answers,
       })
       .then(() => {
-        // eslint-disable-next-line no-alert
-        Alert.alert('Data added!');
+        navigation.navigate('Tracker');
       });
 
-    // firestore().collection('answers').push({
-    //   timestamp: Date.now(),
-    //   answers: answers,
-    // });
-
-    // // Reset state for next questionnaire
-    // setCurrentQuestionIndex(0);
-    // setAnswers([]);
-    // navigation.navigate('Tracker');
   };
 
   const renderQuestion = () => {
