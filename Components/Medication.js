@@ -37,7 +37,7 @@ export default function Medication({navigation}) {
   const actions = [
     {
       text: 'Add Medication',
-      name: 'Add',
+      name: 'AddMedication',
       icon: <Fontisto name="pills" size={20} color="#B8BDF5" />,
       position: 1,
       buttonColor: colors.heading,

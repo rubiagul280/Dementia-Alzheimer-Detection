@@ -41,9 +41,10 @@ export default function Feedback({navigation}) {
         <View style={styles.header}>
           <AntDesign
             name="left"
-            size={20}
+            size={18}
             color={colors.background}
             onPress={() => navigation.navigate('Settings')}
+            style={{marginTop: 2}}
           />
           <Text style={styles.heading}>Give feedback on AI Neurologists</Text>
         </View>

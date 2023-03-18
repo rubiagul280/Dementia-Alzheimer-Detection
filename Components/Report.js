@@ -34,7 +34,7 @@ const ReportGenerator = async ({navigation}) => {
     const detectionResult = Detection();
 
     // Send the report to a Firestore collection called "reports"
-    const reportsRef = firebase.firestore().collection('reports');
+    const reportsRef = firestore().collection('reports');
     reportsRef
       .add({
         email: userInfo.email,

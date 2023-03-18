@@ -16,7 +16,7 @@ import AddMedication from './Components/AddMedication';
 import HeaderShown from './Screens/HeaderShown';
 import Tracker from './Components/Tracker';
 import ForgotScreen from './Components/ForgotPassword';
-import VerficationScreen from './Components/VerifyEmail';
+import Assessment from './Components/Assessment';
 import Profile from './Components/Profile';
 import Help from './Components/Help';
 import PrivacyPolicy from './Components/PrivacyPolicy';
@@ -30,8 +30,7 @@ import Foundation from 'react-native-vector-icons/Foundation';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import colors from './assets/colors/Colors';
 import NewPassword from './Components/NewPassword';
-import AddMedicine from './Components/AddMedicine';
-import { NativeEventEmitter } from 'react-native';
+
 
 const Tab = createBottomTabNavigator();
 
@@ -107,22 +106,20 @@ function App() {
         <Stack.Screen name="Settings" component={Setting} />
         <Stack.Screen name="Tabs" component={TabScreens} />
         <Stack.Screen name="header" component={HeaderShown} />
-        {/* <Stack.Screen name="Stack" component={StackScreens} /> */}
         <Stack.Screen name="About" component={About} />
         <Stack.Screen name="Detection" component={Detection} />
         <Stack.Screen name="Medication" component={Medication} />
         <Stack.Screen name="AddMedication" component={AddMedication} />
         <Stack.Screen name="Forgot Password" component={ForgotScreen} />
-        <Stack.Screen name="Verify Email" component={VerficationScreen} />
         <Stack.Screen name="New Password" component={NewPassword} />
         <Stack.Screen name="Tracker" component={Tracker} />
         <Stack.Screen name="Profile" component={Profile} />
         <Stack.Screen name="Feedback" component={Feedback} />
         <Stack.Screen name="Privacy" component={PrivacyPolicy} />
         <Stack.Screen name="Theme" component={Theme} />
-        <Stack.Screen name="Add" component={AddMedicine} />
         <Stack.Screen name="Help" component={Help} />
         <Stack.Screen name="Hospital" component={Hospital} />
+        <Stack.Screen name="Assessment" component={Assessment} />
       </Stack.Navigator>
     </NavigationContainer>
   );

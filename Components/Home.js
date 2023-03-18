@@ -84,18 +84,18 @@ export default function Home({navigation}) {
                 <Text style={styles.heading}>Take care of your health</Text>
                 <Card
                   style={styles.card}
-                  onPress={() => navigation.navigate('Medication')}>
+                  onPress={() => navigation.navigate('Tracker')}>
                   <Card.Cover
                     source={require('../assets/images/medication_icon.png')}
                   />
                 </Card>
                 <Text
                   style={styles.title}
-                  onPress={() => navigation.navigate('Medication')}>
-                  Track your medication
+                  onPress={() => navigation.navigate('Tracker')}>
+                  Track your treatments
                 </Text>
                 <Text style={styles.txt}>
-                  Read a quick overview of Ada's features.
+                  For better health, track your treatment daily.
                 </Text>
               </View>
             </View>

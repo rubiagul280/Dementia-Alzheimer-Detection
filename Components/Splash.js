@@ -9,9 +9,9 @@ import colors from '../assets/colors/Colors';
 const Splash = ({navigation}) => {
   useEffect(() => {
     setTimeout(() => {
-      navigation.replace('Tabs');
+      navigation.replace('Tracker');
     }, 2000);
-  }, []);
+  }, [navigation]);
 
   return (
     <>

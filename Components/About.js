@@ -17,6 +17,7 @@ export default function About({navigation}) {
               size={18}
               color={colors.background}
               onPress={() => navigation.navigate('Tabs')}
+              style={{marginTop: 1}}
             />
             <Text style={styles.head}>Getting more from Dementia</Text>
           </View>

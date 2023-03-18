@@ -1,7 +1,13 @@
 /* eslint-disable prettier/prettier */
 
 import React, {useState} from 'react';
-import {View, StyleSheet, StatusBar, TouchableOpacity} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  StatusBar,
+  TouchableOpacity,
+  DatePickerAndroid,
+} from 'react-native';
 import {Text, Button, TextInput, List, ProgressBar} from 'react-native-paper';
 import colors from '../assets/colors/Colors';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -21,7 +27,7 @@ const questions = [
   {
     id: 3,
     question: 'Which strength is the medicine?',
-    type: 'list',
+    type: 'input',
     options: ['g', 'IU', 'mcg', 'mEq', 'mg'],
   },
   {
@@ -36,22 +42,55 @@ const questions = [
     options: ['Yes', 'No', 'Only as needed'],
   },
   {
+    //Yes option
     id: 6,
     question: 'How often do you take it?',
-    type: 'conditional',
+    type: 'list',
     options: [
       'Once daily',
       'Twice daily',
       '3 times a day',
       '4 times a day',
-      '6 times a day',
       'Every 6 hours',
     ],
-    condition: answers => answers[0] === 'Yes',
   },
   {
+    id: 8,
+    question: 'At what time of day do you take your first dose??',
+    type: 'list',
+    options: ['Morning', 'Noon', 'Evening', 'Night'],
+  },
+  {
+    id: 9,
+    question: 'When do you need to take the dose?',
+    type: 'list',
+    options: ['Before meal', 'With meal', 'After meal', 'Before bed'],
+    inputType: 'timer',
+  },
+  //Only as needed
+  {
+    id: 10,
+    question: 'Almost done. Would you like to:',
+    type: 'list',
+    options: ['Set treatment duration', 'Add Instructions'],
+  },
+  {
+    id: 11,
+    question: 'Set treatment duration?',
+    type: 'duration',
+    startLabel: 'Start date',
+    endLabel: 'End date',
+  },
+  {
+    id: 12,
+    question: 'Add Instructions',
+    type: 'input',
+  },
+
+  {
+    //No option
     id: 7,
-    question: 'How ofthen do you take it?',
+    question: 'How often do you take it?',
     type: 'list',
     options: [
       'Once a week',
@@ -61,30 +100,41 @@ const questions = [
       'Every 28 days',
       'Every 6 hours',
     ],
-    condition: answers => answers[4] === 'No',
   },
+  {
+    id: 13,
+    question: 'On which date(s) do you need to take the medicine?',
+    type: 'input',
+  },
+  //Move to qustions 8
 ];
 
 export default function AddMedication({navigation}) {
   const [answers, setAnswers] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
 
-  const handleNextQuestion = () => {
+  const handleNext = () => {
     setCurrentQuestionIndex(currentQuestionIndex + 1);
+
   };
 
-  const handleAnswerInput = text => {
+  const handleInputChange = text => {
     const newAnswers = [...answers];
     newAnswers[currentQuestionIndex] = text;
     setAnswers(newAnswers);
+    //setAnswers(text);
   };
 
-  const handleAnswerList = option => {
+  const handleOptionSelect = option => {
     const newAnswers = [...answers];
     newAnswers[currentQuestionIndex] = option;
     setAnswers(newAnswers);
-    handleNextQuestion();
+    handleNext();
+    // setAnswers(option);
+    // const nextQuestion = getNextQuestion(currentQuestionIndex.id, option);
+    // setCurrentQuestionIndex(nextQuestion);
   };
+
 
   const renderInputQuestion = () => {
     return (
@@ -111,11 +161,11 @@ export default function AddMedication({navigation}) {
             <TextInput
               mode="outlined"
               value={answers[currentQuestionIndex]}
-              onChangeText={handleAnswerInput}
+              onChangeText={handleInputChange}
               style={styles.input}
             />
             {currentQuestionIndex !== questions.length - 1 ? (
-              <TouchableOpacity onPress={handleNextQuestion}>
+              <TouchableOpacity onPress={handleNext}>
                 <Button mode="contained" style={styles.button}>
                   Next
                 </Button>
@@ -162,7 +212,7 @@ export default function AddMedication({navigation}) {
                     key={option}
                     title={option}
                     value={option}
-                    onPress={() => handleAnswerList(option)}
+                    onPress={() => handleOptionSelect(option)}
                     status={
                       answers[currentQuestionIndex] === option
                         ? 'checked'
@@ -177,7 +227,7 @@ export default function AddMedication({navigation}) {
             {currentQuestionIndex !== questions.length - 1 ? (
               <Button
                 mode="contained"
-                onPress={handleNextQuestion}
+                onPress={handleNext}
                 style={styles.button}>
                 Next
               </Button>
@@ -198,26 +248,21 @@ export default function AddMedication({navigation}) {
   const renderQuestion = () => {
     if (questions[currentQuestionIndex].type === 'input') {
       return renderInputQuestion();
-    } else if (questions[currentQuestionIndex].type === 'list') {
+    } else if (currentQuestionIndex.type === 'list') {
       return renderListQuestion();
-    } else if (currentQuestionIndex.type === 'conditional') {
-      const conditionMet = currentQuestionIndex.condition(answers);
-      if (conditionMet) {
-        return renderInputQuestion();
-      } else {
-        handleNextQuestion();
-        return null;
-      }
+    } else {
+      return null;
     }
   };
+
 
   return (
     <View style={styles.container}>
       {renderQuestion()}
-      {/* {currentQuestionIndex !== questions.length - 1 ? (
+      {currentQuestionIndex !== questions.length - 1 ? (
           <Button
             mode="contained"
-            onPress={handleNextQuestion}
+            onPress={handleNext}
             style={styles.button}>
             Next
           </Button>
@@ -228,7 +273,7 @@ export default function AddMedication({navigation}) {
             style={styles.button}>
             Submit
           </Button>
-        )} */}
+        )}
     </View>
   );
 }

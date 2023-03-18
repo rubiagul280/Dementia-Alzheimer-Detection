@@ -98,7 +98,7 @@ export default function Login({navigation}) {
             </Button>
           </TouchableOpacity>
 
-          <View style={{flexDirection: 'row'}}>
+          <View style={styles.btn}>
             <Text style={styles.accounttxt}>Create an account?</Text>
             <Button
               style={styles.signup}
@@ -188,4 +188,7 @@ const styles = StyleSheet.create({
     fontWeight: 200,
     alignItems: 'center',
   },
+  btn: {
+    flexDirection: 'row',
+  }
 });

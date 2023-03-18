@@ -50,6 +50,7 @@ export default function Profile({navigation}) {
             size={20}
             color={colors.background}
             onPress={() => navigation.navigate('Settings')}
+            style={{marginTop: 3}}
           />
           <Text style={styles.heading}>User Profile</Text>
         </View>

@@ -1,105 +1,178 @@
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
 
-import React, { useState } from 'react';
-import { View, Text, TextInput, Button, RadioButton } from 'react-native-paper';
+import React from 'react';
+import {StyleSheet, View, StatusBar, TouchableOpacity, ScrollView} from 'react-native';
+import {Text, Card, Button} from 'react-native-paper';
+import colors from '../assets/colors/Colors';
+import CalendarStrip from 'react-native-calendar-strip';
+import moment from 'moment';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
-export default function Tracker ({navigation}){
-  const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [answers, setAnswers] = useState({});
-  const questions = [
+export default function Tracker({navigation}) {
+
+  const datesWhitelist = [
     {
-      id: 0,
-      question: 'What is your name?',
-      input: true,
-    },
-    {
-      id: 1,
-      question: 'What is your age?',
-      input: true,
-    },
-    {
-      id: 2,
-      question: 'Do you like ice cream?',
-      options: [
-        { label: 'Yes', value: 'yes' },
-        { label: 'No', value: 'no' },
-        { label: 'Maybe', value: 'maybe' },
-        { label: 'I am not sure', value: 'unsure' },
-        { label: 'Other', value: 'other' },
-      ],
-    },
-    {
-      id: 3,
-      question: 'What flavor of ice cream do you like?',
-      input: true,
-      showOnAnswer: 'yes',
+      start: moment(),
+      end: moment().add(7, 'days'),
     },
   ];
 
-  const handleAnswer = (value) => {
-    const newAnswers = { ...answers };
-    newAnswers[currentQuestion] = value;
-    setAnswers(newAnswers);
-    if (questions[currentQuestion].showOnAnswer) {
-      setCurrentQuestion(questions[currentQuestion].showOnAnswer);
-    } else {
-      setCurrentQuestion(currentQuestion + 1);
-    }
-  };
+  const currentDate = new Date();
 
-  const renderQuestion = () => {
-    const current = questions[currentQuestion];
-    if (current.input) {
-      return (
-        <View>
-          <Text>{current.question}</Text>
-          <TextInput
-            value={answers[currentQuestion]}
-            onChangeText={(value) => handleAnswer(value)}
-          />
-        </View>
-      );
-    }
-    if (current.options) {
-      return (
-        <View>
-          <Text>{current.question}</Text>
-          {current.options.map((option) => (
-            <View key={option.value}>
-              <RadioButton
-                value={option.value}
-                status={
-                  answers[currentQuestion] === option.value ? 'checked' : 'unchecked'
-                }
-                onPress={() => handleAnswer(option.value)}
-              />
-              <Text>{option.label}</Text>
-            </View>
-          ))}
-        </View>
-      );
-    }
+  const dateStyles = {
+    dateNumberStyle: {
+      color: '#555',
+      fontSize: 16,
+    },
+    highlightDateNumberStyle: {
+      color: colors.secondary,
+      fontSize: 16,
+    },
   };
-
   return (
-    <View>
-      {renderQuestion()}
-      <Button disabled={!answers[currentQuestion]} onPress={() => setCurrentQuestion(currentQuestion + 1)}>Next</Button>
-      <View style={{ flexDirection: 'row' }}>
-        {questions.map((_, index) => (
-          <View
-            key={index}
-            style={{
-              height: 10,
-              width: 10,
-              backgroundColor: currentQuestion === index ? 'blue' : 'gray',
-              borderRadius: 5,
-              margin: 5,
-            }}
+    <>
+      <StatusBar animated={true} backgroundColor="#fff" />
+      <ScrollView>
+      <View style={styles.container}>
+      <View style={styles.header}>
+          <AntDesign
+            name="left"
+            size={20}
+            color={colors.background}
+            onPress={() => navigation.navigate('Tabs')}
+            style={{marginTop: 3}}
           />
-        ))}
+          <Text style={styles.heading}>My Health Care</Text>
+        </View>
+        <View style={styles.calendarStrip}>
+          <CalendarStrip
+            calendarAnimation={{type: 'sequence', duration: 30}}
+            daySelectionAnimation={styles.animation}
+            style={styles.calendar}
+            calendarHeaderStyle={{color: colors.secondary}}
+            calendarColor={'#E6E6E6'}
+            dateNameStyle={colors.greytxt}
+            highlightDateNumberStyle={colors.secondary}
+            highlightDateNameStyle={colors.secondary}
+            disabledDateNameStyle={colors.greytxt}
+            disabledDateNumberStyle={colors.greytxt}
+            datesWhitelist={datesWhitelist}
+            iconContainer={{flex: 0.1}}
+            dateNumberStyle={dateStyles.dateNumberStyle}
+            startingDate={currentDate}
+          />
+        </View>
+        <View>
+          <Text style={styles.title}>Your Assessments</Text>
+          <Card
+            style={styles.card}>
+            <Card.Cover
+              source={require('../assets/images/assessment_icon.png')}
+            />
+            <Card.Title title="Keep Tracking!" />
+            <Card.Content>
+              <Text variant="bodyMedium">
+                Complete your health assessment to track how you've been feeling
+                recently. Tracking often may help you to better understand your
+                symmptoms
+              </Text>
+              <TouchableOpacity
+                 onPress={() => navigation.navigate('Assessment')}>
+                <Button mode="contained" style={styles.button}>
+                  Get Started
+                </Button>
+              </TouchableOpacity>
+            </Card.Content>
+          </Card>
+        </View>
+
+        <View>
+          <Text style={styles.title}>Your Treatments</Text>
+          <Card
+            style={styles.card}
+            onPress={() => navigation.navigate('About')}>
+            <Card.Cover source={require('../assets/images/treatments.png')} />
+            <Card.Title title="You haven't added any treatments yet" />
+            <Card.Content>
+              <Text variant="bodyMedium">
+                Enter your medications and other treatments to help you better
+                understand how they may be impacting your health
+              </Text>
+              <TouchableOpacity
+                onPress={() => navigation.navigate('Detection')}>
+                <Button mode="contained" style={styles.button}>
+                  Add Your Treatments
+                </Button>
+              </TouchableOpacity>
+            </Card.Content>
+          </Card>
+        </View>
       </View>
-    </View>
+      </ScrollView>
+    </>
   );
-};
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 20,
+    backgroundColor: '#fff',
+  },
+  header: {
+    flexDirection: 'row',
+    marginBottom: 10,
+  },
+  heading: {
+    color: colors.background,
+    fontSize: 17,
+    marginLeft: 75,
+  },
+  card: {
+    margin: 4,
+    marginTop: 12,
+    marginBottom: 10,
+  },
+  text: {
+    color: colors.background,
+    fontSize: 20,
+    marginLeft: 6,
+  },
+  button: {
+    marginTop: 28,
+    width: 260,
+    height: 50,
+    backgroundColor: colors.heading,
+    borderRadius: 36,
+    alignItems: 'center',
+    paddingTop: 4,
+    alignSelf: 'center',
+  },
+  title: {
+    color: colors.background,
+    fontSize: 18,
+    marginTop: 30,
+    marginLeft: 6,
+    marginBottom: 10,
+  },
+  calendarStrip: {
+    width: '100%',
+    height: 140,
+    marginTop: 40,
+  },
+  calendar: {
+    height: 120,
+    width: '100%',
+    paddingTop: 16,
+    paddingBottom: 10,
+    borderRadius: 5,
+    padding: 4,
+  },
+  animation: {
+    type: 'border',
+    duration: 200,
+    borderWidth: 1,
+    borderHighlightColor: colors.secondary,
+  },
+});

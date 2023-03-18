@@ -18,7 +18,6 @@ import colors from '../assets/colors/Colors';
 import Entypo from 'react-native-vector-icons/Entypo';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Fontisto from 'react-native-vector-icons/Fontisto';
-import ReportGenerator from './Report';
 
 axios.interceptors.request.use(
   async config => {
@@ -131,9 +130,10 @@ export default function Detection({navigation}) {
             size={18}
             color={colors.background}
             onPress={() => navigation.navigate('Tabs')}
+            style={{marginTop: 4}}
           />
           <Text style={styles.head}>Detection</Text>
-          <TouchableOpacity onPress={ReportGenerator}>
+          <TouchableOpacity>
             <View style={styles.report}>
               <Fontisto name="upload" color={colors.background} />
               <Text style={{color: colors.background}}>Report</Text>
