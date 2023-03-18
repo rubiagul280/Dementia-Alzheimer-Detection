@@ -27,15 +27,17 @@ export default function Home({navigation}) {
       const email = currentUser.email;
 
       // Query the Firebase database for the username associated with the email
-      usercollection.where('email', '==', email).get().then(querySnapshot => {
-        querySnapshot.forEach(doc => {
-          const user = doc.data();
-          setUsername(user.username);
+      usercollection
+        .where('email', '==', email)
+        .get()
+        .then(querySnapshot => {
+          querySnapshot.forEach(doc => {
+            const user = doc.data();
+            setUsername(user.username);
+          });
         });
-      });
     }
   }, []);
-
 
   return (
     <>
@@ -80,23 +82,46 @@ export default function Home({navigation}) {
                 </TouchableOpacity>
               </View>
 
-              <View>
-                <Text style={styles.heading}>Take care of your health</Text>
-                <Card
-                  style={styles.card}
-                  onPress={() => navigation.navigate('Tracker')}>
-                  <Card.Cover
-                    source={require('../assets/images/medication_icon.png')}
-                  />
-                </Card>
-                <Text
-                  style={styles.title}
-                  onPress={() => navigation.navigate('Tracker')}>
-                  Track your treatments
-                </Text>
-                <Text style={styles.txt}>
-                  For better health, track your treatment daily.
-                </Text>
+              <View style={{flexDirection: 'row'}}>
+                <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+                <View style={{marginRight: 30,}}>
+                  <Text style={styles.heading}>Take care of your health</Text>
+                  <Card
+                    style={styles.card}
+                    onPress={() => navigation.navigate('Medication')}>
+                    <Card.Cover
+                      source={require('../assets/images/medication_icon.png')}
+                    />
+                  </Card>
+                  <Text
+                    style={styles.title}
+                    onPress={() => navigation.navigate('Medication')}>
+                    Track your treatments
+                  </Text>
+                  <Text style={styles.txt}>
+                    For better health, track your treatment daily.
+                  </Text>
+                </View>
+
+                <View>
+                  <Text style={styles.heading}/>
+                  <Card
+                    style={styles.card}
+                    onPress={() => navigation.navigate('Assessment')}>
+                    <Card.Cover
+                      source={require('../assets/images/assessment_icon.png')}
+                    />
+                  </Card>
+                  <Text
+                    style={styles.title}
+                    onPress={() => navigation.navigate('Assessment')}>
+                    Check your health assessment
+                  </Text>
+                  <Text style={styles.txt}>
+                    Complete your health assessment for tracking.
+                  </Text>
+                </View>
+                </ScrollView>
               </View>
             </View>
           </>
@@ -135,6 +160,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginTop: 10,
     marginLeft: 6,
+    width: 315,
   },
   txt: {
     fontSize: 13,

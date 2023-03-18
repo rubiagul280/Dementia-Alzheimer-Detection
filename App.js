@@ -59,16 +59,6 @@ const TabScreens = () => {
         }}
       />
       <Tab.Screen
-        name="Hospitals"
-        component={Hospital}
-        options={{
-          tabBarIcon: ({color, size}) => (
-            <Ionicons name="ios-home" color="#B8BDF5" size={size} />
-          ),
-          headerShown: false,
-        }}
-      />
-      <Tab.Screen
         name="Games"
         component={Game}
         options={{

@@ -103,11 +103,11 @@ export default function Assessment({navigation}) {
           <View style={styles.header}>
             <AntDesign
               name="left"
-              size={20}
+              size={18}
               color="#fff"
               onPress={() => navigation.navigate('Medication')}
             />
-            <Text style={styles.heading}>Your Health Assessment</Text>
+            <Text style={styles.heading}>Health Assessment</Text>
           </View>
           <Text style={styles.question}>{question.question}</Text>
           <ProgressBar
@@ -197,16 +197,16 @@ const styles = StyleSheet.create({
   },
   header: {
     flexDirection: 'row',
-    marginLeft: -110,
+    marginLeft: -90,
     marginTop: 20,
   },
   heading: {
     color: '#fff',
-    fontSize: 17,
-    marginLeft: 80,
+    fontSize: 16,
+    marginLeft: 70,
   },
   question: {
-    fontSize: 19,
+    fontSize: 17,
     marginBottom: 30,
     color: '#fff',
     marginTop: 50,
@@ -245,15 +245,16 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginLeft: 20,
     marginRight: 20,
+    width: 350,
   },
   title: {
     color: colors.background,
-    fontSize: 18,
-    marginLeft: 6,
-    marginBottom: 10,
+    fontSize: 22,
+    alignSelf: 'center',
+    marginBottom: 30,
   },
   button: {
-    marginTop: 35,
+    marginTop: 85,
     width: 200,
     height: 50,
     backgroundColor: colors.heading,

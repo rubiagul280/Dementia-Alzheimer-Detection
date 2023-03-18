@@ -6,6 +6,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   Linking,
+  Alert,
 } from 'react-native';
 import React from 'react';
 import {Text, Button} from 'react-native-paper';
@@ -13,24 +14,18 @@ import colors from '../assets/colors/Colors';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
 export default function Feedback({navigation}) {
-  // const handlePress = () => {
-  //   const recipient = 'aineuro@example.com';
-  //   const subject = 'Feedback on my app';
-  //   const body = 'Please type your feedback here.';
 
-  //   Linking.openURL(`mailto:${recipient}?subject=${subject}&body=${body}`);
-  const email = 'feedback@example.com';
-  const subject = 'App Feedback';
-  const body = 'Please enter your feedback here...';
-  
   const handlePress = async () => {
-    const url = `mailto:${email}?subject=${subject}&body=${body}`;
+    const recipient = 'noreply@ai-neurologists-alz-detection.firebase.com'; // replace <your-firebase-project-id> with your Firebase project ID
+    const subject = 'Feedback for AI Neurologists: Alzheimer Detection'; // replace <your-app-name> with your app name
+    const body = 'Write your feedback here...';
+    const url = `mailto:${recipient}?subject=${subject}&body=${body}`;
     const supported = await Linking.canOpenURL(url);
-    
+
     if (supported) {
       await Linking.openURL(url);
     } else {
-      console.log(`Can't open email client`);
+      Alert.alert('Cant open email client');
     }
   };
 
