@@ -22,11 +22,11 @@ export default function Tracker({navigation}) {
 
   const dateStyles = {
     dateNumberStyle: {
-      color: '#555',
+      color: '#fff',
       fontSize: 16,
     },
     highlightDateNumberStyle: {
-      color: colors.secondary,
+      color: colors.heading,
       fontSize: 16,
     },
   };
@@ -51,12 +51,12 @@ export default function Tracker({navigation}) {
             daySelectionAnimation={styles.animation}
             style={styles.calendar}
             calendarHeaderStyle={{color: colors.secondary}}
-            calendarColor={'#E6E6E6'}
-            dateNameStyle={colors.greytxt}
+            calendarColor={colors.heading}
+            dateNameStyle={colors.heading}
             highlightDateNumberStyle={colors.secondary}
             highlightDateNameStyle={colors.secondary}
-            disabledDateNameStyle={colors.greytxt}
-            disabledDateNumberStyle={colors.greytxt}
+            disabledDateNameStyle={colors.heading}
+            disabledDateNumberStyle={colors.heading}
             datesWhitelist={datesWhitelist}
             iconContainer={{flex: 0.1}}
             dateNumberStyle={dateStyles.dateNumberStyle}
