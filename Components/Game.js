@@ -2,33 +2,51 @@
 
 import React from 'react';
 import {
-    StyleSheet,
-    Text,
-    View,
-    StatusBar,
-    TouchableOpacity,
-  } from 'react-native';
-  import LinearGradient from 'react-native-linear-gradient';
+  StyleSheet,
+  Text,
+  View,
+  StatusBar,
+  TouchableOpacity,
+  Image,
+} from 'react-native';
+import {Button} from 'react-native-paper';
+import LinearGradient from 'react-native-linear-gradient';
+import colors from '../assets/colors/Colors';
 
-  export default function Game({navigation}){
-    return (
-        <>
-        <StatusBar animated={true} backgroundColor="#B8BDF5" />
-        <LinearGradient start={{x: 1, y: 0}}
-          end={{x: 0, y: 1}}
-          colors={['#B8BDF5', '#E8F1F2', '#BBEEEA']}
-          //colors={['#B9B0E5', '#E8F1F2', '#BBEEEA']}
-          style={styles.container}>
-            <View />
-          </LinearGradient>
-        </>
-    );
-  }
+export default function Game({navigation}) {
+  return (
+    <>
+      <StatusBar animated={true} backgroundColor={colors.game} />
+      <View style={styles.container}>
+        <View>
+          <Image source={require('../assets/images/jigsaw.jpg')} />
+        </View>
+        <View style={{marginTop: 30}}>
+          <Image source={require('../assets/images/game.jpg')} />
+        </View>
+        <TouchableOpacity>
+          <Button mode="contained" style={styles.button}>
+            Play
+          </Button>
+        </TouchableOpacity>
+      </View>
+    </>
+  );
+}
 
-  const styles = StyleSheet.create({ 
-    container: {
-      flex: 1,
-      padding: 20,
-    },
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: colors.game,
+  },
+  button: {
+    marginTop: 40,
+    marginLeft: 80,
+    width: 200,
+    height: 50,
+    backgroundColor: colors.heading,
+    borderRadius: 30,
+    alignItems: 'center',
+    paddingTop: 4,
+  },
 });
-

@@ -10,6 +10,7 @@ const colors = {
     greytxt: '#83878A',
     heading: '#FEA500',
     statusbar: '#B9B0E5',
+    game: '#48101C',
   };
 
   export default colors;
