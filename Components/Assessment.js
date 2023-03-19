@@ -105,7 +105,7 @@ export default function Assessment({navigation}) {
               name="left"
               size={18}
               color="#fff"
-              onPress={() => navigation.navigate('Medication')}
+              onPress={() => navigation.navigate('Tabs')}
             />
             <Text style={styles.heading}>Health Assessment</Text>
           </View>
