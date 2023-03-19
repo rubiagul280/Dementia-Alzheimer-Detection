@@ -8,16 +8,18 @@ import {
   TextInput,
   TouchableOpacity,
 } from 'react-native';
-import MapView, {Marker} from 'react-native-google-maps';
+import { Button } from 'react-native-paper';
+import MapView, {Marker} from 'react-native-maps';
+import colors from '../assets/colors/Colors';
 
 const API_KEY = 'AIzaSyAZkgAWX0jTbmDn9A3FvtcgHAK0brzIJ90';
 
 export default function Hospital({navigation}) {
   const [region, setRegion] = useState({
-    latitude: 37.78825,
-    longitude: -122.4324,
-    latitudeDelta: 0.0922,
-    longitudeDelta: 0.0421,
+    latitude: 33.6518,
+    longitude: 73.1566,
+    latitudeDelta: 0.1,
+    longitudeDelta: 0.12,
   });
   const [markers, setMarkers] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
@@ -84,8 +86,10 @@ export default function Hospital({navigation}) {
             value={searchQuery}
             onChangeText={text => setSearchQuery(text)}
           />
-          <TouchableOpacity style={styles.searchButton} onPress={handleSearch}>
-            <Text style={styles.searchButtonText}>Search</Text>
+          <TouchableOpacity onPress={handleSearch}>
+            <Button mode="contained" style={styles.button}>
+              Search
+            </Button>
           </TouchableOpacity>
         </View>
       </View>
@@ -96,6 +100,34 @@ export default function Hospital({navigation}) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
+  },
+  map: {
+    ...StyleSheet.absoluteFillObject,
+  },
+  searchContainer: {
+    position: 'absolute',
+    top: 20,
+    left: 20,
+    right: 20,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  searchInput: {
+    flex: 1,
+    height: 45,
+    backgroundColor: '#fff',
+    paddingHorizontal: 10,
+    borderRadius: 30,
+    marginRight: 10,
+    padding: 3,
+    paddingLeft: 20,
+  },
+  button: {
+    width: 100,
+    height: 45,
+    backgroundColor: colors.heading,
+    borderRadius: 30,
+    alignItems: 'center',
+    paddingTop: 3,
   },
 });

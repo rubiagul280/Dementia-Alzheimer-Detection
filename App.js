@@ -53,8 +53,11 @@ const TabScreens = () => {
         component={Home}
         options={{
           tabBarIcon: ({color, size}) => (
-            <Ionicons name="ios-home" color="#B8BDF5" size={size} />
+            <Ionicons name="ios-home" color={colors.background} size={size} />
           ),
+          tabBarLabelStyle: {
+            color: colors.background,
+          },
           headerShown: false,
         }}
       />
@@ -63,8 +66,11 @@ const TabScreens = () => {
         component={Hospital}
         options={{
           tabBarIcon: ({color, size}) => (
-            <Ionicons name="ios-home" color="#B8BDF5" size={size} />
+            <Ionicons name="ios-home"  color={colors.background} size={size} />
           ),
+          tabBarLabelStyle: {
+            color: colors.background,
+          },
           headerShown: false,
         }}
       />
@@ -73,8 +79,11 @@ const TabScreens = () => {
         component={Game}
         options={{
           tabBarIcon: ({color, size}) => (
-            <Foundation name="social-game-center" color="#B8BDF5" size={size} />
+            <Foundation name="social-game-center"  color={colors.background} size={size} />
           ),
+          tabBarLabelStyle: {
+            color: colors.background,
+          },
           headerShown: false,
         }}
       />
@@ -83,8 +92,11 @@ const TabScreens = () => {
         component={Setting}
         options={{
           tabBarIcon: ({color, size}) => (
-            <Ionicons name="settings" color="#B8BDF5" size={size} />
+            <Ionicons name="settings"  color={colors.background} size={size} />
           ),
+          tabBarLabelStyle: {
+            color: colors.background,
+          },
           headerShown: false,
         }}
       />

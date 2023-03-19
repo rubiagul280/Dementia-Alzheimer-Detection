@@ -54,11 +54,11 @@ package="com.dementia">
         <category android:name="android.intent.category.LAUNCHER" />
       </intent-filter>
     </activity>
-    <!-- <meta-data
+    <meta-data
       android:name="com.google.android.geo.API_KEY"
-      android:value="AIzaSyA-F9moLzfO6nheP9hVOhH5wsRjNo8xr6U" /> -->
-      <meta-data
-    android:name="com.google.android.maps.v3.API_KEY"
-    android:value="AIzaSyAZkgAWX0jTbmDn9A3FvtcgHAK0brzIJ90" />
+      android:value="AIzaSyAZkgAWX0jTbmDn9A3FvtcgHAK0brzIJ90" />
+
+      <uses-library android:name="org.apache.http.legacy" android:required="false" />
+
   </application>
 </manifest>
