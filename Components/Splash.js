@@ -26,7 +26,6 @@ const Splash = ({navigation}) => {
             source={require('../assets/images/logo.png')}
             style={styles.logo}
           />
-          {/* <Text style={styles.text}>Together, We can end Alzheimer's disease</Text> */}
         </View>
       </LinearGradient>
     </>

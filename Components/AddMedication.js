@@ -8,14 +8,17 @@ import {
   StatusBar,
   TouchableOpacity,
   ScrollView,
+  Alert,
 } from 'react-native';
-import {Text, Button, TextInput, List, Divider} from 'react-native-paper';
+import {Text, Button, TextInput, Divider} from 'react-native-paper';
 import colors from '../assets/colors/Colors';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import PushNotification from 'react-native-push-notification';
-import TimePicker from 'react-native-simple-time-picker';
+import firestore from '@react-native-firebase/firestore';
+import {Picker} from '@react-native-picker/picker';
+import auth from '@react-native-firebase/auth';
 
 export default function AddMedication({navigation}) {
   const [startDate, setStartDate] = useState(new Date());
@@ -24,6 +27,10 @@ export default function AddMedication({navigation}) {
   const [showEndDatePicker, setShowEndDatePicker] = useState(false);
   const [reminderTime, setReminderTime] = useState(new Date());
   const [showTimePicker, setShowTimePicker] = useState(false);
+  const [medName, setMedName] = useState('');
+  const [medform, setMedForm] = useState('Pill');
+  const [days, setDays] = useState('As needed');
+  const [units, setUnits] = useState('');
 
   const handleStartDateChange = (event, date) => {
     setStartDate(date || startDate);
@@ -36,7 +43,9 @@ export default function AddMedication({navigation}) {
   };
 
   const handleReminderTimeChange = (event, time) => {
-    setReminderTime(time || reminderTime);
+    if (event.type === 'set') {
+      setReminderTime(time || reminderTime);
+    }
     setShowTimePicker(false);
   };
 
@@ -47,17 +56,38 @@ export default function AddMedication({navigation}) {
   const showTimePickerModal = () => setShowTimePicker(true);
 
   const setReminder = () => {
-    const reminderDate = new Date();
-    reminderDate.setHours(reminderTime.getHours());
-    reminderDate.setMinutes(reminderTime.getMinutes());
-    reminderDate.setSeconds(0);
+    //const reminderDate = new Date();
+    startDate.setHours(startDate.getHours());
+    startDate.setMinutes(startDate.getMinutes());
+    startDate.setSeconds(0);
 
     PushNotification.localNotificationSchedule({
       message: 'Take your medication',
-      date: reminderDate,
+      date: startDate,
       repeatType: 'day',
       allowWhileIdle: true,
     });
+  };
+
+  const handleSave = async () => {
+    try {
+      const currentUser = auth().currentUser;
+      const { uid } = currentUser;
+      const medicationRef = firestore().collection('users').doc(uid).collection('Medication').doc();
+
+      await medicationRef.set({
+        MedicationName: medName,
+        MedicationForm: medform,
+        MedicationDays: days,
+        MedicationUnits: units,
+        MedStartDate: startDate,
+        MedEndDate: endDate,
+        MedReminder: reminderTime,
+      });
+      navigation.navigate('Medication');
+    } catch (err){
+      Alert.alert('Fill all the medication fields');
+    }
   };
 
   return (
@@ -82,49 +112,49 @@ export default function AddMedication({navigation}) {
             <Text style={styles.question}>
               What medicine would you like to add?
             </Text>
-            <TextInput style={styles.input} />
+            <TextInput
+              style={styles.input}
+              value={medName}
+              onChangeText={setMedName}
+            />
             <Text style={styles.question}>What form is the medicine?</Text>
-            <List.Section>
-              <List.Accordion style={styles.list}>
-                <List.Item title="Pill" />
-                <Divider />
-                <List.Item title="Solution" />
-                <Divider />
-                <List.Item title="Injection" />
-                <Divider />
-                <List.Item title="Powder" />
-                <Divider />
-                <List.Item title="Drops" />
-                <Divider />
-                <List.Item title="Inhaler" />
-                <Divider />
-              </List.Accordion>
-            </List.Section>
+            <Picker
+              style={styles.list}
+              selectedValue={medform}
+              onValueChange={(itemValue, itemIndex) => setMedForm(itemValue)}>
+              <Picker.Item label="Pill" value="option1" />
+              <Picker.Item label="Solution" value="option2" />
+              <Picker.Item label="Injection" value="option3" />
+              <Picker.Item label="Powder" value="option4" />
+              <Picker.Item label="Drops" value="option5" />
+              <Picker.Item label="Inhaler" value="option6" />
+              <Picker.Item label="Once a month" value="option7" />
+            </Picker>
+            <Divider style={styles.list} />
             <Text style={styles.question}>
               How often are you taking this medication?
             </Text>
-            <List.Section>
-              <List.Accordion style={styles.list}>
-                <List.Item title="As needed" />
-                <Divider />
-                <List.Item title="Once a day" />
-                <Divider />
-                <List.Item title="Twice a day" />
-                <Divider />
-                <List.Item title="Three times a day" />
-                <Divider />
-                <List.Item title="Once a week" />
-                <Divider />
-                <List.Item title="Twice a week" />
-                <Divider />
-                <List.Item title="Once a month" />
-                <Divider />
-              </List.Accordion>
-            </List.Section>
+            <Picker
+              selectedValue={days}
+              onValueChange={(itemValue, itemIndex) => setDays(itemValue)}>
+              <Picker.Item label="As needed" value="option1" />
+              <Picker.Item label="Once a day" value="option2" />
+              <Picker.Item label="Twice a day" value="option3" />
+              <Picker.Item label="Three times a day" value="option4" />
+              <Picker.Item label="Once a week" value="option5" />
+              <Picker.Item label="Twice a week" value="option6" />
+              <Picker.Item label="Once a month" value="option7" />
+            </Picker>
+            <Divider style={styles.list} />
             <Text style={styles.question}>
               How mant units do you take each time?
             </Text>
-            <TextInput style={styles.input} keyboardType="numeric" />
+            <TextInput
+              style={styles.input}
+              keyboardType="numeric"
+              value={units}
+              onChangeText={setUnits}
+            />
             <Text style={styles.question}>Medication duration?</Text>
 
             <View style={{alignItems: 'center'}}>
@@ -169,22 +199,47 @@ export default function AddMedication({navigation}) {
                 )}
               </View>
             </View>
-            <View>
-              <TouchableOpacity onPress={showTimePickerModal}>
-                <Button mode="contained" style={styles.button}>
-                  Set Reminder
-                </Button>
-              </TouchableOpacity>
-              {showTimePicker && (
-                <DateTimePicker
-                  value={endDate}
-                  is24Hour={false}
-                  mode="time"
-                  display="spinner"
-                  onChange={handleReminderTimeChange}
-                />
-              )}
+            <View style={{marginTop: 30}}>
+              <Text
+                style={{
+                  marginLeft: 10,
+                  fontSize: 12,
+                  marginBottom: 4,
+                  color: colors.greytxt,
+                }}>
+                After set time click on set reminder button
+              </Text>
+              <View style={{flexDirection: 'row'}}>
+                <TouchableOpacity
+                  onPress={showTimePickerModal}
+                  style={{flexDirection: 'row'}}>
+                  <Icon name="reminder" size={30} color={colors.background} />
+                </TouchableOpacity>
+                {showTimePicker && (
+                  <DateTimePicker
+                    value={reminderTime}
+                    is24Hour={false}
+                    mode="time"
+                    display="spinner"
+                    onChange={handleReminderTimeChange}
+                  />
+                )}
+                <TouchableOpacity onPress={setReminder}>
+                  <Text style={{marginLeft: 20, fontSize: 16, marginTop: 4}}>
+                    Set Reminder
+                  </Text>
+                </TouchableOpacity>
+              </View>
             </View>
+            <TouchableOpacity
+              onPress={() => {
+                setReminder();
+                handleSave();
+              }}>
+              <Button mode="contained" style={styles.button}>
+                Save
+              </Button>
+            </TouchableOpacity>
           </View>
         </View>
       </ScrollView>
@@ -223,7 +278,7 @@ const styles = StyleSheet.create({
   },
   list: {
     borderColor: colors.background,
-    borderWidth: 0.5,
+    borderWidth: 0.25,
   },
   button: {
     marginTop: 28,

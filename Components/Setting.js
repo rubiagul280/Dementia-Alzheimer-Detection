@@ -16,24 +16,6 @@ export default function Setting({navigation}) {
   const [image, setImage] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
 
-  // const back = function () {
-  //   navigation.replace('Tabs');
-  // };
-  // React.useLayoutEffect(() => {
-  //   navigation.setOptions({
-  //     headerLeft: () => (
-  //       <TouchableOpacity>
-  //         <MaterialIcons
-  //           name="arrow-back"
-  //           size={24}
-  //           color="#02AABD"
-  //           onPress={back}
-  //         />
-  //       </TouchableOpacity>
-  //     ),
-  //   });
-  // }, [navigation, back]);
-
   const manageCamera = async type => {
     pickImage();
   };

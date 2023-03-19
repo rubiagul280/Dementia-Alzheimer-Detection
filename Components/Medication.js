@@ -1,18 +1,24 @@
+/* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
 
-import React from 'react';
-import {View, StyleSheet} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {View, StyleSheet, TouchableOpacity, FlatList} from 'react-native';
 import CalendarStrip from 'react-native-calendar-strip';
 import moment from 'moment';
 import colors from '../assets/colors/Colors';
-import {Provider, Text} from 'react-native-paper';
+import {Provider, Text, Button} from 'react-native-paper';
 import Entypo from 'react-native-vector-icons/Entypo';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import {FloatingAction} from 'react-native-floating-action';
+import firestore from '@react-native-firebase/firestore';
+import auth from '@react-native-firebase/auth';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 export default function Medication({navigation}) {
+  // const [data, setData] = useState([]);
+  const [medications, setMedications] = useState([]);
 
   const datesWhitelist = [
     {
@@ -56,6 +62,34 @@ export default function Medication({navigation}) {
     },
   ];
 
+  useEffect(() => {
+    const subscriber = firestore()
+      .collection('Medication')
+      .onSnapshot(querySnapshot => {
+        const data = [];
+        querySnapshot.forEach(documentSnapshot => {
+          data.push({
+            ...documentSnapshot.data(),
+            id: documentSnapshot.id,
+          });
+        });
+        setMedications(data);
+      });
+
+    // Unsubscribe from events when no longer in use
+    return () => subscriber();
+  }, []);
+
+
+  const handleDelete = (id) => {
+    firestore()
+      .collection('Medication')
+      .doc(id)
+      .delete()
+      .then(() => {
+        console.log('Medication deleted!');
+      });
+  };
   return (
     <Provider>
       <View style={styles.container}>
@@ -75,7 +109,6 @@ export default function Medication({navigation}) {
             style={styles.calendar}
             calendarHeaderStyle={{color: colors.secondary}}
             calendarColor={'#E6E6E6'}
-            //dateNumberStyle={{color: colors.greytxt}}
             dateNameStyle={colors.greytxt}
             highlightDateNumberStyle={colors.secondary}
             highlightDateNameStyle={colors.secondary}
@@ -84,12 +117,70 @@ export default function Medication({navigation}) {
             datesWhitelist={datesWhitelist}
             iconContainer={{flex: 0.1}}
             dateNumberStyle={dateStyles.dateNumberStyle}
-            // highlightDateNumberStyle={dateStyles.highlightDateNumberStyle}
             startingDate={currentDate}
           />
         </View>
+
+        <View style={styles.flatlist}>
+          <FlatList
+            data={medications}
+            showsVerticalScrollIndicator={false}
+            renderItem={({item}) => (
+              <View style={styles.details}>
+                <View style={styles.medicine}>
+                  <Text style={styles.name}>{item.MedicationName}</Text>
+                  <View style={{flexDirection: 'row', marginBottom: 8}}>
+                    <MaterialIcons
+                      name="date-range"
+                      size={18}
+                      color={colors.background}
+                    />
+                    <Text style={{marginLeft: 10}}>
+                      Start: {item.MedStartDate.toDate().toLocaleDateString()}
+                    </Text>
+                  </View>
+
+                  <View style={{flexDirection: 'row'}}>
+                    <MaterialIcons
+                      name="date-range"
+                      size={18}
+                      color={colors.background}
+                    />
+                    <Text style={{marginLeft: 10}}>
+                      End: {item.MedEndDate.toDate().toLocaleDateString()}
+                    </Text>
+                  </View>
+                </View>
+
+                <View style={{flexDirection: 'row'}}>
+                  <TouchableOpacity onPress={() => handleDelete(item.id)}>
+                    <MaterialCommunityIcons
+                      name={'delete-outline'}
+                      size={23}
+                      color={colors.background}
+                    />
+                  </TouchableOpacity>
+                  <TouchableOpacity style={{marginLeft: 8}}>
+                    <MaterialIcons
+                      name={'edit'}
+                      size={21}
+                      color={colors.background}
+                    />
+                  </TouchableOpacity>
+                </View>
+              </View>
+            )}
+          />
+        </View>
+
         <View style={styles.content}>
-          <FloatingAction
+          <TouchableOpacity
+            onPress={() => navigation.navigate('AddMedication')}>
+            <Button mode="contained" style={styles.button}>
+              Add Medication
+            </Button>
+          </TouchableOpacity>
+          {/* <FloatingAction
             actions={actions}
             color={colors.heading}
             floatingIcon={<Entypo name="plus" size={20} color="#fff" />}
@@ -100,7 +191,7 @@ export default function Medication({navigation}) {
             onPressItem={name => navigation.navigate({name})}
             style={styles.fab}
             overlayColor={null}
-          />
+          /> */}
         </View>
       </View>
     </Provider>
@@ -145,13 +236,11 @@ const styles = StyleSheet.create({
     borderHighlightColor: colors.secondary,
   },
   content: {
-    padding: 40,
     alignContent: 'center',
     justifyContent: 'center',
-    marginTop: 400,
   },
   button: {
-    marginTop: 20,
+    marginTop: 25,
     width: 300,
     height: 50,
     backgroundColor: colors.heading,
@@ -159,6 +248,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingTop: 4,
     marginLeft: 10,
+    position: 'absolute',
   },
   text: {
     fontSize: 24,
@@ -167,5 +257,26 @@ const styles = StyleSheet.create({
   fab: {
     flex: 1,
     marginTop: 100,
+  },
+  flatlist: {
+    marginTop: 15,
+    height: 370,
+    width: '100%',
+  },
+  details: {
+    marginTop: 5,
+    borderRadius: 5,
+    padding: 20,
+    marginBottom: 20,
+    flexDirection: 'row',
+    backgroundColor: '#D4F3F1',
+  },
+  medicine: {
+    width: '80%',
+  },
+  name: {
+    color: colors.background,
+    fontSize: 20,
+    marginBottom: 10,
   },
 });

@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
 
 import {
@@ -22,9 +23,7 @@ export default function Profile({navigation}) {
   const [update, setupdate] = useState('');
   const [press, setPress] = useState(true);
   const [press1, setPress1] = useState(true);
-  const [press2, setPress2] = useState(true);
 
-  //const { username } = route.params;
   useEffect(() => {
     setEmail(auth().currentUser.email);
     firestore()
