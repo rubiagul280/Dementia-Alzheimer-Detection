@@ -28,6 +28,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Foundation from 'react-native-vector-icons/Foundation';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import colors from './assets/colors/Colors';
 import NewPassword from './Components/NewPassword';
 
@@ -66,7 +67,7 @@ const TabScreens = () => {
         component={Hospital}
         options={{
           tabBarIcon: ({color, size}) => (
-            <Ionicons name="ios-home"  color={colors.background} size={size} />
+            <FontAwesome5 name="hospital"  color={colors.background} size={size} />
           ),
           tabBarLabelStyle: {
             color: colors.background,
