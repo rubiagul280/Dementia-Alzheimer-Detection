@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   Image,
   StatusBar,
@@ -10,6 +10,8 @@ import {
   Dimensions,
   View,
   TouchableOpacity,
+  Alert,
+  WebView ,
 } from 'react-native';
 import axios from 'axios';
 import {launchImageLibrary} from 'react-native-image-picker';
@@ -18,6 +20,10 @@ import colors from '../assets/colors/Colors';
 import Entypo from 'react-native-vector-icons/Entypo';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Fontisto from 'react-native-vector-icons/Fontisto';
+import RNHTMLtoPDF from 'react-native-html-to-pdf';
+import firestore from '@react-native-firebase/firestore';
+import auth from '@react-native-firebase/auth';
+import storage from '@react-native-firebase/storage';
 
 axios.interceptors.request.use(
   async config => {
@@ -57,6 +63,7 @@ export default function Detection({navigation}) {
   const [result, setResult] = useState('');
   const [label, setLabel] = useState('');
   const [image, setImage] = useState('');
+  const [pdfUrl, setPdfUrl] = useState(null);
 
   const getPredication = async params => {
     try {
@@ -120,6 +127,74 @@ export default function Detection({navigation}) {
     });
   };
 
+  const generateReport = async () => {
+    const report = `
+      <h1>Detection Report</h1>
+      <p><strong>Label:</strong> ${label}</p>
+      <p><strong>Confidence:</strong> ${
+        parseFloat(result).toFixed(2) * 100
+      }%</p>
+      <p><strong>Image:</strong></p>
+      <img src="${image}" />
+    `;
+
+    try {
+      const options = {
+        html: report,
+        fileName: 'detection_report',
+        directory: 'Documents',
+      };
+      const currentUser = auth().currentUser;
+      const {uid} = currentUser;
+
+      // Generate the PDF.
+      const pdf = await RNHTMLtoPDF.convert(options);
+
+      // Create a reference to the Firestore collection for the user's reports.
+      const reportsRef = firestore()
+        .collection('users')
+        .doc(uid)
+        .collection('reports');
+
+      // Create a new document in the reports collection with a unique ID.
+      const newReportRef = reportsRef.doc();
+
+      // Upload the PDF to Firebase Storage and get the download URL.
+      const storageRef = storage().ref(`reports/${newReportRef.id}.pdf`);
+      const uploadTask = storageRef.putFile(pdf.filePath);
+      uploadTask.on(
+        'state_changed',
+        snapshot => {},
+        error => {
+          console.error('Error uploading PDF:', error);
+        },
+        async () => {
+          const downloadUrl = await storageRef.getDownloadURL();
+
+          // Save the download URL in the Firestore document for the report.
+          await newReportRef.set({
+            fileName: pdf.fileName,
+            downloadUrl,
+            createdAt: firestore.FieldValue.serverTimestamp(),
+          });
+
+          // Set the PDF URL to show it on the screen.
+          setPdfUrl(downloadUrl);
+        },
+      );
+    } catch (error) {
+      Alert.alert('There is some error to generate report');
+    }
+  };
+
+  useEffect(() => {
+    if (pdfUrl) {
+      // Show the PDF in a WebView component.
+      return () => {
+        setPdfUrl(null);
+      };
+    }
+  }, [pdfUrl]);
   return (
     <View style={[styles.outer]}>
       <StatusBar animated={true} backgroundColor="#B9B0E5" />
@@ -133,12 +208,13 @@ export default function Detection({navigation}) {
             style={{marginTop: 4}}
           />
           <Text style={styles.head}>Detection</Text>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={generateReport}>
             <View style={styles.report}>
               <Fontisto name="upload" color={colors.background} />
-              <Text style={{color: colors.background}}>Report</Text>
+              <Text style={styles.reportText}>Report</Text>
             </View>
           </TouchableOpacity>
+          {pdfUrl && <WebView source={{uri: pdfUrl}} style={{flex: 1}} />}
         </View>
 
         <View style={styles.content}>
@@ -201,7 +277,7 @@ const styles = StyleSheet.create({
     marginLeft: 100,
   },
   content: {
-    padding: 5,
+    padding: 1,
   },
   heading: {
     color: colors.background,
@@ -216,10 +292,10 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: colors.secondary,
     borderRadius: 5,
-    height: 250,
-    width: 220,
+    height: 300,
+    width: 250,
     marginTop: 40,
-    marginLeft: 50,
+    marginLeft: 30,
     alignItems: 'center',
   },
   imageStyle: {
@@ -229,7 +305,7 @@ const styles = StyleSheet.create({
     borderRadius: 3,
   },
   button: {
-    marginTop: 28,
+    marginTop: 20,
     marginLeft: 60,
     width: 200,
     height: 50,
@@ -237,10 +313,6 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     alignItems: 'center',
     paddingTop: 4,
-  },
-  report: {
-    marginLeft: 70,
-    alignItems: 'center',
   },
   uploadImage: {
     height: 50,
@@ -276,5 +348,18 @@ const styles = StyleSheet.create({
   mainOuter: {
     marginTop: 15,
     alignItems: 'center',
+  },
+  report: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'transparent',
+    borderRadius: 5,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    marginLeft: 50,
+  },
+  reportText: {
+    color: colors.background,
+    marginLeft: 5,
   },
 });

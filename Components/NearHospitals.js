@@ -1,4 +1,3 @@
-/* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
 
 import React, {useState, useEffect} from 'react';
@@ -6,33 +5,26 @@ import {
   StyleSheet,
   View,
   Text,
-  TouchableOpacity,
   TextInput,
+  TouchableOpacity,
 } from 'react-native';
-import { Button } from 'react-native-paper';
-import colors from '../assets/colors/Colors';
-import MapView, {Marker} from 'react-native-maps';
+import MapView, {Marker} from 'react-native-google-maps';
 
-const API_KEY = 'AIzaSyA-F9moLzfO6nheP9hVOhH5wsRjNo8xr6U';
+const API_KEY = 'AIzaSyAZkgAWX0jTbmDn9A3FvtcgHAK0brzIJ90';
 
-export default function Hospital() {
+export default function Hospital({navigation}) {
   const [region, setRegion] = useState({
-    // latitude: 37.78825,
-    // longitude: -122.4324,
-    // latitudeDelta: 0.0922,
-    // longitudeDelta: 0.0421,
-    latitude: 33.6518,
-    longitude: 73.1566,
-    latitudeDelta: 0.1,
-    longitudeDelta: 0.12,
-
+    latitude: 37.78825,
+    longitude: -122.4324,
+    latitudeDelta: 0.0922,
+    longitudeDelta: 0.0421,
   });
   const [markers, setMarkers] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
     fetch(
-      `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${region.latitude},${region.longitude}&radius=1000&type=hospital&key=AIzaSyA-F9moLzfO6nheP9hVOhH5wsRjNo8xr6U`,
+      `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${region.latitude},${region.longitude}&radius=5000&type=hospital&key=${API_KEY}`,
     )
       .then(response => response.json())
       .then(data => {
@@ -92,10 +84,8 @@ export default function Hospital() {
             value={searchQuery}
             onChangeText={text => setSearchQuery(text)}
           />
-          <TouchableOpacity onPress={handleSearch}>
-            <Button mode="contained" style={styles.button}>
-              Search
-            </Button>
+          <TouchableOpacity style={styles.searchButton} onPress={handleSearch}>
+            <Text style={styles.searchButtonText}>Search</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -106,34 +96,6 @@ export default function Hospital() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  map: {
-    ...StyleSheet.absoluteFillObject,
-  },
-  searchContainer: {
-    position: 'absolute',
-    top: 20,
-    left: 20,
-    right: 20,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  searchInput: {
-    flex: 1,
-    height: 45,
-    backgroundColor: '#fff',
-    paddingHorizontal: 10,
-    borderRadius: 30,
-    marginRight: 10,
-    padding: 3,
-    paddingLeft: 20,
-  },
-  button: {
-    width: 100,
-    height: 45,
-    backgroundColor: colors.heading,
-    borderRadius: 30,
-    alignItems: 'center',
-    paddingTop: 3,
+    padding: 20,
   },
 });
