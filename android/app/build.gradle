@@ -101,6 +101,7 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
+        resValue "string", "google_maps_api_key", "AIzaSyA-F9moLzfO6nheP9hVOhH5wsRjNo8xr6U"
     }
 
     splits {
@@ -164,6 +165,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth-ktx'
 
      implementation 'com.google.android.gms:play-services-auth:20.4.1'
+
 
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}")
     debugImplementation("com.facebook.flipper:flipper-network-plugin:${FLIPPER_VERSION}") {

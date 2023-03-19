@@ -6,7 +6,7 @@ import {View, StyleSheet, TouchableOpacity, FlatList} from 'react-native';
 import CalendarStrip from 'react-native-calendar-strip';
 import moment from 'moment';
 import colors from '../assets/colors/Colors';
-import {Provider, Text, Button} from 'react-native-paper';
+import {Provider, Text, Button, Image} from 'react-native-paper';
 import Entypo from 'react-native-vector-icons/Entypo';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -80,8 +80,7 @@ export default function Medication({navigation}) {
     return () => subscriber();
   }, []);
 
-
-  const handleDelete = (id) => {
+  const handleDelete = id => {
     firestore()
       .collection('Medication')
       .doc(id)
@@ -157,13 +156,6 @@ export default function Medication({navigation}) {
                     <MaterialCommunityIcons
                       name={'delete-outline'}
                       size={23}
-                      color={colors.background}
-                    />
-                  </TouchableOpacity>
-                  <TouchableOpacity style={{marginLeft: 8}}>
-                    <MaterialIcons
-                      name={'edit'}
-                      size={21}
                       color={colors.background}
                     />
                   </TouchableOpacity>
@@ -272,7 +264,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#D4F3F1',
   },
   medicine: {
-    width: '80%',
+    width: '94%',
   },
   name: {
     color: colors.background,
