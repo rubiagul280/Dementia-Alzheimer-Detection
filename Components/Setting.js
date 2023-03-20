@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 /* eslint-disable react/no-unstable-nested-components */
 /* eslint-disable prettier/prettier */
 
@@ -8,38 +9,11 @@ import colors from '../assets/colors/Colors';
 import Icons from 'react-native-vector-icons/Ionicons';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {launchImageLibrary} from 'react-native-image-picker';
 import auth from '@react-native-firebase/auth';
-import { color } from 'react-native-reanimated';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
 export default function Setting({navigation}) {
-  const [image, setImage] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
-
-  const manageCamera = async type => {
-    pickImage();
-  };
-
-  const options = {
-    title: 'Select Profile Picture',
-    storageOptions: {
-      skipBackup: true,
-      path: 'images',
-    },
-  };
-  const pickImage = () => {
-    launchImageLibrary(options, async response => {
-      if (response.didCancel) {
-        console.log('User cancelled image picker');
-      } else if (response.error) {
-        console.log('ImagePicker Error: ', response.error);
-      } else if (response.customButton) {
-        console.log('User tapped custom button: ', response.customButton);
-      } else {
-        setImage(response.uri);
-      }
-    });
-  };
 
   const handleDeleteAccount = () => {
     const user = auth().currentUser;
@@ -58,31 +32,16 @@ export default function Setting({navigation}) {
     <>
       <StatusBar animated={true} backgroundColor="#B9B0E5" />
       <View style={styles.container}>
-        <Text style={styles.heading}>Settings</Text>
-        {/* <View style={styles.header}>
-          <Icons
-            name="md-person-circle"
-            size={80}
-            color={colors.heading}
-            style={styles.image}
+      <View style={styles.header}>
+          <AntDesign
+            name="left"
+            size={20}
+            color={colors.background}
+            onPress={() => navigation.navigate('Tabs')}
+            style={{marginTop: 3}}
           />
-          <Text style={styles.name}>Rubia Gulzar</Text>
-        </View> */}
-          {/* <TouchableOpacity
-            activeOpacity={1}
-            onPress={() => manageCamera('Photo')}>
-            <Icon
-              name="person-add"
-              size={150}
-              color="#B8BDF5"
-              style={styles.uploadImage}
-            />
-          </TouchableOpacity>
-          {(image?.length && (
-            <Image source={{uri: image}} style={styles.imageStyle} />
-          )) ||
-            null} */}
-
+           <Text style={styles.heading}>Settings</Text>
+        </View>
           <View style={styles.content}>
             <List.Section title={'Account Settings'}>
               <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
@@ -189,11 +148,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#fff',
   },
+  header: {
+    flexDirection: 'row',
+    marginLeft: -120,
+    marginBottom: 30,
+    marginTop: 20,
+  },
   heading: {
     color: colors.background,
-   fontSize: 18,
-   marginTop: 20,
-   marginBottom: 10,
+    fontSize: 17,
+    marginLeft: 100,
   },
   text: {
     fontSize: 18,
@@ -231,5 +195,5 @@ const styles = StyleSheet.create({
   version: {
     fontSize: 14,
     marginTop: 380,
-  }
+  },
 });
