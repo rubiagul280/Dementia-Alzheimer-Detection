@@ -101,7 +101,7 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
-        resValue "string", "google_maps_api_key", "AIzaSyAZkgAWX0jTbmDn9A3FvtcgHAK0brzIJ90"
+        resValue "string", "google_maps_api_key", "AIzaSyCcMO2LGtT229qfU7m8AF315agnMBn9xKw"
     }
 
     splits {

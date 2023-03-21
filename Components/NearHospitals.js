@@ -12,7 +12,7 @@ import { Button } from 'react-native-paper';
 import MapView, {Marker} from 'react-native-maps';
 import colors from '../assets/colors/Colors';
 
-const API_KEY = 'AIzaSyAZkgAWX0jTbmDn9A3FvtcgHAK0brzIJ90';
+const API_KEY = 'AIzaSyCcMO2LGtT229qfU7m8AF315agnMBn9xKw';
 
 export default function Hospital({navigation}) {
   const [region, setRegion] = useState({
