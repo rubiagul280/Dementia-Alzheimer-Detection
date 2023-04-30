@@ -31,6 +31,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import colors from './assets/colors/Colors';
 import NewPassword from './Components/NewPassword';
+import Chat from './Components/Chat';
 
 
 const Tab = createBottomTabNavigator();
@@ -91,6 +92,19 @@ const TabScreens = () => {
       <Tab.Screen
         name="Settings"
         component={Setting}
+        options={{
+          tabBarIcon: ({color, size}) => (
+            <Ionicons name="settings"  color={colors.background} size={size} />
+          ),
+          tabBarLabelStyle: {
+            color: colors.background,
+          },
+          headerShown: false,
+        }}
+      />
+      <Tab.Screen
+        name="Chat"
+        component={Chat}
         options={{
           tabBarIcon: ({color, size}) => (
             <Ionicons name="settings"  color={colors.background} size={size} />

@@ -2,14 +2,7 @@
 /* eslint-disable prettier/prettier */
 
 import React, {useState} from 'react';
-import {
-  View,
-  StyleSheet,
-  StatusBar,
-  TouchableOpacity,
-  ScrollView,
-  Alert,
-} from 'react-native';
+import {View, StyleSheet, StatusBar, TouchableOpacity, ScrollView, Alert} from 'react-native';
 import {Text, Button, TextInput, Divider} from 'react-native-paper';
 import colors from '../assets/colors/Colors';
 import AntDesign from 'react-native-vector-icons/AntDesign';

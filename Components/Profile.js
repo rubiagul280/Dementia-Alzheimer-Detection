@@ -142,7 +142,8 @@ export default function Profile({navigation}) {
               color="#02AABD"
               style={styles.image}
             />
-            <TouchableOpacity onPress={() => navigation.navigate('New Password')}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('New Password')}>
               <View style={styles.frame}>
                 <Text style={styles.text}>Change Password</Text>
               </View>
@@ -228,4 +229,67 @@ const styles = StyleSheet.create({
     color: colors.background,
     marginLeft: 5,
   },
+  modalText: {
+    marginBottom: 15,
+    paddingTop: 12,
+    textAlign: 'center',
+    fontWeight: 'bold',
+    color: 'black',
+    fontSize: 20,
+},
+modalView: {
+    backgroundColor: '#FAF9F6',
+    borderRadius: 20,
+    height: '40%',
+    padding: 10,
+    shadowColor: '#000000',
+    shadowOffset: {
+        width: 0,
+        height: 2,
+    },
+  },
+  inMod: {
+    height: 50,
+    marginTop: '2%',
+    marginBottom: '2%',
+    width: '90%',
+    display: 'flex',
+    flexDirection: 'row',
+    alignContent: 'flex-start',
+    alignItems: 'center',
+    alignSelf: 'center',
+},
+
+inModText: {
+    color: '#02AABD',
+    paddingLeft: '4%',
+    paddingBottom: 0,
+    fontWeight: 'bold',
+    alignContent: 'space-between',
+    marginTop: '3%',
+    fontSize: 18,
+},
+linearGradient: {
+    height: '50%',
+    width: '45%',
+    flexDirection: 'row',
+    padding: 15,
+    paddingEnd: 5,
+    marginTop: '4%',
+
+    borderRadius: 40,
+    borderWidth: 0.5,
+    marginVertical: 5,
+    borderColor: 'black',
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignSelf: 'center',
+},
+buttonTextStyle: {
+    color: colors.heading,
+    fontSize: 16,
+    justifyContent: 'center',
+    alignSelf: 'center',
+},
+
 });
