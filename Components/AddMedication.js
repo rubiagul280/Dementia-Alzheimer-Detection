@@ -50,9 +50,10 @@ export default function AddMedication({navigation}) {
 
   const setReminder = () => {
     //const reminderDate = new Date();
-    startDate.setHours(startDate.getHours());
-    startDate.setMinutes(startDate.getMinutes());
-    startDate.setSeconds(0);
+    // startDate.setHours(startDate.getHours());
+    // startDate.setMinutes(startDate.getMinutes());
+    // startDate.setSeconds(0);
+    const reminderDate = new Date(reminderTime);
 
     PushNotification.localNotificationSchedule({
       message: 'Take your medication',
@@ -226,7 +227,6 @@ export default function AddMedication({navigation}) {
             </View>
             <TouchableOpacity
               onPress={() => {
-                setReminder();
                 handleSave();
               }}>
               <Button mode="contained" style={styles.button}>

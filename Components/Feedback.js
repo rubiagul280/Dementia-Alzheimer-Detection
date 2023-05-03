@@ -12,22 +12,118 @@ import React from 'react';
 import {Text, Button} from 'react-native-paper';
 import colors from '../assets/colors/Colors';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import messaging from '@react-native-firebase/messaging';
+import firestore from '@react-native-firebase/firestore';
 
 export default function Feedback({navigation}) {
 
-  const handlePress = async () => {
-    const recipient = 'noreply@ai-neurologists-alz-detection.firebase.com'; // replace <your-firebase-project-id> with your Firebase project ID
-    const subject = 'Feedback for AI Neurologists: Alzheimer Detection'; // replace <your-app-name> with your app name
-    const body = 'Write your feedback here...';
-    const url = `mailto:${recipient}?subject=${subject}&body=${body}`;
-    const supported = await Linking.canOpenURL(url);
+  const sendFeedback = async () => {
+    try {
+      // Open the user's email client with the pre-filled email
+      const supportEmail = 'aineurologists@gmail.com';
+      const subject = 'Feedback for AI Neurologists';
+      const mailtoUrl = `mailto:${supportEmail}?subject=${encodeURIComponent(subject)}`;
+      const canOpen = await Linking.canOpenURL(mailtoUrl);
 
-    if (supported) {
-      await Linking.openURL(url);
-    } else {
-      Alert.alert('Cant open email client');
+      if (canOpen) {
+        await Linking.openURL(mailtoUrl);
+
+        // Wait for the user to send the email and get the feedback message
+        const feedbackMessage = await getUserFeedback();
+
+        // Send the feedback message to Firebase project using FCM
+        await sendFeedbackToFirebase(feedbackMessage);
+
+        // Store the feedback in Firestore
+        await storeFeedbackInFirestore(feedbackMessage);
+
+        // Show a success message to the user
+        Alert.alert('Feedback sent successfully!');
+      } else {
+        // Handle if the user's device does not support opening email client
+        Alert.alert('Unable to open email client. Please provide feedback through another method.');
+      }
+    } catch (error) {
+      console.error('Error sending feedback:', error);
+      // Show an error message to the user
+      Alert.alert('Failed to send feedback. Please try again.');
     }
   };
+
+  const getUserFeedback = async () => {
+    // Implement the logic to retrieve the feedback message entered by the user
+    // This can be done through user input fields or any other mechanism in your app
+    // For simplicity, let's assume there's a hardcoded feedback message
+    const feedbackMessage = '';
+    return feedbackMessage;
+  };
+
+  const sendFeedbackToFirebase = async (feedbackMessage) => {
+    // Get the FCM token for the current device
+    const token = await messaging().getToken();
+
+    // Construct the FCM message payload
+    const message = {
+      token: token, // Target the current device by its FCM token
+      notification: {
+        title: 'New Feedback',
+        body: feedbackMessage,
+      },
+    };
+
+    // Send the feedback message using FCM
+    await messaging().send(message);
+  };
+
+  const storeFeedbackInFirestore = async (feedbackMessage) => {
+    try {
+      // Get a reference to the 'feedback' collection in Firestore
+      const feedbackRef = firestore().collection('feedback');
+
+      // Create a new document with an auto-generated ID
+      const newFeedbackDoc = await feedbackRef.add({
+        message: feedbackMessage,
+        timestamp: firestore.FieldValue.serverTimestamp(),
+      });
+
+      // Log the ID of the newly created feedback document
+      console.log('New feedback document ID:', newFeedbackDoc.id);
+    } catch (error) {
+      console.error('Error storing feedback in Firestore:', error);
+      // Handle the error as needed
+    }
+  };
+
+  // const sendEmail = async () => {
+  //   try {
+  //     // Get the currently authenticated user
+  //     const currentUser = auth().currentUser;
+  //     // Get the user's email address
+  //     const userEmail = currentUser.email;
+  //     // Open the user's email client with the pre-filled email
+  //     const supportEmail = 'aineurologists@gmail.com';
+  //     const subject = 'Feedback for AI Neurologists';
+  //     const body = '';
+  //     const mailtoUrl = `mailto:${supportEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  //     await Linking.openURL(mailtoUrl);
+
+  //     // Store the feedback in Firebase Firestore
+  //     const feedbackRef = firestore().collection('feedback');
+  //     await feedbackRef.add({
+  //       userId: currentUser.uid,
+  //       email: userEmail,
+  //       feedback: body, // Include the feedback body here
+  //       timestamp: firestore.FieldValue.serverTimestamp(),
+  //     });
+
+  //     // Show a success message to the user
+  //     Alert.alert('Feedback sent successfully!');
+  //   } catch (error) {
+  //     console.error('Error sending feedback:', error);
+  //     // Show an error message to the user
+  //     Alert.alert('Failed to send feedback. Please try again.');
+  //   }
+  // };
 
   return (
     <>
@@ -48,7 +144,7 @@ export default function Feedback({navigation}) {
           What do you like about AI Neurologists: Alzheimer detection?
         </Text>
         <Text style={styles.text}>How can be AI Neurologists be improved?</Text>
-        <TouchableOpacity onPress={handlePress}>
+        <TouchableOpacity onPress={sendFeedback}>
           <Button mode="outlined" style={styles.button}>
             Contact Support
           </Button>

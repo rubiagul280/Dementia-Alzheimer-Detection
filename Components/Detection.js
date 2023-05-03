@@ -195,6 +195,7 @@ export default function Detection({navigation}) {
       };
     }
   }, [pdfUrl]);
+
   return (
     <View style={[styles.outer]}>
       <StatusBar animated={true} backgroundColor="#B9B0E5" />
@@ -224,8 +225,7 @@ export default function Detection({navigation}) {
           </Text>
           <View style={styles.frame}>
             <Text style={styles.uptext}>Upload your MRI {'\n'} Image</Text>
-            <TouchableOpacity
-              activeOpacity={1}
+            <TouchableOpacity activeOpacity={1}
               onPress={() => manageCamera('Photo')}>
               <Entypo name="upload" size={45} style={styles.uploadImage} />
             </TouchableOpacity>

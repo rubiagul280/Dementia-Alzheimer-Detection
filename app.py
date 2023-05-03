@@ -42,6 +42,10 @@ def read_file_as_image(data) -> np.ndarray:
 async def predict(
     file: UploadFile = File(...)
 ):
+     # Check if the uploaded file is a JPG image
+    if file.content_type != "image/jpeg":
+        raise HTTPException(status_code = 400, detail = "Only JPEG images (MRI) are allowed.")
+    
     image = read_file_as_image(await file.read())
     
     predictions = MODEL.predict(image)

@@ -1,28 +1,37 @@
-/* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-alert */
 
 import {
   View,
   StyleSheet,
+  ScrollView,
   StatusBar,
-  TextInput,
   TouchableOpacity,
+  TextInput,
+  Image,
 } from 'react-native';
-import {Button, Divider, Text} from 'react-native-paper';
 import React, {useState, useEffect} from 'react';
+import {Button, Divider, Text} from 'react-native-paper';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
+import storage from '@react-native-firebase/storage';
+import ImagePicker from 'react-native-image-crop-picker';
+import Modal from 'react-native-modal';
 import colors from '../assets/colors/Colors';
 
-export default function Profile({navigation}) {
+export default function Profile ({navigation}) {
   const [Name, setName] = useState('');
   const [Email, setEmail] = useState('');
   const [Password, setPassword] = useState('');
   const [update, setupdate] = useState('');
   const [press, setPress] = useState(true);
   const [press1, setPress1] = useState(true);
+  const [press2, setPress2] = useState(true);
+  const [image, setImage] = useState(null);
+  const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
     setEmail(auth().currentUser.email);
@@ -31,7 +40,6 @@ export default function Profile({navigation}) {
       .doc(auth().currentUser.uid)
       .get()
       .then(documentSnapshot => {
-        console.log(documentSnapshot.data());
         if (documentSnapshot.exists) {
           setName(documentSnapshot.data().username);
           setPassword(documentSnapshot.data().password);
@@ -39,124 +47,265 @@ export default function Profile({navigation}) {
       });
   }, [update]);
 
+  const updateEmail = async newEmail => {
+    try {
+      const user = auth().currentUser;
+      await user.updateEmail(newEmail);
+      alert('Email updated successfully!');
+    } catch (error) {
+      if (error.code === 'auth/user-token-expired') {
+        // Handle expired token error
+        alert('Your session has expired. Please sign in again.');
+      } else {
+        // Handle other errors
+        alert(error.message);
+      }
+    }
+  };
+
+  const updateName = async () => {
+    setPress1(!press1);
+    await firestore()
+      .collection('users')
+      .doc(auth().currentUser.uid)
+      .update({username: Name});
+  };
+
+  const updatePassword = async () => {
+    setPress2(!press2);
+    await firestore()
+      .collection('users')
+      .doc(auth().currentUser.uid)
+      .update({password: Password});
+    await auth().currentUser.updatePassword(Password);
+  };
+
+  const currentUser = auth().currentUser;
+  const imageRef = firestore()
+    .collection('users')
+    .doc(currentUser.uid)
+    .collection('profile')
+    .doc('image');
+
+  useEffect(() => {
+    // Retrieve the image URL from Firestore and set it as the default value for the `image` state variable
+    const unsubscribe = imageRef.onSnapshot(snapshot => {
+      const data = snapshot.data();
+      if (data && data.url) {
+        setImage(data.url);
+      }
+    });
+    return unsubscribe;
+  }, []);
+
+  const handlePress = () => {
+    setModalVisible(true);
+  };
+
+  const handleSelectImage = async source => {
+    try {
+      const croppedImage = await ImagePicker.openCropper({
+        path: source.path,
+        width: 400,
+        height: 400,
+      });
+      setImage(croppedImage.path);
+      await uploadImage(croppedImage.path);
+    } catch (error) {
+      alert(error);
+    }
+    setModalVisible(false);
+  };
+
+  const handleOpenGallery = async () => {
+    try {
+      const source = await ImagePicker.openPicker({
+        mediaType: 'photo',
+        multiple: false,
+      });
+      handleSelectImage(source);
+    } catch (error) {
+      alert(error);
+    }
+  };
+
+  const handleOpenCamera = async () => {
+    try {
+      const source = await ImagePicker.openCamera({
+        width: 400,
+        height: 400,
+        cropping: true,
+      });
+      handleSelectImage(source);
+    } catch (error) {
+      alert(error);
+    }
+  };
+
+  // Upload image to Firebase Storage and update the image URL in Firestore
+  const uploadImage = async uri => {
+    const storageRef = storage().ref(
+      `users/${currentUser.uid}/profile/image.jpg`,
+    );
+    const task = storageRef.putFile(uri);
+    try {
+      await task;
+      const url = await storageRef.getDownloadURL();
+      await imageRef.set({url});
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <>
       <StatusBar animated={true} backgroundColor="#B9B0E5" />
-      <View style={styles.container}>
-        <View style={styles.header}>
-          <AntDesign
-            name="left"
-            size={20}
-            color={colors.background}
-            onPress={() => navigation.navigate('Settings')}
-            style={{marginTop: 3}}
-          />
-          <Text style={styles.heading}>User Profile</Text>
-        </View>
-        <Divider />
-
-        <View style={styles.profile}>
-          <TouchableOpacity>
-            <MaterialIcons
-              name="person"
-              size={150}
-              color="#02AABD"
-              style={styles.image}
+      <ScrollView>
+        <View style={styles.container}>
+          <View style={styles.header}>
+            <AntDesign
+              name="left"
+              size={20}
+              color={colors.background}
+              onPress={() => navigation.navigate('Settings')}
+              style={{marginTop: 3}}
             />
-          </TouchableOpacity>
-        </View>
-
-        <View style={styles.content}>
-          <View style={styles.data}>
-            <MaterialIcons
-              name="person"
-              size={25}
-              color="#02AABD"
-              style={styles.image}
-            />
-            <View style={styles.frame}>
-              <TextInput
-                value={Name}
-                onChangeText={setName}
-                placeholder="Name"
-                placeholderTextColor={colors.greytxt}
-                style={styles.input}
-              />
-              <TouchableOpacity>
-                <MaterialIcons
-                  name={press1 ? 'edit' : 'done'}
-                  style={styles.icon}
-                  size={20}
-                  color={colors.background}
-                  onPress={async () => {
-                    setPress(!press);
-                    await firestore()
-                      .collection('users')
-                      .doc(auth().currentUser.id)
-                      .update({username: Name});
-                  }}
-                />
-              </TouchableOpacity>
-            </View>
+            <Text style={styles.heading}>User Profile</Text>
           </View>
-          <Divider style={styles.divider} />
+          <Divider />
 
-          <View style={styles.data}>
-            <MaterialIcons
-              name="email"
-              size={25}
-              color="#02AABD"
-              style={styles.image}
-            />
-            <View style={styles.frame}>
-              <TextInput
-                value={Email}
-                onChangeText={setEmail}
-                placeholder="email@gmail.com"
-                placeholderTextColor={colors.greytxt}
-                style={styles.input}
-              />
-              <TouchableOpacity>
-                <MaterialIcons
-                  name={press ? 'edit' : 'done'}
-                  style={styles.icon}
-                  size={20}
-                  color={colors.background}
-                  onPress={async () => {
-                    setPress(!press);
-                    await firestore()
-                      .collection('users')
-                      .doc(auth().currentUser.uid)
-                      .update({email: Email});
-                  }}
-                />
-              </TouchableOpacity>
-            </View>
-          </View>
-          <Divider style={styles.divider} />
-
-          <View style={styles.data}>
-            <MaterialIcons
-              name="lock"
-              size={25}
-              color="#02AABD"
-              style={styles.image}
-            />
-            <TouchableOpacity
-              onPress={() => navigation.navigate('New Password')}>
-              <View style={styles.frame}>
-                <Text style={styles.text}>Change Password</Text>
-              </View>
+          <View style={styles.profile}>
+            <TouchableOpacity onPress={handlePress}>
+              {image ? (
+                <>
+                  <Image source={{uri: image}} style={styles.personIcon} />
+                  <View style={styles.editIcon1}>
+                    <MaterialIcons name="camera" size={24} color="#fff" />
+                  </View>
+                </>
+              ) : (
+                <>
+                  <MaterialIcons
+                    name="person"
+                    size={150}
+                    color="#02AABD"
+                    style={styles.image}
+                  />
+                  <View style={styles.editIcon}>
+                    <MaterialIcons name="edit" size={24} color="#fff" />
+                  </View>
+                </>
+              )}
             </TouchableOpacity>
           </View>
 
+          {/* modal  */}
+          <Modal visible={modalVisible}>
+            <View style={styles.modalView}>
+              <Text style={styles.modalText}>Select image from</Text>
+
+              <TouchableOpacity activeOpacity={0.5} onPress={handleOpenGallery}>
+                <View style={styles.inMod}>
+                  <MaterialIcons name="camera" size={40} color="#02AABD" />
+                  <Text style={styles.inModText}>Gallery</Text>
+                </View>
+              </TouchableOpacity>
+
+              <TouchableOpacity activeOpacity={0.5} onPress={handleOpenCamera}>
+                <View style={styles.inMod}>
+                  <MaterialIcons name="image" size={40} color="#02AABD" />
+                  <Text style={styles.inModText}>Take a Photo</Text>
+                </View>
+              </TouchableOpacity>
+
+              <View>
+                <TouchableOpacity onPress={() => setModalVisible(false)}>
+                    <Text>Cancel</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </Modal>
+
+          <View style={styles.content}>
+            <View style={styles.data}>
+              <MaterialIcons
+                name="person"
+                size={25}
+                color="#02AABD"
+                style={styles.image}
+              />
+              <View style={styles.frame}>
+                <TextInput
+                  value={Name}
+                  onChangeText={setName}
+                  placeholder="Name"
+                  placeholderTextColor= {colors.background}
+                  style={styles.input}
+                />
+                <TouchableOpacity>
+                  <MaterialIcons
+                    name={press1 ? 'edit' : 'done'}
+                    style={styles.edit1}
+                    size={20}
+                    color="#02AABD"
+                    onPress={updateName}
+                  />
+                </TouchableOpacity>
+              </View>
+            </View>
+            <Divider style={styles.divider} />
+
+            <View style={styles.data}>
+              <MaterialIcons
+                name="email"
+                size={25}
+                color="#02AABD"
+                style={styles.image}
+              />
+              <View style={styles.frame}>
+                <TextInput
+                  value={Email}
+                  onChangeText={setEmail}
+                  placeholder="email@gmail.com"
+                  placeholderTextColor={colors.greytxt}
+                  style={styles.input}
+                />
+                <TouchableOpacity>
+                  <MaterialIcons
+                    name={press1 ? 'edit' : 'done'}
+                    style={styles.edit1}
+                    size={20}
+                    color="#02AABD"
+                    onPress={updateEmail}
+                  />
+                </TouchableOpacity>
+              </View>
+            </View>
+            <Divider style={styles.divider} />
+
+            <View style={styles.data}>
+              <MaterialIcons
+                name="lock"
+                size={25}
+                color="#02AABD"
+                style={styles.image}
+              />
+              <TouchableOpacity
+                onPress={() => navigation.navigate('New Password')}>
+                <View style={styles.frame}>
+                  <Text style={styles.text}>Change Password</Text>
+                </View>
+              </TouchableOpacity>
+            </View>
+            <Divider style={styles.divider} />
+          </View>
           <TouchableOpacity>
             <Button mode="contained" style={styles.button}>
               Save
             </Button>
           </TouchableOpacity>
         </View>
-      </View>
+      </ScrollView>
     </>
   );
 }
@@ -172,11 +321,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginLeft: -110,
     marginBottom: 30,
+    marginTop: 20,
   },
   heading: {
     color: colors.background,
     fontSize: 17,
     marginLeft: 90,
+  },
+  edit1: {
+    paddingLeft: 0,
   },
   profile: {
     height: 170,
@@ -229,6 +382,36 @@ const styles = StyleSheet.create({
     color: colors.background,
     marginLeft: 5,
   },
+  personIcon: {
+    height: 170,
+    width: 170,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'transparent',
+    borderRadius: 100,
+    paddingBottom: 10,
+    marginBottom: 15,
+    alignSelf: 'center',
+    borderWidth: 3,
+    borderColor: colors.background,
+  },
+  editIcon: {
+    position: 'absolute',
+    bottom: 0,
+    right: 0,
+    backgroundColor: '#02AABD',
+    borderRadius: 12,
+    padding: 4,
+  },
+  editIcon1: {
+    width: 40,
+    position: 'absolute',
+    bottom: 30,
+    right: 2,
+    backgroundColor: colors.background,
+    borderRadius: 5,
+    padding: 4,
+  },
   modalText: {
     marginBottom: 15,
     paddingTop: 12,
@@ -236,17 +419,20 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: 'black',
     fontSize: 20,
-},
-modalView: {
-    backgroundColor: '#FAF9F6',
+  },
+  modalView: {
+    backgroundColor: '#F0F2F5',
     borderRadius: 20,
     height: '40%',
     padding: 10,
     shadowColor: '#000000',
     shadowOffset: {
-        width: 0,
-        height: 2,
+      width: 0,
+      height: 2,
     },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
   inMod: {
     height: 50,
@@ -258,9 +444,9 @@ modalView: {
     alignContent: 'flex-start',
     alignItems: 'center',
     alignSelf: 'center',
-},
+  },
 
-inModText: {
+  inModText: {
     color: '#02AABD',
     paddingLeft: '4%',
     paddingBottom: 0,
@@ -268,28 +454,6 @@ inModText: {
     alignContent: 'space-between',
     marginTop: '3%',
     fontSize: 18,
-},
-linearGradient: {
-    height: '50%',
-    width: '45%',
-    flexDirection: 'row',
-    padding: 15,
-    paddingEnd: 5,
-    marginTop: '4%',
-
-    borderRadius: 40,
-    borderWidth: 0.5,
-    marginVertical: 5,
-    borderColor: 'black',
-    alignItems: 'center',
-    justifyContent: 'center',
-    alignSelf: 'center',
-},
-buttonTextStyle: {
-    color: colors.heading,
-    fontSize: 16,
-    justifyContent: 'center',
-    alignSelf: 'center',
-},
-
+  },
 });
+
