@@ -330,6 +330,7 @@ const styles = StyleSheet.create({
   },
   edit1: {
     paddingLeft: 0,
+    color: colors.background,
   },
   profile: {
     height: 170,
@@ -368,7 +369,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.heading,
     justifyContent: 'center',
     alignContent: 'center',
-    marginTop: 150,
+    marginTop: 130,
   },
   frame: {
     marginLeft: 10,
@@ -404,7 +405,6 @@ const styles = StyleSheet.create({
     padding: 4,
   },
   editIcon1: {
-    width: 40,
     position: 'absolute',
     bottom: 30,
     right: 2,

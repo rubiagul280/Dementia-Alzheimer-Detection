@@ -104,7 +104,7 @@ export default function Signup({navigation}) {
             />
             {!usernameValid && (
               <Text style={styles.error}>
-                Username must contain only letters and numbers
+                Username does not contain spaces
               </Text>
             )}
             <TextInput

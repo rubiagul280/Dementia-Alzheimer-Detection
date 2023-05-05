@@ -16,20 +16,18 @@ import colors from '../assets/colors/Colors';
 export default function Game({navigation}) {
   return (
     <>
-      <StatusBar animated={true} backgroundColor={colors.game} />
-      <View style={styles.container}>
-        <View>
-          <Image source={require('../assets/images/jigsaw.jpg')} />
-        </View>
-        <View style={{marginTop: 30}}>
-          <Image source={require('../assets/images/game.jpg')} />
-        </View>
+      <StatusBar animated={true} backgroundColor="#B8BDF5" />
+      <LinearGradient
+        start={{x: 1, y: 0}}
+        end={{x: 0, y: 1}}
+        colors={['#B8BDF5', '#E8F1F2', '#BBEEEA']}
+        style={styles.container}>
         <TouchableOpacity>
           <Button mode="contained" style={styles.button}>
             Play
           </Button>
         </TouchableOpacity>
-      </View>
+      </LinearGradient>
     </>
   );
 }
@@ -40,7 +38,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.game,
   },
   button: {
-    marginTop: 40,
+    marginTop: 300,
     marginLeft: 80,
     width: 200,
     height: 50,
