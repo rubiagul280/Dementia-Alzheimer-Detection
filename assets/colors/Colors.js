@@ -11,6 +11,7 @@ const colors = {
     heading: '#FEA500',
     statusbar: '#B9B0E5',
     game: '#48101C',
+    modal: '#EBEBEB',
   };
 
   export default colors;

@@ -26,7 +26,9 @@ export default function Login({navigation}) {
         navigation.replace('Tabs');
       }
     } catch (e) {
-      Alert.alert(e.message);
+      const message = e.message;
+      console.log(e.message);
+      Alert.alert(message);
     }
   };
 
@@ -190,5 +192,5 @@ const styles = StyleSheet.create({
   },
   btn: {
     flexDirection: 'row',
-  }
+  },
 });

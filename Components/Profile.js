@@ -71,14 +71,6 @@ export default function Profile ({navigation}) {
       .update({username: Name});
   };
 
-  const updatePassword = async () => {
-    setPress2(!press2);
-    await firestore()
-      .collection('users')
-      .doc(auth().currentUser.uid)
-      .update({password: Password});
-    await auth().currentUser.updatePassword(Password);
-  };
 
   const currentUser = auth().currentUser;
   const imageRef = firestore()
@@ -192,7 +184,7 @@ export default function Profile ({navigation}) {
                     style={styles.image}
                   />
                   <View style={styles.editIcon}>
-                    <MaterialIcons name="edit" size={24} color="#fff" />
+                    <MaterialIcons name="camera" size={24} color="#fff" />
                   </View>
                 </>
               )}
@@ -204,23 +196,23 @@ export default function Profile ({navigation}) {
             <View style={styles.modalView}>
               <Text style={styles.modalText}>Select image from</Text>
 
-              <TouchableOpacity activeOpacity={0.5} onPress={handleOpenGallery}>
+              <TouchableOpacity  onPress={handleOpenGallery}>
                 <View style={styles.inMod}>
-                  <MaterialIcons name="camera" size={40} color="#02AABD" />
+                  <MaterialIcons name="camera" size={25} color={colors.background} style={styles.icon}/>
                   <Text style={styles.inModText}>Gallery</Text>
                 </View>
               </TouchableOpacity>
 
-              <TouchableOpacity activeOpacity={0.5} onPress={handleOpenCamera}>
+              <TouchableOpacity onPress={handleOpenCamera}>
                 <View style={styles.inMod}>
-                  <MaterialIcons name="image" size={40} color="#02AABD" />
+                  <MaterialIcons name="image" size={25} color={colors.background} style={styles.icon}/>
                   <Text style={styles.inModText}>Take a Photo</Text>
                 </View>
               </TouchableOpacity>
 
               <View>
                 <TouchableOpacity onPress={() => setModalVisible(false)}>
-                    <Text>Cancel</Text>
+                    <Text style={styles.cancel}>Cancel</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -400,7 +392,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 0,
     right: 0,
-    backgroundColor: '#02AABD',
+    backgroundColor: colors.background,
     borderRadius: 12,
     padding: 4,
   },
@@ -416,28 +408,20 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     paddingTop: 12,
     textAlign: 'center',
-    fontWeight: 'bold',
-    color: 'black',
-    fontSize: 20,
+    fontWeight: 500,
+    color: colors.background,
+    fontSize: 18,
   },
   modalView: {
-    backgroundColor: '#F0F2F5',
-    borderRadius: 20,
+    backgroundColor: colors.modal,
+    borderRadius: 5,
     height: '40%',
+    width: '90%',
     padding: 10,
-    shadowColor: '#000000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
+    marginLeft: 15,
   },
   inMod: {
     height: 50,
-    marginTop: '2%',
-    marginBottom: '2%',
     width: '90%',
     display: 'flex',
     flexDirection: 'row',
@@ -447,13 +431,20 @@ const styles = StyleSheet.create({
   },
 
   inModText: {
-    color: '#02AABD',
+    color: colors.background,
     paddingLeft: '4%',
     paddingBottom: 0,
-    fontWeight: 'bold',
+    fontWeight: 400,
     alignContent: 'space-between',
     marginTop: '3%',
-    fontSize: 18,
+    fontSize: 16,
   },
+  icon:{
+    marginTop: 7,
+  },
+  cancel: {
+    marginLeft: 200,
+    fontSize: 12,
+  }
 });
 

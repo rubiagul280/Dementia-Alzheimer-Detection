@@ -122,7 +122,6 @@ export default function AddMedication({navigation}) {
               <Picker.Item label="Powder" value="option4" />
               <Picker.Item label="Drops" value="option5" />
               <Picker.Item label="Inhaler" value="option6" />
-              <Picker.Item label="Once a month" value="option7" />
             </Picker>
             <Divider style={styles.list} />
             <Text style={styles.question}>

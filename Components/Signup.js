@@ -42,7 +42,7 @@ export default function Signup({navigation}) {
         navigation.navigate('Login');
       }
     } catch (e) {
-      Alert('Signup failed', e.message);
+      Alert.alert('Signup failed', e.message);
     }
   };
 

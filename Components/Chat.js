@@ -1,67 +1,49 @@
-/* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
 
 import {View, StyleSheet, StatusBar, TouchableOpacity} from 'react-native';
-import {Button, Divider, Text, TextInput} from 'react-native-paper';
-import React, {useState} from 'react';
-import AntDesign from 'react-native-vector-icons/AntDesign';
+import {Button, Text} from 'react-native-paper';
+import React  from 'react';
+import Icons from 'react-native-vector-icons/Entypo';
 import colors from '../assets/colors/Colors';
-import axios from 'axios';
+import RNKommunicateChat from 'react-native-kommunicate-chat';
 
-const GPT_API_KEY = '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';
-const GPT_API_URL = 'https://api.openai.com/v1/engine/davinci-codex/completions';
 
 export default function Chat({navigation}) {
-  const [input, setInput] = useState('');
-  const [output, setOutput] = useState('');
-
-  const handleInput = async text => {
-    setInput(text);
-    const response = await getCompletion(text);
-    setOutput(response);
+  //const isDarkMode = useColorScheme() === 'dark';
+  const startConversation = () => {
+    let conversationObject = {
+      appId: '7821b56f011ea2e65887b9365ef5c38b',
+    };
+    RNKommunicateChat.buildConversation(
+      conversationObject,
+      (response, responseMessage) => {
+        if (response === 'Success') {
+          console.log('Conversation Successfully with id:' + responseMessage);
+        }
+      },
+    );
   };
 
-  const getCompletion = async prompt => {
-    const headers = {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${GPT_API_KEY}`,
-    };
-    const data = {
-      prompt: prompt,
-      max_tokens: 100,
-    };
-    try {
-      const response = await axios.post(GPT_API_URL, data, {headers});
-      return response.data.choices[0].text;
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   return (
     <>
-      <StatusBar animated={true} backgroundColor="#B9B0E5" />
+      <StatusBar/>
       <View style={styles.container}>
-        <View style={styles.header}>
-          <AntDesign
-            name="left"
-            size={20}
-            color={colors.background}
-            onPress={() => navigation.navigate('Settings')}
-            style={{marginTop: 3}}
-          />
-          <Text style={styles.heading}>Chat</Text>
-        </View>
+        <Icons name="chat" color={colors.background} size={60} />
         <View>
-          <Text style={styles.label}>Enter your prompt:</Text>
-          <TextInput
-            style={styles.input}
-            onChangeText={handleInput}
-            value={input}
-          />
-          <Text style={styles.label}>Output:</Text>
-          <Text style={styles.output}>{output}</Text>
+          <Text style={styles.header}>Welcome</Text>
+          <Text style={styles.title}>
+            Here you can talk with your AI Chatbot.
+          </Text>
+          <View>
+          <TouchableOpacity onPress={() => startConversation()}>
+            <Button mode="contained" style={styles.button}>
+              Start Conversation
+            </Button>
+          </TouchableOpacity>
+          </View>
         </View>
+
       </View>
     </>
   );
@@ -75,66 +57,24 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   header: {
-    flexDirection: 'row',
-    marginLeft: -110,
-    marginBottom: 30,
-  },
-  heading: {
-    color: colors.background,
-    fontSize: 17,
-    marginLeft: 90,
-  },
-  profile: {
-    height: 170,
-    width: 170,
-    alignItems: 'center',
-    borderRadius: 100,
-    paddingBottom: 10,
-    marginBottom: 15,
-    borderWidth: 3,
-    borderColor: colors.background,
-  },
-  input: {
-    marginBottom: 28,
-    width: 300,
-    marginLeft: 0,
-    borderRadius: 8,
-  },
-  chatContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: '#ccc',
-  },
-  chatInput: {
-    flex: 1,
-    height: 40,
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 4,
-    padding: 8,
-    marginRight: 10,
-    fontSize: 16,
-  },
-  chatButton: {
-    backgroundColor: '#007aff',
-    borderRadius: 4,
-    padding: 10,
-  },
-  chatButtonText: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-  chatOutputContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20,
-  },
-  chatOutput: {
-    fontSize: 18,
     textAlign: 'center',
+    fontSize: 25,
+    marginTop: 40,
+  },
+  button: {
+    marginTop: 80,
+    width: 300,
+    height: 50,
+    backgroundColor: colors.heading,
+    borderRadius: 36,
+    alignItems: 'center',
+    paddingTop: 4,
+  },
+  title: {
+    fontSize: 16,
+    padding: 7,
+    textAlign: 'center',
+    marginTop: 15,
+    color: colors.greytxt,
   },
 });

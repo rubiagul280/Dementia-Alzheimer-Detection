@@ -107,7 +107,7 @@ const TabScreens = () => {
         component={Chat}
         options={{
           tabBarIcon: ({color, size}) => (
-            <Ionicons name="settings"  color={colors.background} size={size} />
+            <Ionicons name="chatbox-ellipses-sharp"  color={colors.background} size={size} />
           ),
           tabBarLabelStyle: {
             color: colors.background,
