@@ -22,9 +22,14 @@ export default function Game({navigation}) {
         end={{x: 0, y: 1}}
         colors={['#B8BDF5', '#E8F1F2', '#BBEEEA']}
         style={styles.container}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('MemoryGame')}>
           <Button mode="contained" style={styles.button}>
-            Play
+            Memory Game
+          </Button>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('Hangman')}>
+          <Button mode="contained" style={styles.button}>
+            Hangman
           </Button>
         </TouchableOpacity>
       </LinearGradient>
@@ -38,7 +43,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.game,
   },
   button: {
-    marginTop: 300,
+    marginTop: 50,
     marginLeft: 80,
     width: 200,
     height: 50,

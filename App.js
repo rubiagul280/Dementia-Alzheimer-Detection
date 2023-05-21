@@ -32,6 +32,8 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import colors from './assets/colors/Colors';
 import NewPassword from './Components/NewPassword';
 import Chat from './Components/Chat';
+import Index from './Components/Hangman/Index';
+import MemoryGame from './Components/MemoryGame';
 
 
 const Tab = createBottomTabNavigator();
@@ -147,6 +149,9 @@ function App() {
         <Stack.Screen name="Help" component={Help} />
         <Stack.Screen name="Hospital" component={Hospital} />
         <Stack.Screen name="Assessment" component={Assessment} />
+        <Stack.Screen name="Hangman" component={Index} />
+        <Stack.Screen name="Game" component={Game} />
+        <Stack.Screen name="MemoryGame" component={MemoryGame} />
       </Stack.Navigator>
     </NavigationContainer>
   );

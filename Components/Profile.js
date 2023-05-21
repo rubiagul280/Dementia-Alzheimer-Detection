@@ -137,7 +137,7 @@ export default function Profile ({navigation}) {
   // Upload image to Firebase Storage and update the image URL in Firestore
   const uploadImage = async uri => {
     const storageRef = storage().ref(
-      `users/${currentUser.uid}/profile/image.jpg`,
+      `profile/${currentUser.username}/profilePicture/image.jpg`,
     );
     const task = storageRef.putFile(uri);
     try {
