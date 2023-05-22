@@ -57,6 +57,7 @@ export default function Feedback({navigation, user}) {
 
       // Show a success message to the user
       Alert.alert('Feedback sent successfully!');
+      setFeedbackMessage('');
       } else {
         Alert.alert('Please enter your feedback!');
       }

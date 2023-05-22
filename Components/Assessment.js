@@ -84,7 +84,7 @@ export default function Assessment({navigation}) {
         answers: answers,
       })
       .then(() => {
-        navigation.navigate('Tracker');
+        navigation.navigate('Tabs');
       });
 
   };
