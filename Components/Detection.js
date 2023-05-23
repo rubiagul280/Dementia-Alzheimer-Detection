@@ -72,6 +72,7 @@ export default function Detection({navigation}) {
   const [pdfUrl, setPdfUrl] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isReportButtonDisabled, setIsReportButtonDisabled] = useState(true);
 
   const getPredication = async params => {
     try {
@@ -84,6 +85,7 @@ export default function Detection({navigation}) {
       const data = await response.json();
       setLabel(data.class);
       setResult(data.confidence);
+      setIsReportButtonDisabled(false);
       console.log(data);
     } catch (error) {
       console.error('Error in getPrediction:', error);
@@ -112,6 +114,7 @@ export default function Detection({navigation}) {
     // setResult(0.65);
     // await generateReport(path);
     // return;
+    setIsReportButtonDisabled(true);
     const res = await getPredication(params);
     const data = await response.json();
     if (res?.data?.class) {
@@ -121,6 +124,7 @@ export default function Detection({navigation}) {
       setLabel(data.class);
       setResult(data.confidence);
     }
+    setIsReportButtonDisabled(false);
   };
 
   const openLibrary = async () => {
@@ -149,7 +153,6 @@ export default function Detection({navigation}) {
   });
   const [username, setUsername] = useState('');
   //const [canDownloadReport, setCanDownloadReport] = useState(false);
-
 
   // Listen for changes to the user object in Firebase and update the userInfo state object
   useEffect(() => {
@@ -363,9 +366,8 @@ export default function Detection({navigation}) {
                         <img src="${image}"alt="MRI image" style="width: 170px;height: 200px;">
                     </td>
                 </tr>
-                <tr>
-                    <td style="border: 1px solid black;padding: 5px;" colspan="2">Accuracy: &#160; ${percentage}&#160;</td>
-                </tr>
+               
+                
             </table>
         </div>
     </body>
@@ -375,7 +377,7 @@ export default function Detection({navigation}) {
     try {
       const option = {
         html,
-        fileName: 'detection_report',
+        fileName: 'Report',
         directory: RNFS.DocumentDirectoryPath,
       };
       if (!uid) {
@@ -397,7 +399,7 @@ export default function Detection({navigation}) {
       const reportFilePath = pdf.filePath;
 
       // Create a unique filename for the report in Firebase Storage.
-      const filename = `reports/${uid}/${Date.now()}_detection_report.pdf`;
+      const filename = `reports/${uid}/Report.pdf`;
 
       // Upload the report to Firebase Storage.
       const storageRef = storage().ref(filename);
@@ -470,7 +472,10 @@ export default function Detection({navigation}) {
             style={{marginTop: 4}}
           />
           <Text style={styles.head}>Detection</Text>
-          <TouchableOpacity onPress={handleReportButtonPress}>
+          <TouchableOpacity
+            onPress={handleReportButtonPress}
+            disabled={isReportButtonDisabled} // Disable button if isReportButtonDisabled is true
+          >
             <View style={styles.report}>
               <Fontisto name="upload" color={colors.background} />
               <Text style={styles.reportText}>Report</Text>
@@ -676,12 +681,12 @@ export default function Detection({navigation}) {
                 {'Label:  '}
                 <Text style={styles.resultText}>{label}</Text>
               </Text>
-              <Text style={[styles.space, styles.labelText]}>
+              {/* <Text style={[styles.space, styles.labelText]}>
                 {'Confidence:  '}
                 <Text style={styles.resultText}>
                   {parseFloat(result).toFixed(2) * 100 + '%'}
                 </Text>
-              </Text>
+              </Text> */}
             </View>
           )}
 

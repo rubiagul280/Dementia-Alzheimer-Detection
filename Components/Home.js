@@ -83,8 +83,8 @@ export default function Home({navigation}) {
                 </TouchableOpacity>
               </View>
 
-              <View style={{flexDirection: 'row'}}>
-                <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+              <View style={{flexDirection: 'column'}}>
+                <ScrollView>
                 <View style={{marginRight: 30}}>
                   <Text style={styles.heading}>Take care of your health</Text>
                   <Card
