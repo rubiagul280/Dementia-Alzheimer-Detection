@@ -20,8 +20,8 @@ import { BlurView } from '@react-native-community/blur';
 export default function MemoryGame({ navigation }) {
     const levels = [
         { name: 'Easy', pairs: 4, timeLimit: 25 },
-        { name: 'Medium', pairs: 8, timeLimit: 100 },
-        { name: 'Hard', pairs: 12, timeLimit: 180 },
+        { name: 'Medium', pairs: 7, timeLimit: 100 },
+        { name: 'Hard', pairs: 10, timeLimit: 180 },
     ];
 
     const [selectedLevel, setSelectedLevel] = useState(null);
@@ -95,14 +95,6 @@ export default function MemoryGame({ navigation }) {
         setMoves(prevMoves => prevMoves + 1);
     };
 
-    // const resetGame = () => {
-    //   setFlippedCards([]);
-    //   setMatchedCards([]);
-    //   setMoves(0);
-    //   setGameStarted(false);
-    //   setTimer(0);
-    // };ha
-
     const resetGame = () => {
         setFlippedCards([]);
         setMatchedCards([]);
@@ -140,7 +132,7 @@ export default function MemoryGame({ navigation }) {
                             <Image source={imageSource} style={styles.cardImage} />
                         ) : (
                             <Image
-                                source={require('../assets/images/card-back.png')}
+                                source={require('../assets/images/card-back2.png')}
                                 style={styles.cardBackImage}
                             />
                         )}
@@ -380,26 +372,32 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     cardImage: {
-        width: 60,
-        height: 60,
+        width: 80,
+        height: 110,
         resizeMode: 'contain',
     },
     cardBackImage: {
-        width: 60,
-        height: 60,
+        width: 80,
+        height: 120,
         resizeMode: 'contain',
-        tintColor: '#290438',
+        tintColor: '#fff',
+        borderRadius: 5,
     },
     resetButton: {
-        marginTop: 20,
-        padding: 10,
-        backgroundColor: 'lightgreen',
-        borderRadius: 5,
+        marginTop: 28,
+        width: 300,
+        height: 50,
+        backgroundColor: colors.heading,
+        borderRadius: 36,
+        alignItems: 'center',
+        paddingTop: 4,
+        marginBottom: 20,
     },
     resetButtonText: {
         fontSize: 18,
         fontWeight: 'bold',
         color: 'white',
+        paddingTop: 10,
     },
 });
 
