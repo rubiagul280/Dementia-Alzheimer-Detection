@@ -54,7 +54,7 @@ export default function Game({ navigation }) {
             </TouchableOpacity>
             <Button
               style={styles.instructions}
-              onPress={toggleModal}>
+              onPress={() => navigation.navigate('Instructions')}>
               Game Instructions
             </Button>
             <Modal visible={modalVisible} animationType="slide" onRequestClose={toggleModal}>

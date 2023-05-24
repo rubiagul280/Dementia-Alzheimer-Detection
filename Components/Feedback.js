@@ -116,7 +116,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginLeft: -10,
     marginBottom: 30,
-    marginTop: 30,
   },
   heading: {
     color: colors.background,

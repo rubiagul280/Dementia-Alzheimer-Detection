@@ -274,13 +274,7 @@ export default function MemoryGame({ navigation }) {
                             {gameStarted && selectedLevel && (
                                 <Text style={styles.movesText}>Moves: {moves}</Text>
                             )}
-                            <View style={styles.levelButtonsContainer}>{renderLevelButtons()}
-                                <TouchableOpacity
-                                    onPress={() => navigation.navigate('Tabs', { screen: 'Game' })}>
-                                    <Button mode="contained" style={styles.button}>
-                                        Exit
-                                    </Button>
-                                </TouchableOpacity></View>
+                            <View style={styles.levelButtonsContainer}>{renderLevelButtons()}</View>
                             <View style={styles.cardsContainer}>{renderCards()}</View>
                             {gameStarted && selectedLevel && (
                                 <TouchableOpacity onPress={resetGame} style={styles.resetButton}>
@@ -398,15 +392,6 @@ const styles = StyleSheet.create({
         color: 'white',
         paddingTop: 10,
     },
-    button: {
-        marginTop: 12,
-        width: 200,
-        height: 50,
-        backgroundColor: colors.heading,
-        borderRadius: 36,
-        alignItems: 'center',
-        padding: 4,
-        marginLeft: 10,
-    }
+
 });
 

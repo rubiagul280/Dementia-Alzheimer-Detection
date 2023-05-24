@@ -198,7 +198,7 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     marginLeft: -90,
-    marginTop: 50,
+    marginTop: 20,
   },
   heading: {
     color: '#fff',

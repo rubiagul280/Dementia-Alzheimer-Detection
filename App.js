@@ -20,7 +20,6 @@ import Profile from './Components/Profile';
 import Help from './Components/Help';
 import PrivacyPolicy from './Components/PrivacyPolicy';
 import Feedback from './Components/Feedback';
-import Theme from './Components/Theme';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -31,7 +30,7 @@ import NewPassword from './Components/NewPassword';
 import Chat from './Components/Chat';
 import Index from './Components/Hangman/Index';
 import MemoryGame from './Components/MemoryGame';
-//import { hideNavigationBar, showNavigationBar } from 'react-native-navigation-bar-color';
+import Instructions from './Components/Instructions';
 
 
 const Tab = createBottomTabNavigator();
@@ -109,14 +108,6 @@ const TabScreens = () => {
 const Stack = createNativeStackNavigator();
 
 function App() {
-  // useEffect(() => {
-  //   hideNavigationBar(); // Hide the navigation bar
-
-  //   return () => {
-  //     // Restore the navigation bar when the component is unmounted (optional)
-  //     showNavigationBar();
-  //   };
-  // }, []);
   return (
     <NavigationContainer>
       <Stack.Navigator
@@ -137,13 +128,13 @@ function App() {
         <Stack.Screen name="Profile" component={Profile} />
         <Stack.Screen name="Feedback" component={Feedback} />
         <Stack.Screen name="Privacy" component={PrivacyPolicy} />
-        <Stack.Screen name="Theme" component={Theme} />
         <Stack.Screen name="Help" component={Help} />
         <Stack.Screen name="Assessment" component={Assessment} />
         <Stack.Screen name="Hangman" component={Index} />
         <Stack.Screen name="Game" component={Game} />
         <Stack.Screen name="MemoryGame" component={MemoryGame} />
         <Stack.Screen name="Home" component={Home} />
+        <Stack.Screen name="Instructions" component={Instructions} />
       </Stack.Navigator>
     </NavigationContainer>
   );

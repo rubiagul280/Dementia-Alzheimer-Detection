@@ -164,7 +164,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginLeft: 0,
     marginBottom: 30,
-    marginTop: 40,
+    marginTop: 15,
   },
   heading: {
     color: colors.background,

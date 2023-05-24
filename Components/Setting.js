@@ -134,7 +134,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginLeft: -130,
     marginBottom: 30,
-    marginTop: 60,
+    marginTop: 20,
   },
   heading: {
     color: colors.background,

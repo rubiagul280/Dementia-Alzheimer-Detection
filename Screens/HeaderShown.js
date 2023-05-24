@@ -8,7 +8,6 @@ import About from '../Components/About';
 import Detection from '../Components/Detection';
 import Medication from '../Components/Medication';
 import AddMedication from '../Components/AddMedication';
-import Tracker from '../Components/Tracker';
 
 export default function HeaderShown({navigation}) {
   const Stack = createNativeStackNavigator();
@@ -30,7 +29,6 @@ export default function HeaderShown({navigation}) {
       <Stack.Screen name="Detection" component={Detection} />
       <Stack.Screen name="Medication" component={Medication} />
       <Stack.Screen name="AddMedication" component={AddMedication} />
-      <Stack.Screen name="Tracker" component={Tracker} />
     </Stack.Navigator>
   );
 }

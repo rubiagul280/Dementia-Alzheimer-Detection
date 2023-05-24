@@ -110,10 +110,6 @@ export default function Detection({navigation}) {
       name: response.assets[0].fileName,
       type: response.assets[0].type,
     };
-    // setLabel('Test Disease');
-    // setResult(0.65);
-    // await generateReport(path);
-    // return;
     setIsReportButtonDisabled(true);
     const res = await getPredication(params);
     const data = await response.json();
@@ -152,7 +148,6 @@ export default function Detection({navigation}) {
     contact: '',
   });
   const [username, setUsername] = useState('');
-  //const [canDownloadReport, setCanDownloadReport] = useState(false);
 
   // Listen for changes to the user object in Firebase and update the userInfo state object
   useEffect(() => {
@@ -184,7 +179,7 @@ export default function Detection({navigation}) {
 
     const department = 'Neurology';
     const diseaseName = label;
-    const percentage = parseFloat(result).toFixed(2) * 100;
+    //const percentage = parseFloat(result).toFixed(2) * 100;
 
     const html = `<!DOCTYPE html>
     <html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
@@ -675,7 +670,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginLeft: 0,
     marginBottom: 30,
-    marginTop: 40,
+    marginTop: 5,
   },
   head: {
     color: colors.background,
