@@ -8,7 +8,6 @@ import {Divider, List, Text} from 'react-native-paper';
 import colors from '../assets/colors/Colors';
 import Icons from 'react-native-vector-icons/Ionicons';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import auth from '@react-native-firebase/auth';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
@@ -86,23 +85,6 @@ export default function Setting({navigation}) {
                 <Divider/>
               </TouchableOpacity>
 
-              <TouchableOpacity onPress={() => navigation.navigate('Theme')}>
-                <List.Item
-                  title="Theme"
-                  left={() => (
-                    <MaterialCommunityIcon
-                      name="theme-light-dark"
-                      size={25}
-                      color={colors.background}
-                    />
-                  )}
-                  right={() => (
-                    <List.Icon icon="arrow-right" color={colors.background} />
-                  )}
-                />
-                <Divider/>
-              </TouchableOpacity>
-
               <TouchableOpacity onPress={handleDeleteAccount}>
                 <List.Item
                   title="Delete account"
@@ -150,9 +132,9 @@ const styles = StyleSheet.create({
   },
   header: {
     flexDirection: 'row',
-    marginLeft: -120,
+    marginLeft: -130,
     marginBottom: 30,
-    marginTop: 20,
+    marginTop: 60,
   },
   heading: {
     color: colors.background,

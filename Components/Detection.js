@@ -428,37 +428,6 @@ export default function Detection({navigation}) {
     }
   }, [pdfUrl]);
 
-  // const downloadReport = async () => {
-  //   try {
-  //     if (!canDownloadReport) {
-  //       console.log('Report is not available for download yet');
-  //       return;
-  //     }
-  //     // Extract the filename from the pdfUrl
-  //     const filename = pdfUrl.substring(pdfUrl.lastIndexOf('/') + 1);
-
-  //     // Create a reference to the report file in Firebase Storage
-  //     const storageRef = storage().ref(filename);
-
-  //     // Get the download URL of the report
-  //     const downloadURL = await storageRef.getDownloadURL();
-
-  //     // Download the file to the device's storage
-  //     const downloadFilePath = `${RNFS.DocumentDirectoryPath}/${filename}`;
-  //     const downloadResult = await RNFS.downloadFile({
-  //       fromUrl: downloadURL,
-  //       toFile: downloadFilePath,
-  //     });
-
-  //     // Display success message or perform any other actions
-  //     console.log('Report downloaded successfully:', downloadResult);
-  //   } catch (error) {
-  //     // Handle any errors that occur during the download process
-  //     console.error('Error downloading report:', error);
-  //     Alert.alert('There was an error downloading the report');
-  //   }
-  // };
-
   return (
     <View style={[styles.outer]}>
       <StatusBar animated={true} backgroundColor="#B9B0E5" />
@@ -625,11 +594,6 @@ export default function Detection({navigation}) {
                     />
                   </View>
                 </View>
-                {/* <TouchableOpacity onPress={downloadReport}>
-                  <Button mode="contained" style={styles.reportbtn}>
-                    Download Report
-                  </Button>
-                </TouchableOpacity> */}
               </Modal>
             )}
             {isLoading ? (
@@ -711,6 +675,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginLeft: 0,
     marginBottom: 30,
+    marginTop: 40,
   },
   head: {
     color: colors.background,

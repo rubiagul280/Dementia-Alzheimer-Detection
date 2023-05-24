@@ -85,7 +85,7 @@ export default function Home({navigation}) {
 
               <View style={{flexDirection: 'column'}}>
                 <ScrollView>
-                <View style={{marginRight: 30}}>
+                <View >
                   <Text style={styles.heading}>Take care of your health</Text>
                   <Card
                     style={styles.card}
@@ -104,7 +104,7 @@ export default function Home({navigation}) {
                   </Text>
                 </View>
 
-                <View>
+                <View style={{marginTop: -40}}>
                   <Text style={styles.heading}/>
                   <Card
                     style={styles.card}
@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   top: {
-    marginTop: 20,
+    marginTop: 60,
   },
   card: {
     margin: 4,

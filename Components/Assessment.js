@@ -98,7 +98,7 @@ export default function Assessment({navigation}) {
 
     return (
       <>
-        <StatusBar animated={true} backgroundColor={colors.background} />
+        <StatusBar animated={true} backgroundColor={colors.background} barStyle="light-content"/>
         <View style={styles.container}>
           <View style={styles.header}>
             <AntDesign
@@ -198,7 +198,7 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     marginLeft: -90,
-    marginTop: 20,
+    marginTop: 50,
   },
   heading: {
     color: '#fff',

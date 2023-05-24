@@ -1,23 +1,18 @@
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
 
-import React, {useState, useEffect} from 'react';
-import {View, StyleSheet, TouchableOpacity, FlatList} from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
 import CalendarStrip from 'react-native-calendar-strip';
 import moment from 'moment';
 import colors from '../assets/colors/Colors';
-import {Provider, Text, Button, Image} from 'react-native-paper';
-import Entypo from 'react-native-vector-icons/Entypo';
+import { Provider, Text, Button } from 'react-native-paper';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import Fontisto from 'react-native-vector-icons/Fontisto';
-import {FloatingAction} from 'react-native-floating-action';
 import firestore from '@react-native-firebase/firestore';
-import auth from '@react-native-firebase/auth';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-export default function Medication({navigation}) {
-  // const [data, setData] = useState([]);
+export default function Medication({ navigation }) {
   const [medications, setMedications] = useState([]);
 
   const datesWhitelist = [
@@ -40,27 +35,6 @@ export default function Medication({navigation}) {
     },
   };
 
-  const actions = [
-    {
-      text: 'Add Medication',
-      name: 'AddMedication',
-      icon: <Fontisto name="pills" size={20} color="#B8BDF5" />,
-      position: 1,
-      buttonColor: colors.heading,
-    },
-    {
-      text: 'Add Tracking Entry',
-      icon: <MaterialIcons name="track-changes" size={20} color="#B8BDF5" />,
-      position: 2,
-      name: 'track',
-    },
-    {
-      text: 'Add Dose',
-      icon: <Entypo name="home" size={20} color="#B8BDF5" />,
-      position: 3,
-      name: 'dose',
-    },
-  ];
 
   useEffect(() => {
     const subscriber = firestore()
@@ -103,10 +77,10 @@ export default function Medication({navigation}) {
         </View>
         <View style={styles.calendarStrip}>
           <CalendarStrip
-            calendarAnimation={{type: 'sequence', duration: 30}}
+            calendarAnimation={{ type: 'sequence', duration: 30 }}
             daySelectionAnimation={styles.animation}
             style={styles.calendar}
-            calendarHeaderStyle={{color: colors.secondary}}
+            calendarHeaderStyle={{ color: colors.secondary }}
             calendarColor={'#E6E6E6'}
             dateNameStyle={colors.greytxt}
             highlightDateNumberStyle={colors.secondary}
@@ -114,7 +88,7 @@ export default function Medication({navigation}) {
             disabledDateNameStyle={colors.greytxt}
             disabledDateNumberStyle={colors.greytxt}
             datesWhitelist={datesWhitelist}
-            iconContainer={{flex: 0.1}}
+            iconContainer={{ flex: 0.1 }}
             dateNumberStyle={dateStyles.dateNumberStyle}
             startingDate={currentDate}
           />
@@ -124,34 +98,35 @@ export default function Medication({navigation}) {
           <FlatList
             data={medications}
             showsVerticalScrollIndicator={false}
-            renderItem={({item}) => (
+            renderItem={({ item }) => (
               <View style={styles.details}>
                 <View style={styles.medicine}>
                   <Text style={styles.name}>{item.MedicationName}</Text>
-                  <View style={{flexDirection: 'row', marginBottom: 8}}>
+                  <Text style={styles.form}>{item.MedicationForm}</Text>
+                  <View style={{ flexDirection: 'row', marginBottom: 8 }}>
                     <MaterialIcons
                       name="date-range"
                       size={18}
                       color={colors.background}
                     />
-                    <Text style={{marginLeft: 10}}>
-                      Start: {item.MedStartDate.toDate().toLocaleDateString()}
+                    <Text style={{ marginLeft: 10 }}>
+                      Start: {medications.length > 0 && medications[0].MedStartDate.toDate().toLocaleDateString()}
                     </Text>
                   </View>
 
-                  <View style={{flexDirection: 'row'}}>
+                  <View style={{ flexDirection: 'row' }}>
                     <MaterialIcons
                       name="date-range"
                       size={18}
                       color={colors.background}
                     />
-                    <Text style={{marginLeft: 10}}>
-                      End: {item.MedEndDate.toDate().toLocaleDateString()}
+                    <Text style={{ marginLeft: 10 }}>
+                      End: {medications.length > 0 && medications[0].MedEndDate.toDate().toLocaleDateString()}
                     </Text>
                   </View>
                 </View>
 
-                <View style={{flexDirection: 'row'}}>
+                <View style={{ flexDirection: 'row' }}>
                   <TouchableOpacity onPress={() => handleDelete(item.id)}>
                     <MaterialCommunityIcons
                       name={'delete-outline'}
@@ -172,18 +147,6 @@ export default function Medication({navigation}) {
               Add Medication
             </Button>
           </TouchableOpacity>
-          {/* <FloatingAction
-            actions={actions}
-            color={colors.heading}
-            floatingIcon={<Entypo name="plus" size={20} color="#fff" />}
-            iconHeight={24}
-            iconWidth={24}
-            position="right"
-            distanceToEdge={16}
-            onPressItem={name => navigation.navigate({name})}
-            style={styles.fab}
-            overlayColor={null}
-          /> */}
         </View>
       </View>
     </Provider>
@@ -201,7 +164,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginLeft: 0,
     marginBottom: 30,
-    marginTop: 5,
+    marginTop: 40,
   },
   heading: {
     color: colors.background,
@@ -269,6 +232,11 @@ const styles = StyleSheet.create({
   name: {
     color: colors.background,
     fontSize: 20,
+    marginBottom: 10,
+  },
+  form: {
+    color: colors.greytxt,
+    fontSize: 16,
     marginBottom: 10,
   },
 });

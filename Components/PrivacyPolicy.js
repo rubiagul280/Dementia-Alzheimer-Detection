@@ -17,7 +17,7 @@ export default function PrivacyPolicy({navigation}) {
         <View style={styles.container}>
         <View style={styles.header}>
           <AntDesign name="left" size={20} color={colors.background}
-          onPress={() => navigation.navigate('Settings')}/>
+          onPress={() => navigation.navigate('Tabs', { screen: 'Settings' })}/>
           <Text style={styles.heading}>Privacy Policy</Text>
         </View>
           <>
@@ -77,6 +77,7 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     marginBottom: 30,
+    marginTop: 30,
   },
   heading: {
     color: colors.background,

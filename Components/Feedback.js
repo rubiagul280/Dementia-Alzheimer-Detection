@@ -4,15 +4,12 @@ import {
   View,
   StatusBar,
   StyleSheet,
-  TouchableOpacity,
-  Linking,
   Alert,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {Text, Button, TextInput} from 'react-native-paper';
 import colors from '../assets/colors/Colors';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import messaging from '@react-native-firebase/messaging';
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 
@@ -77,7 +74,7 @@ export default function Feedback({navigation, user}) {
             name="left"
             size={18}
             color={colors.background}
-            onPress={() => navigation.navigate('Settings')}
+            onPress={() => navigation.navigate('Tabs', { screen: 'Settings' })}
             style={{marginTop: 2}}
           />
           <Text style={styles.heading}>Give feedback on AI Neurologists</Text>
@@ -119,6 +116,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginLeft: -10,
     marginBottom: 30,
+    marginTop: 30,
   },
   heading: {
     color: colors.background,

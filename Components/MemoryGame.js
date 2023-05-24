@@ -13,6 +13,7 @@ import {
     ImageBackground,
     StatusBar,
 } from 'react-native';
+import { Button } from 'react-native-paper';
 import LinearGradient from 'react-native-linear-gradient';
 import colors from '../assets/colors/Colors';
 import { BlurView } from '@react-native-community/blur';
@@ -54,16 +55,16 @@ export default function MemoryGame({ navigation }) {
             return;
         }
         const symbols = [
-            require('../assets/images/image1.jpg'),
-            require('../assets/images/image2.jpg'),
-            require('../assets/images/image3.jpg'),
-            require('../assets/images/image4.jpg'),
-            require('../assets/images/image5.jpg'),
-            require('../assets/images/image6.jpg'),
-            require('../assets/images/image7.jpg'),
-            require('../assets/images/image8.jpg'),
-            require('../assets/images/image9.jpg'),
-            require('../assets/images/image10.jpg'),
+            require('../assets/images/puzzle11.jpg'),
+            require('../assets/images/puzzle2.jpg'),
+            require('../assets/images/puzzle3.jpg'),
+            require('../assets/images/puzzle4.jpg'),
+            require('../assets/images/puzzle5.jpg'),
+            require('../assets/images/puzzle6.jpg'),
+            require('../assets/images/puzzle7.jpg'),
+            require('../assets/images/puzzle8.jpg'),
+            require('../assets/images/puzzle9.jpg'),
+            require('../assets/images/puzzle10.jpg'),
         ];
         const selectedSymbols = symbols.slice(0, selectedLevel.pairs);
         const allCards = selectedSymbols.concat(selectedSymbols);
@@ -252,23 +253,17 @@ export default function MemoryGame({ navigation }) {
 
     return (
         <>
-         <StatusBar translucent backgroundColor="transparent" />
-        <LinearGradient
-            start={{ x: 1, y: 0 }}
-            end={{ x: 0, y: 1 }}
-            colors={['#B8BDF5', '#E8F1F2', '#BBEEEA']}
-            style={styles.container}
-        >
-            <ImageBackground
-                source={require('../assets/images/hangman.jpg')}
-                style={styles.imageBackground}
-                imageStyle={styles.backgroundImage}
+            <StatusBar translucent backgroundColor="transparent" barStyle="dark-content" />
+            <LinearGradient
+                start={{ x: 1, y: 0 }}
+                end={{ x: 0, y: 1 }}
+                colors={['#B8BDF5', '#E8F1F2', '#BBEEEA']}
+                style={styles.container}
             >
-                <BlurView
-                    style={styles.blurView}
-                    blurType="extraLight"
-                    blurAmount={1}
-                    reducedTransparencyFallbackColor="white"
+                <ImageBackground
+                    source={require('../assets/images/PuzzleBackground.jpeg')}
+                    style={styles.imageBackground}
+                    imageStyle={styles.backgroundImage}
                 >
                     <ScrollView>
                         <View style={styles.container}>
@@ -279,7 +274,13 @@ export default function MemoryGame({ navigation }) {
                             {gameStarted && selectedLevel && (
                                 <Text style={styles.movesText}>Moves: {moves}</Text>
                             )}
-                            <View style={styles.levelButtonsContainer}>{renderLevelButtons()}</View>
+                            <View style={styles.levelButtonsContainer}>{renderLevelButtons()}
+                                <TouchableOpacity
+                                    onPress={() => navigation.navigate('Tabs', { screen: 'Game' })}>
+                                    <Button mode="contained" style={styles.button}>
+                                        Exit
+                                    </Button>
+                                </TouchableOpacity></View>
                             <View style={styles.cardsContainer}>{renderCards()}</View>
                             {gameStarted && selectedLevel && (
                                 <TouchableOpacity onPress={resetGame} style={styles.resetButton}>
@@ -288,9 +289,8 @@ export default function MemoryGame({ navigation }) {
                             )}
                         </View>
                     </ScrollView>
-                </BlurView>
-            </ImageBackground>
-        </LinearGradient>
+                </ImageBackground>
+            </LinearGradient>
         </>
     );
 }
@@ -303,8 +303,8 @@ const styles = StyleSheet.create({
     },
     header: {
         fontSize: 22,
-        color: 'white',
-        marginTop: 150,
+        color: '#000',
+        marginTop: '50%',
         marginBottom: 50,
     },
     imageBackground: {
@@ -380,7 +380,7 @@ const styles = StyleSheet.create({
         width: 80,
         height: 120,
         resizeMode: 'contain',
-        tintColor: '#fff',
+        tintColor: '#290438',
         borderRadius: 5,
     },
     resetButton: {
@@ -390,7 +390,6 @@ const styles = StyleSheet.create({
         backgroundColor: colors.heading,
         borderRadius: 36,
         alignItems: 'center',
-        paddingTop: 4,
         marginBottom: 20,
     },
     resetButtonText: {
@@ -399,5 +398,15 @@ const styles = StyleSheet.create({
         color: 'white',
         paddingTop: 10,
     },
+    button: {
+        marginTop: 12,
+        width: 200,
+        height: 50,
+        backgroundColor: colors.heading,
+        borderRadius: 36,
+        alignItems: 'center',
+        padding: 4,
+        marginLeft: 10,
+    }
 });
 

@@ -159,7 +159,7 @@ export default function Profile ({navigation}) {
               name="left"
               size={20}
               color={colors.background}
-              onPress={() => navigation.navigate('Settings')}
+              onPress={() => navigation.navigate('Tabs', { screen: 'Settings' })}
               style={{marginTop: 3}}
             />
             <Text style={styles.heading}>User Profile</Text>
@@ -313,7 +313,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginLeft: -110,
     marginBottom: 30,
-    marginTop: 20,
+    marginTop: 50,
   },
   heading: {
     color: colors.background,
@@ -415,7 +415,7 @@ const styles = StyleSheet.create({
   modalView: {
     backgroundColor: colors.modal,
     borderRadius: 5,
-    height: '40%',
+    height: '35%',
     width: '90%',
     padding: 10,
     marginLeft: 15,
@@ -444,7 +444,8 @@ const styles = StyleSheet.create({
   },
   cancel: {
     marginLeft: 200,
-    fontSize: 12,
+    fontSize: 16,
+    marginTop: 15,
   }
 });
 

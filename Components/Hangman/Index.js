@@ -84,7 +84,7 @@ export default function Index({ navigation }) {
                 <Keyboard correctLetters={correctLetters} wrongLetters={wrongLetters} onPress={(input) => storeCorrectLetters(input)} />
                 <StatusPopup status={status} onPress={handlePopupButton} />
                 <TouchableOpacity
-                  onPress={() => navigation.navigate('Game')}>
+                  onPress={() => navigation.navigate('Tabs', { screen: 'Game' })}>
                   <Button mode="contained" style={styles.button}>
                     Exit
                   </Button>

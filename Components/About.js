@@ -17,13 +17,12 @@ export default function About({navigation}) {
               size={18}
               color={colors.background}
               onPress={() => navigation.navigate('Tabs')}
-              style={{marginTop: 1}}
+              style={styles.back}
             />
             <Text style={styles.head}>Getting more from Dementia</Text>
           </View>
           <>
             <View style={styles.content}>
-              {/* <Text style={styles.title}>Getting more from Dementia</Text> */}
               <Text style={styles.text}>
                 This app is driven by Artifical Neural Network technology that
                 detects Alzheimer with the existing medical data and checkup by
@@ -126,7 +125,7 @@ const styles = StyleSheet.create({
   },
   header: {
     flexDirection: 'row',
-    marginTop: 10,
+    marginTop: 40,
     marginBottom: 20,
   },
   head: {
@@ -150,6 +149,9 @@ const styles = StyleSheet.create({
   },
   text: {
     marginBottom: 10,
-    color: 'black',
+    // color: 'black',
+  },
+  back: {
+    marginTop: 1,
   },
 });
