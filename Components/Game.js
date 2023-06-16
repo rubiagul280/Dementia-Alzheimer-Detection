@@ -31,7 +31,7 @@ export default function Game({ navigation }) {
           imageStyle={styles.backgroundImage}
         >
           <View >
-            <Text style={styles.header}>CHOOSE GAME WHICH YOU WANT TO PLAY</Text>
+            <Text style={styles.name}>CHOOSE GAME WHICH YOU WANT TO PLAY</Text>
             <TouchableOpacity onPress={() => navigation.navigate('MemoryGame')}>
               <Button mode="contained" style={styles.button}>
                 Memory Game
@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  header: {
+  name: {
     fontSize: 22,
     color: '#000',
     marginTop: '50%',

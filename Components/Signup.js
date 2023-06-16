@@ -71,6 +71,7 @@ export default function Signup({navigation}) {
           username: username,
           email: email,
           password: password,
+          timestamp: firestore.FieldValue.serverTimestamp(),
         });
 
       if (data) {

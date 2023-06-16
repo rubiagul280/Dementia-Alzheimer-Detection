@@ -203,7 +203,8 @@ const styles = StyleSheet.create({
   heading: {
     color: '#fff',
     fontSize: 16,
-    marginLeft: 70,
+    marginLeft: 75,
+    marginTop:-5,
   },
   question: {
     fontSize: 17,

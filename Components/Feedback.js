@@ -67,7 +67,7 @@ export default function Feedback({navigation, user}) {
 
   return (
     <>
-      <StatusBar animated={true} backgroundColor="#B9B0E5" />
+     <StatusBar animated={true} backgroundColor="#B8BDF5" />
       <View style={styles.container}>
         <View style={styles.header}>
           <AntDesign

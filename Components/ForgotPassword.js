@@ -53,7 +53,7 @@ export default function ForgotScreen({navigation}) {
         <View style={styles.header}>
           <AntDesign
             name="left"
-            size={20}
+            size={18}
             color={colors.background}
             onPress={() => navigation.navigate('Login')}
           />

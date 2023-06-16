@@ -267,7 +267,7 @@ export default function MemoryGame({ navigation }) {
                 >
                     <ScrollView>
                         <View style={styles.container}>
-                            <Text style={styles.header}>SELECT LEVEL</Text>
+                            <Text style={styles.name}>SELECT LEVEL</Text>
                             {gameStarted && selectedLevel && (
                                 <Text style={styles.timerText}>{formatTime(timer)}</Text>
                             )}
@@ -295,7 +295,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
-    header: {
+    name: {
         fontSize: 22,
         color: '#000',
         marginTop: '50%',

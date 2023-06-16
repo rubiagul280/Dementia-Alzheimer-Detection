@@ -12,7 +12,7 @@ export default function Chat({navigation}) {
   //const isDarkMode = useColorScheme() === 'dark';
   const startConversation = () => {
     let conversationObject = {
-      appId: '7821b56f011ea2e65887b9365ef5c38b',
+      appId: '37a69a8f36ab026707d8220c9c2be0890',
     };
     RNKommunicateChat.buildConversation(
       conversationObject,

@@ -2,7 +2,7 @@
 /* eslint-disable prettier/prettier */
 
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, FlatList, StatusBar } from 'react-native';
 import CalendarStrip from 'react-native-calendar-strip';
 import moment from 'moment';
 import colors from '../assets/colors/Colors';
@@ -65,11 +65,12 @@ export default function Medication({ navigation }) {
   };
   return (
     <Provider>
+      <StatusBar animated={true} backgroundColor="#B8BDF5" />
       <View style={styles.container}>
         <View style={styles.header}>
           <AntDesign
             name="left"
-            size={20}
+            size={18}
             color={colors.background}
             onPress={() => navigation.navigate('Tabs')}
           />

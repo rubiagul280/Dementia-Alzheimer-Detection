@@ -16,7 +16,7 @@ export default function PrivacyPolicy({navigation}) {
       <ScrollView>
         <View style={styles.container}>
         <View style={styles.header}>
-          <AntDesign name="left" size={20} color={colors.background}
+          <AntDesign name="left" size={18} color={colors.background}
           onPress={() => navigation.navigate('Tabs', { screen: 'Settings' })}/>
           <Text style={styles.heading}>Privacy Policy</Text>
         </View>
@@ -83,6 +83,7 @@ const styles = StyleSheet.create({
     color: colors.background,
     fontSize: 17,
     marginLeft: 80,
+    marginTop: -5,
   },
   title: {
     color: colors.background,

@@ -135,11 +135,10 @@ export default function AddMedication({ navigation }) {
       console.log('Error', err);
     }
   };
-  
 
   return (
     <>
-      <StatusBar animated={true} backgroundColor="#B9B0E5" />
+      <StatusBar animated={true} backgroundColor="#B8BDF5" />
       <ScrollView>
         <View style={styles.container}>
           <View style={styles.header}>
@@ -301,13 +300,13 @@ const styles = StyleSheet.create({
   },
   header: {
     flexDirection: 'row',
-    marginLeft: 5,
-    marginTop: 40,
+    marginLeft: 0,
+    marginTop: 10,
   },
   heading: {
     color: colors.background,
     fontSize: 17,
-    marginLeft: 70,
+    marginLeft: 75,
     marginBottom: 20,
   },
   text: {

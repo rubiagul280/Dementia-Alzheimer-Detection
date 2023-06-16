@@ -74,7 +74,7 @@ export default function Index({ navigation }) {
             end={{ x: 0, y: 1 }}
             colors={['#B8BDF5', '#E8F1F2', '#BBEEEA']}
             style={styles.conatiner}>
-            <View style={styles.header}>
+            <View style={styles.name}>
                 <Header />
                 <View style={styles.row}>
                     <ManFigure wrongWord={wrongLetters.length} />
@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: colors.game,
     },
-    header: {
+    name: {
         padding: 20,
     },
     row: {

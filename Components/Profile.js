@@ -151,13 +151,13 @@ export default function Profile ({navigation}) {
 
   return (
     <>
-      <StatusBar animated={true} backgroundColor="#B9B0E5" />
+      <StatusBar animated={true} backgroundColor="#B8BDF5" />
       <ScrollView>
         <View style={styles.container}>
           <View style={styles.header}>
             <AntDesign
               name="left"
-              size={20}
+              size={18}
               color={colors.background}
               onPress={() => navigation.navigate('Tabs', { screen: 'Settings' })}
               style={{marginTop: 3}}
